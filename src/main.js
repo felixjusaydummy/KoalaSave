@@ -4,12 +4,12 @@ import Link from '@material-ui/core/Link';
 import Signin from './signin.js'
 import Home from './home.js'
 import {connect} from 'react-redux'
-import Store from './store.js'
+// import Store from './store.js'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 function Main(props) {
 
-  const Storex = Store;
+  // const Storex = Store;
   return (
     <div>
       <BrowserRouter>
