@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SignIn from './login.js'
-import Store from './Store.js'
+import Main from './main.js'
 
 
-ReactDOM.render(<SignIn store={Store}/>, document.getElementById('root'));
+// import UserController from './controller/UserController'
+
+ReactDOM.render(<Main/>, document.getElementById('root'));
 

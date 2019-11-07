@@ -54,9 +54,7 @@ const useStyles = makeStyles(theme => ({
 
 
 function mapStateToProps(state){
-  return{
-    app_name : state.app_name
-  }
+  return state
 }
 
 

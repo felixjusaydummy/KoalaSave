@@ -2,9 +2,10 @@ import {createStore} from 'redux';
 
 const initialState = {
     app_name: "KoalaSaveKwekwek",
+    useractive : false,
     user: {
         name : "Juan dela Cruz",
-        id: "juan",
+        eamil: "juan@gmail.com",
         password: "juan",
         
         account: {
@@ -14,7 +15,7 @@ const initialState = {
         },
 
         purse: {
-            totalPurse: 0,
+            totalPurse: 120,
             allocations: [
                 {
                     description: "Savings",
@@ -30,7 +31,7 @@ const initialState = {
         },
 
         vault: {
-            totalPurse: 0,
+            totalPurse: 50,
             allocations: [
                 {
                     description: "Savings",
