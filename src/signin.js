@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {connect} from 'react-redux'
 import { Route, Redirect } from 'react-router'
+import {authenticateUser} from './controller/UserController'
 
 function Copyright() {
   return (
@@ -54,16 +55,19 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-function mapStateToProps(state){
-  return state
-}
 
+const redirectToHome = (props)=>{
+  let res = authenticateUser()
+  if(res){
+    let path = "/user/"
+    window.location = path;
+  }
+}
 
 function SignIn(props){
   const classes = useStyles();
-  const redx = ()=>{
-    return (<Redirect to="/user/" />)
-  }
+  
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -97,28 +101,30 @@ function SignIn(props){
             id="password"
             autoComplete="current-password"
           />
-          <FormControlLabel
+
+          {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
-          />
+          /> */}
           
 
 
           
           <Button
+            variant="outlined"
             type="button"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.button}
-            onClick={redx}
+            onClick={props.onLogiIn}
           >
             Sign In
             
           </Button>
           
 
-          <Grid container>
+          {/* <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
                 Forgot password?
@@ -129,7 +135,7 @@ function SignIn(props){
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
-          </Grid>
+          </Grid> */}
         </form>
       </div>
       <Box mt={8}>
@@ -139,4 +145,26 @@ function SignIn(props){
   );
 }
 
-export default (SignIn)
+function mapStateToProps(state){
+  console.log("hihihi")
+  if(state.useractive){
+    console.log("hehehe")
+    redirectToHome(state)
+  }
+  return state;
+
+}
+
+function mapDispatchToProps(dispatch){
+  console.log("huhuhu")
+  return {
+      onLogiIn: ()=>{
+          const action = {type: 'USER-LOGIN'};
+          dispatch(action);
+          console.log("hahaha")
+          
+      }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn)

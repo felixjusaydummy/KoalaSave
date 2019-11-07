@@ -4,7 +4,7 @@ import Link from '@material-ui/core/Link';
 import SignIn from './signin.js'
 import Home from './home.js'
 import {connect} from 'react-redux'
-// import Store from './store.js'
+import Store from './store.js'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 function Main(props) {
@@ -14,11 +14,9 @@ function Main(props) {
     <div>
       <BrowserRouter>
             <Switch>
-                {/* <Route exact path='/'  render={()=><Signin/>}/> */}
-                {/* <Route exact path='/'  render={()=><Home store={Storex}/>}/> */}
-                {/* <Route exact path='/' component={SignIn}/>
-                <Route path='/user' component={Home}/> */}
-                <Route exact path='/user' component={Home}/>
+                <Route exact path='/'  render={()=><SignIn store={Store}/>}/>
+                <Route path='/user'  render={()=><Home store={Store}/>}/>
+                
               </Switch>
       </BrowserRouter>
     </div>  

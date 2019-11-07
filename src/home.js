@@ -174,7 +174,7 @@ function Home(props) {
         >
           <div className={classes.toolbarIcon}>
             <IconButton onClick={handleDrawerClose}>
-              KoalaSaver
+            {props.useractive+""} +KoalaSaverx 
               <ChevronLeftIcon />
             </IconButton>
           </div>
@@ -208,5 +208,14 @@ function Home(props) {
   }
   
   
-  export default (Home)
+//   export default (Home)
   
+function mapStateToProps(state){
+    return state;
+}
+  
+function mapDispatchToProps(dispatch){
+    
+}
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Home)

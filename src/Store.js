@@ -11,7 +11,7 @@ const initialState = {
         account: {
             accountNo: "1234",
             bankName: "BPI",
-            balance: 0.0
+            balance: 12340.0
         },
 
         purse: {
@@ -52,8 +52,16 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action)=>{
-    
-    return state;
+    console.log('reducer', action);
+
+    switch(action.type){
+        case 'USER-LOGIN':
+            const res =  Object.assign({}, state, {useractive : true});
+            console.log('USER-LOGIN', res.useractive);
+            return res;
+        default:
+            return state;
+    }
 }
 
 const Store = createStore(reducer);
