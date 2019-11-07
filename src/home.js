@@ -214,8 +214,8 @@ function mapStateToProps(state){
     return state;
 }
   
-function mapDispatchToProps(dispatch){
-    
-}
+// function mapDispatchToProps(dispatch){
+//     return dispatch
+// }
   
-  export default connect(mapStateToProps, mapDispatchToProps)(Home)
+  export default connect(mapStateToProps)(Home)

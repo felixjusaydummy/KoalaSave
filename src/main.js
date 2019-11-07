@@ -15,7 +15,10 @@ function Main(props) {
       <BrowserRouter>
             <Switch>
                 <Route exact path='/'  render={()=><SignIn store={Store}/>}/>
+                {/* <Route exact path='/user' component={Home}/> */}
                 <Route path='/user'  render={()=><Home store={Store}/>}/>
+                {/* <Route exact path='/' component={SignIn}/>
+                <Route path='/user' component={Home}/> */}
                 
               </Switch>
       </BrowserRouter>
