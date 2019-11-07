@@ -1,7 +1,7 @@
 import {createStore} from 'redux';
 
 const initialState = {
-    app_name: "KoalaSave",
+    app_name: "KoalaSaveKwekwek",
     user: {
         name : "Juan dela Cruz",
         id: "juan",
