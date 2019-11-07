@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {connect} from 'react-redux'
+import { Route, Redirect } from 'react-router'
 
 function Copyright() {
   return (
@@ -60,7 +61,9 @@ function mapStateToProps(state){
 
 function SignIn(props){
   const classes = useStyles();
-
+  const redx = ()=>{
+    return (<Redirect to="/user/" />)
+  }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -98,15 +101,23 @@ function SignIn(props){
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
+          
+
+
+          
           <Button
-            type="submit"
+            type="button"
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
+            className={classes.button}
+            onClick={redx}
           >
             Sign In
+            
           </Button>
+          
+
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
@@ -128,4 +139,4 @@ function SignIn(props){
   );
 }
 
-export default connect(mapStateToProps)(SignIn)
+export default (SignIn)
