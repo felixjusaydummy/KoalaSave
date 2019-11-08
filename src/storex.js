@@ -2,7 +2,7 @@ import {createStore} from 'redux';
 import {updatePurse, getPurseDetail} from  './controller/AccountManager'
 
 const initialState = {
-    app_name: "KoalaSaver",
+    app_name: "Thrifty Koala",
     useractive : false,
     user: {
         userid : "ccruz_02",
@@ -54,7 +54,8 @@ const reducer = (state = initialState, action)=>{
 
     console.log('USER-PURSE-ALLOCATION-LOADALL', action.value);
     let allocations = getPurseDetail(state.user);            
-    console.log(allocations);
+    Object.assign({}, state.user.purse, allocations.purse);
+    console.log("load data! ",  allocations);
 
     switch(action.type){
         case 'USER-LOGIN':
@@ -65,13 +66,10 @@ const reducer = (state = initialState, action)=>{
             console.log('USER-PURSE-ALLOCATION-ADD-values ', state.user.purse.allocations);
             updatePurse(state.user, action.value)
             return Object.assign({}, state, state.user.purse.allocations.push(action.value));
-
-        case 'USER-PURSE-ALLOCATION-LOADALL':
-            console.log('USER-PURSE-ALLOCATION-LOADALL', action.value);
-            let allocations = getPurseDetail(state.user);
-            console.log(allocations);
-            return Object.assign({}, state.user.purse, allocations.purse);
         default:
+            // console.log('USER-PURSE-ALLOCATION-LOADALL', action.value);
+            // let allocations = getPurseDetail(state.user);      
+            // return Object.assign({}, state.user.purse, allocations.purse);
             return state;
     }
 }

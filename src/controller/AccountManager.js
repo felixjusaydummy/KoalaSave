@@ -50,6 +50,7 @@ export async function getPurseDetail(user){
 
     console.log('GET PURSE DETAILS url - ', urlt)
     console.log('GET PURSE DETAILS - ', params)
+    
     let res =  await axios.get(urlt);
     return res;
 
