@@ -70,7 +70,7 @@ const reducer = (state = initialState, action)=>{
             console.log('USER-PURSE-ALLOCATION-LOADALL', action.value);
             let allocations = getPurseDetail(state.user);
             console.log(allocations);
-            return Object.assign({}, state.purse, allocations.purse);
+            return Object.assign({}, state.user.purse, allocations.purse);
         default:
             return state;
     }
