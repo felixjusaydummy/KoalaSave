@@ -33,6 +33,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import LockIcon from '@material-ui/icons/Lock';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 
+import {getSumAllocation, getUserPurseBalance} from '.././controller/AccountManager'
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -71,20 +72,6 @@ function generate(element) {
 
 
 
-// Generate Order Data
-function createData(id, name, amount) {
-  return { id, name, amount };
-}
-
-const allocations = [
-  createData(1, 'Savings', 866.99),
-  createData(2, 'Utilities', 100.81),
-  createData(3, 'Travel', 654.39),
-  createData(4, 'Shopping',  212.79),
-];
-
-
-
 
 
 function Purse(props){
@@ -107,8 +94,12 @@ function Purse(props){
           <Title>Purse Balance</Title>
 
 
+          
+          <Typography component="h1" variant="h5">
+            {props.user.name}
+          </Typography>
           <Typography component="p" variant="h4">
-            3,024.00
+            {getUserPurseBalance(props.user)}
           </Typography>
 
           
@@ -116,11 +107,11 @@ function Purse(props){
             <TableBody>
                 <TableRow >
                   <TableCell>Purse Amount</TableCell>
-                  <TableCell align="right">1000</TableCell>
+                  <TableCell align="right">{getSumAllocation(props.user.purse.allocations)}</TableCell>
                 </TableRow>
                 <TableRow >
                   <TableCell>Total Balance</TableCell>
-                  <TableCell align="right">2000</TableCell>
+                  <TableCell align="right">{props.user.account.balance}</TableCell>
                 </TableRow>
             </TableBody>
           </Table>
@@ -130,7 +121,7 @@ function Purse(props){
           <div>Breakdown</div>
           <Table size="small">
             <TableBody>
-                {allocations.map(row => (
+                {props.user.purse.allocations.map(row => (
                   <TableRow key={row.id}>
                     <TableCell align="left">{row.name}</TableCell>
                     <TableCell align="right">{row.amount}</TableCell>

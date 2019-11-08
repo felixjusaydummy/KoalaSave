@@ -9,6 +9,8 @@ import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
+import EcoIcon from '@material-ui/icons/Eco';
 import { Link } from 'react-router-dom'
 
 
@@ -27,7 +29,7 @@ const mainListItems =
       <Link to='/user/purse'>
         <ListItem button>
           <ListItemIcon>
-            <CropFreeIcon />
+            <AccountBalanceWalletIcon />
           </ListItemIcon>
           <ListItemText primary="Purse" />
         </ListItem>
@@ -36,7 +38,7 @@ const mainListItems =
       <Link to='/user/vault'>
         <ListItem button>
           <ListItemIcon>
-            <PeopleIcon />
+            <EcoIcon />
           </ListItemIcon>
           <ListItemText primary="Vault" />
         </ListItem>

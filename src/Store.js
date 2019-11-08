@@ -4,26 +4,30 @@ const initialState = {
     app_name: "KoalaSaveKwekwek",
     useractive : false,
     user: {
+        accntNo : "1",
+        accntName : "1",
         name : "Juan dela Cruz",
-        eamil: "juan@gmail.com",
-        password: "juan",
+        
+        
         
         account: {
             accountNo: "1234",
             bankName: "BPI",
-            balance: 12340.0
+            balance: 10000.0
         },
 
         purse: {
             totalPurse: 120,
             allocations: [
                 {
-                    description: "Savings",
+                    id: 1,
+                    name: "Savings",
                     amount: 10,
                     active: true
                 },
                 {
-                    description: "Utilities",
+                    id: 2,
+                    name: "Utilities",
                     amount: 10,
                     active: true
                 }
@@ -34,13 +38,15 @@ const initialState = {
             totalPurse: 50,
             allocations: [
                 {
-                    description: "Savings",
-                    amount: 10,
+                    id: 1,
+                    name: "Savings",
+                    amount: 500,
                     active: true
                 },
                 {
-                    description: "Utilities",
-                    amount: 10,
+                    id: 2,
+                    name: "Utilities",
+                    amount: 1234,
                     active: true
                 }
             ]
@@ -56,9 +62,12 @@ const reducer = (state = initialState, action)=>{
 
     switch(action.type){
         case 'USER-LOGIN':
-            const res =  Object.assign({}, state, {useractive : true});
-            console.log('USER-LOGIN', res.useractive);
-            return res;
+            console.log('USER-LOGIN', state.useractive);
+            return Object.assign({}, state, {useractive : true});
+        case 'USER-PURSE-ALLOCATION-ADD':
+            console.log('USER-LOGIN', state.useractive);
+            state.user.purse.allocations.push(action.value);
+            return state;
         default:
             return state;
     }

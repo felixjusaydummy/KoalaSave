@@ -56,7 +56,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-const redirectToHome = (props)=>{
+const redirectToHome = ()=>{
   let res = authenticateUser()
   if(res){
     let path = "/user/"
@@ -64,9 +64,10 @@ const redirectToHome = (props)=>{
   }
 }
 
+
 function SignIn(props){
+
   const classes = useStyles();
-  
 
   return (
     <Container component="main" maxWidth="xs">
@@ -102,12 +103,6 @@ function SignIn(props){
             autoComplete="current-password"
           />
 
-          {/* <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          /> */}
-          
-
 
           
           <Button
@@ -124,18 +119,7 @@ function SignIn(props){
           </Button>
           
 
-          {/* <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid> */}
+         
         </form>
       </div>
       <Box mt={8}>
@@ -149,7 +133,7 @@ function mapStateToProps(state){
   console.log("hihihi")
   if(state.useractive){
     console.log("hehehe")
-    redirectToHome(state)
+    redirectToHome()
   }
   return state;
 

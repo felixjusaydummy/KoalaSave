@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {connect} from 'react-redux'
+import NumberFormat from 'react-number-format';
+import {getUserPurseBalance} from '.././controller/AccountManager'
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -20,6 +22,7 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: theme.palette.common.white,
     },
   },
+
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -41,8 +44,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-
-function Purse(props){
+function Dashboard(props){
   const classes = useStyles();
 
   return (
@@ -52,18 +54,21 @@ function Purse(props){
         <Avatar className={classes.avatar}>
           {/* <LockOutlinedIcon /> */}
         </Avatar>
-        <Typography component="h1" variant="h5">
-          {props.app_name}
-        </Typography>
-        
+        <Typography component="p" variant="h4">
+            Hi {props.user.name}!
+          </Typography>
+
           <Button
             type="button"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
+            size="large" 
           >
-            Purse Value
+            <Typography component="p" variant="h6">
+              Purse Value | <NumberFormat value={getUserPurseBalance(props.user)} displayType={'text'} thousandSeparator={true} />
+            </Typography>
           </Button>
 
           <Button
@@ -72,8 +77,11 @@ function Purse(props){
             variant="contained"
             color="primary"
             className={classes.submit}
+            size="large" 
           >
-            Vault
+            <Typography component="p" variant="h6">
+              Vault
+            </Typography>
           </Button>
       </div>
       
@@ -82,12 +90,5 @@ function Purse(props){
 }
 
 
-
-// function mapStateToProps(state){
-//   return state
-// }
-// export default connect(mapStateToProps)(SignIn)
-
-
-export default (Purse)
+export default (Dashboard)
 

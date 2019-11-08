@@ -18,7 +18,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 
-import {connect} from 'react-redux'
+import {Provider, connect} from 'react-redux'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 
@@ -136,6 +136,7 @@ function Home(props) {
 
   return (
     <div className={classes.root}>
+        
       <BrowserRouter>
         <CssBaseline />
 
@@ -156,9 +157,9 @@ function Home(props) {
             </Typography>
 
             <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
+              {/* <Badge badgeContent={4} color="secondary"> */}
                 <NotificationsIcon />
-              </Badge>
+              {/* </Badge> */}
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -173,8 +174,8 @@ function Home(props) {
           open={open}
         >
           <div className={classes.toolbarIcon}>
+          {props.useractive+""}
             <IconButton onClick={handleDrawerClose}>
-            {props.useractive+""} +KoalaSaverx 
               <ChevronLeftIcon />
             </IconButton>
           </div>
@@ -190,9 +191,9 @@ function Home(props) {
         <Container maxWidth="lg" className={classes.container}>
             <Grid container >
             <Switch>
-                <Route exact path='/user/'  render={()=><Dashboard/>}/>
-                <Route path='/user/purse'  render={()=><Purse/>}/>
-                <Route path='/user/vault'  render={()=><Vault/>}/>
+                <Route exact path='/user/'  render={()=><Dashboard user={props.user}/>}/>
+                <Route path='/user/purse'  render={()=><Purse user={props.user}/>}/>
+                <Route path='/user/vault'  render={()=><Vault user={props.user}/>}/>
               </Switch>
             </Grid>
             <Copyright />
@@ -211,6 +212,7 @@ function Home(props) {
 //   export default (Home)
   
 function mapStateToProps(state){
+
     return state;
 }
   

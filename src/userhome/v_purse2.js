@@ -33,7 +33,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import LockIcon from '@material-ui/icons/Lock';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 
-import {getSumAllocation, getVaultBalance} from '.././controller/AccountManager'
+import {getSumAllocation, getUserPurseBalance} from '../controller/AccountManager'
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -70,11 +70,7 @@ function generate(element) {
 
 
 
-
-
-
-
-function Vault(props){
+function Purse2(props){
   const classes = useStyles();
   const [dense, setDense] = React.useState(false);
   const [secondary, setSecondary] = React.useState(false);
@@ -91,18 +87,23 @@ function Vault(props){
             {/* {props.app_name} */}
           </Typography>
           
-          <Title>Vault Balance</Title>
+          <Title>Purse2 Balance</Title>
 
+
+          
+          <Typography component="h1" variant="h5">
+            {props.user.name}
+          </Typography>
           <Typography component="p" variant="h4">
-            {getVaultBalance(props.user)}
+            {getUserPurseBalance(props.user)}
           </Typography>
 
           
           <Table size="small">
             <TableBody>
                 <TableRow >
-                  <TableCell>Total Pocket Amount</TableCell>
-                  <TableCell align="right">{getSumAllocation(props.user.vault.allocations)}</TableCell>
+                  <TableCell>Purse Amount</TableCell>
+                  <TableCell align="right">{getSumAllocation(props.user.purse.allocations)}</TableCell>
                 </TableRow>
                 <TableRow >
                   <TableCell>Total Balance</TableCell>
@@ -116,7 +117,7 @@ function Vault(props){
           <div>Breakdown</div>
           <Table size="small">
             <TableBody>
-                {props.user.vault.allocations.map(row => (
+                {props.user.purse.allocations.map(row => (
                   <TableRow key={row.id}>
                     <TableCell align="left">{row.name}</TableCell>
                     <TableCell align="right">{row.amount}</TableCell>
@@ -151,7 +152,7 @@ function Vault(props){
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
+            onClick={props.onAddPurse}
           >
             Add
           </Button>
@@ -162,12 +163,28 @@ function Vault(props){
 }
 
 
+function mapStateToProps(state){
+  return state;
 
-// function mapStateToProps(state){
-//   return state
-// }
-// export default connect(mapStateToProps)(SignIn)
+}
 
+function mapDispatchToProps(dispatch){
+  return {
+      onAddPurse: ()=>{
+          const action = 
+          {type: 'USER-PURSE-ALLOCATION-ADD',
+           value: {
+              id: 2,
+              name: "testAllocation",
+              amount: 10,
+              active: true
+          }
+          };
+          dispatch(action);
+          
+      }
+  }
+}
 
-export default (Vault)
+export default connect(mapStateToProps, mapDispatchToProps)(Purse2)
 
