@@ -65,9 +65,9 @@ const reducer = (state = initialState, action)=>{
             console.log('USER-LOGIN', state.useractive);
             return Object.assign({}, state, {useractive : true});
         case 'USER-PURSE-ALLOCATION-ADD':
-            console.log('USER-LOGIN', state.useractive);
-            state.user.purse.allocations.push(action.value);
-            return state;
+            console.log('USER-PURSE-ALLOCATION-ADD', action.value);
+            console.log('USER-PURSE-ALLOCATION-ADD-values ', state.user.purse.allocations);
+            return Object.assign({}, state, state.user.purse.allocations.push(action.value));
         default:
             return state;
     }

@@ -119,21 +119,22 @@ function Purse2(props){
             <TableBody>
                 {props.user.purse.allocations.map(row => (
                   <TableRow key={row.id}>
+
                     <TableCell align="left">{row.name}</TableCell>
                     <TableCell align="right">{row.amount}</TableCell>
                     <TableCell align="right">
 
-                      
+                    <div>
                       <IconButton edge="end" aria-label="lock">
                         <LockIcon />
                       </IconButton>
-
                       <IconButton edge="end" aria-label="add">
                         <AddCircleIcon />
                       </IconButton>
                       <IconButton edge="end" aria-label="delete">
                         <DeleteIcon />
                       </IconButton>
+                    </div>  
                     </TableCell>
                   </TableRow>
                 ))}
@@ -164,24 +165,24 @@ function Purse2(props){
 
 
 function mapStateToProps(state){
-  return state;
-
+  console.log("PURSE2-STATE", state.user.purse.allocations)
+  return state
 }
 
 function mapDispatchToProps(dispatch){
   return {
       onAddPurse: ()=>{
           const action = 
-          {type: 'USER-PURSE-ALLOCATION-ADD',
-           value: {
-              id: 2,
+          {
+            type: 'USER-PURSE-ALLOCATION-ADD',
+            value: {
+              id: 3,
               name: "testAllocation",
               amount: 10,
               active: true
-          }
+            }
           };
           dispatch(action);
-          
       }
   }
 }
