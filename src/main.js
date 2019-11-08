@@ -1,5 +1,5 @@
 import React from 'react';
-import Storex from './store.js'
+import Storex from './storex.js'
 import SignIn from './signin.js'
 import Home from './home.js'
 

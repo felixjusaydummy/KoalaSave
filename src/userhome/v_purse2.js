@@ -142,12 +142,6 @@ function Purse2(props){
             </TableBody>
           </Table>
           
-          
-
-
-          
-
-
           <Button
             type="button"
             fullWidth
