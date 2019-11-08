@@ -1,5 +1,5 @@
 import React from 'react';
-import Store from './store.js'
+import Storex from './store.js'
 import SignIn from './signin.js'
 import Home from './home.js'
 
@@ -14,9 +14,9 @@ function Main(props) {
     <div>  
       <BrowserRouter>
             <Switch>
-              <Route exact path='/'  render={()=><SignIn store={Store}/>}/>
-              <Route path='/user'  render={()=><Home store={Store}/>}/>        
-              <Route path='/purse2'  render={()=><Purse2 store={Store}/>}/>        
+              <Route exact path='/'  render={()=><SignIn store={Storex}/>}/>
+              <Route path='/user'  render={()=><Home store={Storex}/>}/>        
+              <Route path='/purse2'  render={()=><Purse2 store={Storex}/>}/>        
             </Switch>
         </BrowserRouter>
     </div>  
@@ -27,7 +27,7 @@ function Main(props) {
 export default (Main)
 
 
-{
+// {
   /* <Provider store = {Store}>
   <BrowserRouter>
       <Switch>
@@ -36,4 +36,5 @@ export default (Main)
         <Route path='/user/purse2'  render={()=><Purse2/>}/>        
       </Switch>
   </BrowserRouter>
-</Provider> */}
+</Provider> */
+// }
