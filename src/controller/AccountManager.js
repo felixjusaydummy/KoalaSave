@@ -46,7 +46,7 @@ export async function getPurseDetail(user){
     }
 
     let urlt = "https://eu30cd1hgj.execute-api.us-east-2.amazonaws.com/prod/KoalaVaultMain/getpursedetails?user_id=scooper_03&acct_num=102";
-    urlt = urlt+ 
+    
 
     console.log('GET PURSE DETAILS url - ', urlt)
     console.log('GET PURSE DETAILS - ', params)

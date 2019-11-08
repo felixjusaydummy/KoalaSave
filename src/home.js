@@ -25,6 +25,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Dashboard from './userhome/v_dashboard'
 import Purse from './userhome/v_purse'
 import Vault from './userhome/v_vault'
+import Recommend from './userhome/v_recommend'
 import mainListItems from './userhome/util_listItems'
 
 function Copyright() {
@@ -194,6 +195,7 @@ function Home(props) {
                 <Route exact path='/user/'  render={()=><Dashboard user={props.user}/>}/>
                 <Route path='/user/purse'  render={()=><Purse user={props.user}/>}/>
                 <Route path='/user/vault'  render={()=><Vault user={props.user}/>}/>
+                <Route path='/user/recommend'  render={()=><Recommend/>}/>
               </Switch>
             </Grid>
             <Copyright />

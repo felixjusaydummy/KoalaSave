@@ -43,6 +43,15 @@ const mainListItems =
           <ListItemText primary="Vault" />
         </ListItem>
       </Link>
+
+      <Link to='/user/recommend'>
+        <ListItem button>
+          <ListItemIcon>
+            <EcoIcon />
+          </ListItemIcon>
+          <ListItemText primary="Recommendation" />
+        </ListItem>
+      </Link>
     </div>
   );
 
