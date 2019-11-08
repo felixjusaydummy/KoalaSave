@@ -15,11 +15,11 @@ const initialState = {
         },
 
         purse: {
-            totalPurse: 120,
+            balance: 120,
             allocations: [
                 {
                     id: 1,
-                    name: "Savings",
+                    description: "Savings",
                     amount: 10,
                     active: true
                 }
@@ -55,7 +55,7 @@ const reducer = (state = initialState, action)=>{
     console.log('USER-PURSE-ALLOCATION-LOADALL', action.value);
     let allocations = getPurseDetail(state.user);            
     console.log(allocations);
-    
+
     switch(action.type){
         case 'USER-LOGIN':
             console.log('USER-LOGIN', state.useractive);
@@ -68,7 +68,8 @@ const reducer = (state = initialState, action)=>{
 
         case 'USER-PURSE-ALLOCATION-LOADALL':
             console.log('USER-PURSE-ALLOCATION-LOADALL', action.value);
-            let allocations = getPurseDetail(state.user);            
+            let allocations = getPurseDetail(state.user);
+
             console.log(allocations);
         default:
             return state;

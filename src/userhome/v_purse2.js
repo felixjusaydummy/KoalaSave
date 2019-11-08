@@ -125,7 +125,7 @@ function Purse2(props){
                 {props.user.purse.allocations.map(row => (
                   <TableRow key={row.id}>
 
-                    <TableCell align="left">{row.name}</TableCell>
+                    <TableCell align="left">{row.description}</TableCell>
                     <TableCell align="right">{row.amount}</TableCell>
                     <TableCell align="right">
 
