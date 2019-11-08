@@ -30,10 +30,25 @@ export async function updatePurse(user, allocation){
         active: allocation.active
     }
 
-
     let urlt = "https://eu30cd1hgj.execute-api.us-east-2.amazonaws.com/prod/KoalaVaultMain/updatepurse";
     let res =  await axios.post(urlt, params);
     console.log("SEND PURSE DATA TO SERVER", res);
 
 }
 
+
+
+export async function getPurseDetail(user){
+    let params =
+    {
+        user_id: user.userid,
+        acct_num: user.account.accountNo
+    }
+
+    let urlt = "https://eu30cd1hgj.execute-api.us-east-2.amazonaws.com/prod/KoalaVaultMain/getpursedetails";
+    console.log('GET PURSE DETAILS url - ', urlt)
+    console.log('GET PURSE DETAILS - ', params)
+    let res =  await axios.get(urlt, params);
+    return res;
+
+}

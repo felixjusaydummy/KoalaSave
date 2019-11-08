@@ -1,5 +1,5 @@
 import {createStore} from 'redux';
-import {updatePurse} from  './controller/AccountManager'
+import {updatePurse, getPurseDetail} from  './controller/AccountManager'
 
 const initialState = {
     app_name: "KoalaSaver",
@@ -20,12 +20,6 @@ const initialState = {
                 {
                     id: 1,
                     name: "Savings",
-                    amount: 10,
-                    active: true
-                },
-                {
-                    id: 2,
-                    name: "Utilities",
                     amount: 10,
                     active: true
                 }
@@ -58,6 +52,10 @@ const initialState = {
 const reducer = (state = initialState, action)=>{
     console.log('reducer', action);
 
+    console.log('USER-PURSE-ALLOCATION-LOADALL', action.value);
+    let allocations = getPurseDetail(state.user);            
+    console.log(allocations);
+    
     switch(action.type){
         case 'USER-LOGIN':
             console.log('USER-LOGIN', state.useractive);
@@ -65,8 +63,13 @@ const reducer = (state = initialState, action)=>{
         case 'USER-PURSE-ALLOCATION-ADD':
             console.log('USER-PURSE-ALLOCATION-ADD', action.value);
             console.log('USER-PURSE-ALLOCATION-ADD-values ', state.user.purse.allocations);
-            // updatePurse(state.user, action.value)
+            updatePurse(state.user, action.value)
             return Object.assign({}, state, state.user.purse.allocations.push(action.value));
+
+        case 'USER-PURSE-ALLOCATION-LOADALL':
+            console.log('USER-PURSE-ALLOCATION-LOADALL', action.value);
+            let allocations = getPurseDetail(state.user);            
+            console.log(allocations);
         default:
             return state;
     }

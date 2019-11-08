@@ -72,8 +72,6 @@ function generate(element) {
 
 function Purse2(props){
   const classes = useStyles();
-  const [dense, setDense] = React.useState(false);
-  const [secondary, setSecondary] = React.useState(false);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -89,8 +87,6 @@ function Purse2(props){
           
           <Title>Purse2 Balance</Title>
 
-
-          
           <Typography component="h1" variant="h5">
             {props.user.name}
           </Typography>
@@ -115,7 +111,16 @@ function Purse2(props){
           
           <div> ... </div>
           <div>Breakdown</div>
-          <Table size="small">
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={props.onAddPurse}
+          >
+            Add
+          </Button>
+          <Table size="small" key="1234" >
             <TableBody>
                 {props.user.purse.allocations.map(row => (
                   <TableRow key={row.id}>
@@ -141,16 +146,8 @@ function Purse2(props){
                 
             </TableBody>
           </Table>
+
           
-          <Button
-            type="button"
-            fullWidth
-            variant="contained"
-            color="primary"
-            onClick={props.onAddPurse}
-          >
-            Add
-          </Button>
       </div>
       
     </Container>
@@ -160,7 +157,10 @@ function Purse2(props){
 
 function mapStateToProps(state){
   console.log("PURSE2-STATE", state.user.purse.allocations)
-  return state
+  return{
+      user: state.user
+  }
+  // return state
 }
 
 function mapDispatchToProps(dispatch){
