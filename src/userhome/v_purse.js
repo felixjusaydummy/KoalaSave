@@ -93,11 +93,6 @@ function Purse(props){
           
           <Title>Purse Balance</Title>
 
-
-          
-          <Typography component="h1" variant="h5">
-            {props.user.name}
-          </Typography>
           <Typography component="p" variant="h4">
             {getUserPurseBalance(props.user)}
           </Typography>

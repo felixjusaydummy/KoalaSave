@@ -176,7 +176,7 @@ function mapDispatchToProps(dispatch){
           {
             type: 'USER-PURSE-ALLOCATION-ADD',
             value: {
-              id: 3,
+              id: 0,
               name: "testAllocation",
               amount: 10,
               active: true
