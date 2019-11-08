@@ -45,10 +45,12 @@ export async function getPurseDetail(user){
         acct_num: user.account.accountNo
     }
 
-    let urlt = "https://eu30cd1hgj.execute-api.us-east-2.amazonaws.com/prod/KoalaVaultMain/getpursedetails";
+    let urlt = "https://eu30cd1hgj.execute-api.us-east-2.amazonaws.com/prod/KoalaVaultMain/getpursedetails?user_id=scooper_03&acct_num=102";
+    urlt = urlt+ 
+
     console.log('GET PURSE DETAILS url - ', urlt)
     console.log('GET PURSE DETAILS - ', params)
-    let res =  await axios.get(urlt, params);
+    let res =  await axios.get(urlt);
     return res;
 
 }
