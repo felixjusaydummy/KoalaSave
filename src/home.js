@@ -175,8 +175,9 @@ function Home(props) {
           open={open}
         >
           <div className={classes.toolbarIcon}>
-          {props.useractive+""}
+          
             <IconButton onClick={handleDrawerClose}>
+                {props.app_name}
               <ChevronLeftIcon />
             </IconButton>
           </div>
