@@ -2,22 +2,17 @@ import React from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import CropFreeIcon from '@material-ui/icons/CropFree';
-import PeopleIcon from '@material-ui/icons/People';
-import BarChartIcon from '@material-ui/icons/BarChart';
-import LayersIcon from '@material-ui/icons/Layers';
-import AssignmentIcon from '@material-ui/icons/Assignment';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import EcoIcon from '@material-ui/icons/Eco';
 import { Link } from 'react-router-dom'
 
+import { URL_USER_HOME, URL_USER_PURSE, URL_USER_VAULT, URL_USER_RECOMMEDATION } from "../../js/constants/url-list";
 
 const mainListItems =
   (
     <div>
-      <Link to='/user/'>
+      <Link to={URL_USER_HOME}>
         <ListItem button>
           <ListItemIcon>
             <DashboardIcon />
@@ -26,7 +21,7 @@ const mainListItems =
         </ListItem>
       </Link>
 
-      <Link to='/user/purse'>
+      <Link to={URL_USER_PURSE}>
         <ListItem button>
           <ListItemIcon>
             <AccountBalanceWalletIcon />
@@ -35,7 +30,7 @@ const mainListItems =
         </ListItem>
       </Link>
       
-      <Link to='/user/vault'>
+      <Link to={URL_USER_VAULT}>
         <ListItem button>
           <ListItemIcon>
             <EcoIcon />
@@ -44,7 +39,7 @@ const mainListItems =
         </ListItem>
       </Link>
 
-      <Link to='/user/recommend'>
+      <Link to={URL_USER_RECOMMEDATION}>
         <ListItem button>
           <ListItemIcon>
             <EcoIcon />

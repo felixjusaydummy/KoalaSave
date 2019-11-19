@@ -21,105 +21,25 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import {Provider, connect} from 'react-redux'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
+import Copyright from "../foot/Copyright";
+import { useStyles } from "../../css/home";
 
-import Dashboard from './userhome/v_dashboard'
-import Purse from './userhome/v_purse'
-import Vault from './userhome/v_vault'
-import Recommend from './userhome/v_recommend'
-import mainListItems from './userhome/util_listItems'
+import { 
+  URL_USER_HOME, 
+  URL_USER_PURSE, 
+  URL_USER_VAULT, 
+  URL_USER_RECOMMEDATION 
+} from "../../js/constants/url-list";
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import mainListItems from '../drawer/listItems'
+import Dashboard from './Dashboard'
+import Purse from './Purse'
+import Vault from './Vault'
+import Recommendation from './Recommendation'
 
-const drawerWidth = 240;
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-  },
-  toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
-  },
-  toolbarIcon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: 36,
-  },
-  menuButtonHidden: {
-    display: 'none',
-  },
-  title: {
-    flexGrow: 1,
-  },
-  drawerPaper: {
-    position: 'relative',
-    whiteSpace: 'nowrap',
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    width: theme.spacing(0),
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(0),
-    },
-  },
-  appBarSpacer: theme.mixins.toolbar,
-  content: {
-    flexGrow: 1,
-    height: '100vh',
-    overflow: 'auto',
-  },
-  container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
-  },
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
-  },
-  fixedHeight: {
-    height: 240,
-  },
-}));
+
+
+
 
 
 
@@ -137,7 +57,7 @@ function Home(props) {
 
   return (
     <div className={classes.root}>
-        
+      
       <BrowserRouter>
         <CssBaseline />
 
@@ -193,10 +113,10 @@ function Home(props) {
         <Container maxWidth="lg" className={classes.container}>
             <Grid container >
             <Switch>
-                <Route exact path='/user/'  render={()=><Dashboard user={props.user}/>}/>
-                <Route path='/user/purse'  render={()=><Purse user={props.user}/>}/>
-                <Route path='/user/vault'  render={()=><Vault user={props.user}/>}/>
-                <Route path='/user/recommend'  render={()=><Recommend/>}/>
+                <Route exact path={URL_USER_HOME}  component = {Dashboard}/>
+                <Route path={URL_USER_PURSE}  component = {Purse}/>
+                <Route path={URL_USER_VAULT}  component={Vault}/>
+                <Route path={URL_USER_RECOMMEDATION}  component={Recommendation}/>
               </Switch>
             </Grid>
             <Copyright />
@@ -211,16 +131,13 @@ function Home(props) {
 
   }
   
-  
-//   export default (Home)
-  
-function mapStateToProps(state){
 
-    return state;
+function mapStateToProps(state){
+  return state;
 }
   
 // function mapDispatchToProps(dispatch){
 //     return dispatch
 // }
   
-  export default connect(mapStateToProps)(Home)
+export default connect(mapStateToProps)(Home);
