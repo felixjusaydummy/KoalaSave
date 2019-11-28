@@ -21,14 +21,15 @@ const initialState = {
         name : "Juan dela Cruz",
 
         account: {
-            accountNo: "101",
+            accountNo: "22012345",
             bankName: "BPI",
-            balance: 10000.0
+            balance: 9800.0
         },
 
         purse: {
-            purseAmount: 0,
-            pocketAmount: 0,
+
+            pocketAmount: 200,
+            
             totalBalance: 0,
 
             allocations: [
@@ -41,7 +42,7 @@ const initialState = {
                 {
                     id: 2,
                     description: "Utilities",
-                    amount: 100,
+                    amount: 0,
                     active: false
                 },
                 {
@@ -53,7 +54,7 @@ const initialState = {
                 {
                     id: 4,
                     description: "Shopping",
-                    amount: 100,
+                    amount: 0,
                     active: false
                 }
             ]

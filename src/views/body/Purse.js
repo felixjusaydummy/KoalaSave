@@ -59,17 +59,21 @@ function Purse(props){
             {/* {props.app_name} */}
           </Typography>
           
-          <Title>Purse Balance</Title>
-
+          <Title>Wallet Balance</Title>
+          
           <Typography component="p" variant="h4">
-            {props.user.purse.purseAmount}
+            <NumberFormat value={props.user.account.balance} displayType={'text'} thousandSeparator={true} />
+          </Typography>
+
+          <Typography component="p">
+            {props.user.account.bankName + " - " + props.user.account.accountNo}
           </Typography>
 
           
           <Table size="small">
             <TableBody>
                 <TableRow >
-                  <TableCell>Purse Amount</TableCell>
+                  <TableCell>Pocket Amount</TableCell>
                   <TableCell align="right">
                     <NumberFormat value={props.user.purse.pocketAmount} displayType={'text'} thousandSeparator={true} />
                   </TableCell>
@@ -77,7 +81,7 @@ function Purse(props){
                 <TableRow >
                   <TableCell>Total Balance</TableCell>
                   <TableCell align="right">
-                    <NumberFormat value={props.user.purse.totalBalance} displayType={'text'} thousandSeparator={true} />
+                    <NumberFormat value={Number(props.user.account.balance + props.user.purse.pocketAmount )} displayType={'text'} thousandSeparator={true} />
                   </TableCell>
                 </TableRow>
             </TableBody>
@@ -96,22 +100,10 @@ function Purse(props){
                     </TableCell>
 
                     <TableCell align="right">
-
-                      
-                      {/* {(row.active)?
-                        (<IconButton edge="end" aria-label="lock">
-                          <LockIcon />
-                        </IconButton>)
-                        :(<IconButton edge="end" aria-label="lock">
-                          <LockOpenIcon/>
-                        </IconButton>)
-                      } */}
                       
                       <IconButton edge="end" aria-label="lock" onClick={()=>props.setActiveAllocation(row.id, (!Boolean(row.active)))}>
                         {(row.active)?(<LockIcon />):(<LockOpenIcon/>)}
                       </IconButton>
-                      
-                      
                       <IconButton edge="end" aria-label="add" onClick={ ()=>ref.current.openEditAllocationAmount(row)}>
                         <AddCircleIcon />
                       </IconButton>
@@ -154,6 +146,7 @@ function mapStateToProps(state){
 }
 
 function mapDispatchToProps(dispatch){
+  // TODO: CHECK IF VALUE IS GREATER THAN ZERO
   return {
     
       addNewAllocation: (iDescription, iAmount)=>{

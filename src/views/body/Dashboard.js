@@ -36,7 +36,7 @@ function Dashboard(props){
             onClick={props.onPurse}
           >
             <Typography component="p" variant="h6">
-              Purse Value | <NumberFormat value={getUserPurseBalance(props.user)} displayType={'text'} thousandSeparator={true} />
+              Wallet | <NumberFormat value={props.user.account.balance} displayType={'text'} thousandSeparator={true} />
             </Typography>
           </Button>
 

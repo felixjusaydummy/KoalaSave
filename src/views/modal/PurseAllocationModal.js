@@ -7,30 +7,45 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {connect} from 'react-redux'
-import { USER_PURSE_ALLOCATION_ADD } from "../../js/constants/action-type";
+import { 
+  USER_PURSE_ALLOCATION_ADD,
+  TASK_POCKET_ADD_NEW,
+  TASK_POCKET_ADD_AMOUNT,
+  TASK_POCKET_RELEASE_AMOUNT
+} from "../../js/constants/action-type";
 
 
 function PurseAllocationModal(props, ref) {
 
   //TRUE for adding new allocation
   //FALSE for editing allocation value
-  const [addAllocation, setAddAllocation] = React.useState(true);
+  const [addAllocation, setAddAllocation] = React.useState(TASK_POCKET_ADD_NEW);
   const [currentAllocation, setCurrentAllocation] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [iDescriptionHolder, setDescription] = React.useState("");
   const [iAmount, setAmount] = React.useState(0);
+  const [isError, setError] = React.useState(false);
   
   useImperativeHandle(ref, ()=> ({
     openAddNewAllocation(){
-      setAddAllocation(true);
+      setAddAllocation(TASK_POCKET_ADD_NEW);
       setCurrentAllocation(null);
       setOpen(true);
+      setError(false);
     },
     openEditAllocationAmount(payload){
-      setAddAllocation(false);
+      setAddAllocation(TASK_POCKET_ADD_AMOUNT);
       setCurrentAllocation(payload);
       setDescription(payload.description);
       setOpen(true);
+      setError(false);
+    },
+    releaseAllocationAmount(payload){
+      setAddAllocation(TASK_POCKET_RELEASE_AMOUNT);
+      setCurrentAllocation(payload);
+      setDescription(payload.description);
+      setOpen(true);
+      setError(false);
     }
 
   }));
@@ -40,27 +55,32 @@ function PurseAllocationModal(props, ref) {
   };
 
   const handleCreateAndClose = () => {
-    if(addAllocation){
-      props.passToAddNewAllocation(iDescriptionHolder, iAmount);
+
+    if(Number(iAmount)>=0 && iDescriptionHolder){
+      if(addAllocation == TASK_POCKET_ADD_NEW){
+        props.passToAddNewAllocation(iDescriptionHolder, iAmount);
+      }else if(addAllocation == TASK_POCKET_ADD_AMOUNT){
+        props.passToAddCashAllocation(currentAllocation, iAmount);
+      }
+      setOpen(false);
     }else{
-      props.passToAddCashAllocation(currentAllocation, iAmount);
+      setError(true);
     }
-    
-    setOpen(false);
   };
 
   return (
     <div>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">
-          {(addAllocation)? "Add Purse Allocation": "Add Cash"}
+          {(addAllocation == TASK_POCKET_ADD_NEW)? "Add Wallet Pocket": "Add Cash"}
           </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {(addAllocation)? "Please enter your purse allocation here.": "Add Additional Amount"}
+            {(isError)?"Please enter valid description or amount":
+            (addAllocation == TASK_POCKET_ADD_NEW)? "Please enter your purse allocation here.": "Add Additional Amount"}
           </DialogContentText>
           
-          {(addAllocation)?(
+          {(addAllocation == TASK_POCKET_ADD_NEW)?(
             //ADD NEW ALLOCATION
             <TextField 
             autoFocus 
@@ -101,7 +121,7 @@ function PurseAllocationModal(props, ref) {
             Cancel
           </Button>
           <Button onClick={handleCreateAndClose} color="primary">
-            {(addAllocation)?"Create":"Add Cash"}
+            {(addAllocation == TASK_POCKET_ADD_NEW)?"Create":"Add Cash"}
           </Button>
         </DialogActions>
       </Dialog>

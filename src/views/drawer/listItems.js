@@ -26,7 +26,7 @@ const mainListItems =
           <ListItemIcon>
             <AccountBalanceWalletIcon />
           </ListItemIcon>
-          <ListItemText primary="Purse" />
+          <ListItemText primary="Wallet" />
         </ListItem>
       </Link>
       
