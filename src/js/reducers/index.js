@@ -1,21 +1,14 @@
 
 import * as ACTIONTYPE from "../constants/action-type";
-
-import { 
-    redirectToHome, 
-    redirectToPurse, 
-    redirectToVault ,
-    addPurseAllocation,
-    addCashPurseAllocation,
-    deletePurseAllocation,
-    setLockPurseAllocation
-
-} from "../actions/index";
+import * as PurseManager from "../actions/purse-manager"
+import * as VaultManager from "../actions/vault-manager"
+import * as RedirectManager from  "../actions/redirect-manager"
 
 const initialState = {
     countvisit : 0,
     app_name: "Thrifty Koala",
     useractive : false,
+
     user: {
         userid : "ccruz_02",
         name : "Juan dela Cruz",
@@ -27,11 +20,7 @@ const initialState = {
         },
 
         purse: {
-
             pocketAmount: 200,
-            
-            totalBalance: 0,
-
             allocations: [
                 {
                     id: 1,
@@ -50,47 +39,94 @@ const initialState = {
                     description: "Travel",
                     amount: 100,
                     active: true
-                },
-                {
-                    id: 4,
-                    description: "Shopping",
-                    amount: 0,
-                    active: false
                 }
             ]
         },
 
         vault: {
-            amount: 50,
-            balance: 2, 
+            vaultBalance : 5900,
+            pocketAmount: 500,
             allocations: [
                 {
                     id: 1,
                     description: "Savings",
-                    amount: 500,
-                    active: true
+                    targetAmount: 1000000,
+                    expiration: "Jan-01-2025",
+                    requestRelease: false,
+                    amount: 500
                 }
             ]
+        }
+    },
+    action_status: {
+        purse: {
+            status: "",
+            transaction: "",
+            message: ""
         }
     }
 }
 
 function rootReducer(state = initialState, action){
+
+    //REDIRECT
     if(action.type === ACTIONTYPE.VIEW_REDIRECT_HOME ){
-        redirectToHome();
+        RedirectManager.redirectToHome();
     }else if(action.type === ACTIONTYPE.VIEW_REDIRECT_PURSE ){
-        redirectToPurse();
+        RedirectManager.redirectToPurse();
     }else if(action.type === ACTIONTYPE.VIEW_REDIRECT_VAULT ){
-        redirectToVault();
-    }else if(action.type === ACTIONTYPE.USER_PURSE_ALLOCATION_ADD ){
-        state = addPurseAllocation(state, action.payload);
-    }else if(action.type === ACTIONTYPE.USER_PURSE_ALLOCATION_ADD_CASH ){
-        state = addCashPurseAllocation(state, action.payload);
-    }else if(action.type === ACTIONTYPE.USER_PURSE_ALLOCATION_DELETE ){
-        state = deletePurseAllocation(state, action.payload);
-    }else if(action.type === ACTIONTYPE.USER_PURSE_ALLOCATION_SET_ACTIVE ){
-        state = setLockPurseAllocation(state, action.payload);
+        RedirectManager.redirectToVault();
     }
+    
+    
+    //PURSE
+    else if(action.type === ACTIONTYPE.USER_PURSE_ALLOCATION_ADD ){
+        let res = PurseManager.addPurseAllocation(state, action.payload);
+        res.action_status.purse.transaction = ACTIONTYPE.USER_PURSE_ALLOCATION_ADD;
+        state = res;
+
+    }else if(action.type === ACTIONTYPE.USER_PURSE_ALLOCATION_ADD_CASH ){
+        let res = PurseManager.addCashPurseAllocation(state, action.payload);
+        res.action_status.purse.transaction = ACTIONTYPE.USER_PURSE_ALLOCATION_ADD_CASH;
+        state = res;
+
+    }else if(action.type === ACTIONTYPE.USER_PURSE_ALLOCATION_DELETE ){
+        let res = PurseManager.deletePurseAllocation(state, action.payload);
+        res.action_status.purse.transaction = ACTIONTYPE.USER_PURSE_ALLOCATION_DELETE;
+        state = res;
+        
+    }else if(action.type === ACTIONTYPE.USER_PURSE_ALLOCATION_RELEASE_CASH ){
+        let res = PurseManager.setReleasePurseAllocation(state, action.payload);
+        res.action_status.purse.transaction = ACTIONTYPE.USER_PURSE_ALLOCATION_RELEASE_CASH;
+        state = res;
+    }
+
+
+    //VAULT
+    else if(action.type === ACTIONTYPE.USER_VAULT_ALLOCATION_ADD ){
+        let res = VaultManager.addVaultAllocation(state, action.payload);
+        res.action_status.purse.transaction = ACTIONTYPE.USER_VAULT_ALLOCATION_ADD;
+        state = res;
+
+    }
+
+
+    //SAVINGS ACCOUNT
+    else if(action.type === ACTIONTYPE.USER_SAVINGSACCOUNT_TO_VAULT ){
+        let res = VaultManager.transferSavingsAccountToVault(state, action.payload);
+        res.action_status.purse.transaction = ACTIONTYPE.USER_SAVINGSACCOUNT_TO_VAULT;
+        state = res;
+    }else if(action.type === ACTIONTYPE.USER_SAVINGSACCOUNT_FROM_VAULT ){
+        let res = VaultManager.transferVaultToSavingsAccount(state, action.payload);
+        res.action_status.purse.transaction = ACTIONTYPE.USER_SAVINGSACCOUNT_FROM_VAULT;
+        state = res;
+    }
+
+    else{
+        console.log("Redux Undefined: " + action.type + " : " + action.payload);
+    }
+
+
     state = Object.assign({}, state, {countvisit: state.countvisit+1})
     return state;
 }

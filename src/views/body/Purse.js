@@ -10,46 +10,75 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/IconButton';
-
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
 import LockIcon from '@material-ui/icons/Lock';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
-
+import EcoIcon from '@material-ui/icons/Eco';
 import Title from '../../components/typography/title'
 import { useStyles } from "../../css/purse";
 import { 
   USER_PURSE_ALLOCATION_ADD,
-  USER_PURSE_ALLOCATION_UNLOCK,
-  USER_PURSE_ALLOCATION_LOCK,
   USER_PURSE_ALLOCATION_ADD_CASH,
   USER_PURSE_ALLOCATION_DELETE,
-  USER_PURSE_ALLOCATION_SET_ACTIVE
+  USER_PURSE_ALLOCATION_RELEASE_CASH,
+  USER_SAVINGSACCOUNT_TO_VAULT
 
 } from "../../js/constants/action-type";
 
+import * as STATUS_TYPE from "../../js/constants/status-type";
+
 import NumberFormat from 'react-number-format';
 import PurseAllocationModal from '../modal/PurseAllocationModal';
-const { forwardRef, useRef, useImperativeHandle } = React;
+import YesNoModal from '../modal/YesNoModal';
+import InfoModal from '../modal/InfoModal';
+
+
+
+const { forwardRef, useRef } = React;
 
 function Purse(props){
 
   const classes = useStyles();
 
+
   const ref = useRef();
   const ChildModal = forwardRef(PurseAllocationModal);
-
   const passToAddNewAllocation = (iDescription, iAmount)=>{
     props.addNewAllocation(iDescription, iAmount);
   };
-
   const passToAddCashAllocation = (payload, iAmount)=>{
     props.addCashAllocation(payload, iAmount);
   };
+  const passToReleaseAllocationAmount = (payload, iAmount)=>{
+    props.releaseAllocationAmount(payload, iAmount);
+  };
+  const passAgreeSelection = (payload)=>{
+    props.deleteAllocation(payload.id)
+  };
+
+
+  const refYesNo = useRef();
+  const ChildModal2 = forwardRef(YesNoModal);
+
+  // const ChildModal3 = forwardRef(InfoModal);
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="s">
       <CssBaseline />
+      <ChildModal 
+            passToAddNewAllocation={passToAddNewAllocation} 
+            passToAddCashAllocation={passToAddCashAllocation} 
+            passToReleaseAllocationAmount={passToReleaseAllocationAmount}
+            ref={ref}/>
+
+      <ChildModal2
+        passAgreeSelection={passAgreeSelection}
+        ref={refYesNo}/>
+
+      {(props.action_status.purse.status === STATUS_TYPE.STATUS_ERROR )? 
+        <InfoModal status={"Error"} message={props.action_status.purse.message} />: ""}  
+
       <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             {/* <LockOutlinedIcon /> */}
@@ -66,8 +95,11 @@ function Purse(props){
           </Typography>
 
           <Typography component="p">
-            {props.user.account.bankName + " - " + props.user.account.accountNo}
+            {props.user.account.bankName + " - " + props.user.account.accountNo} 
           </Typography>
+          
+          <Button variant="contained" color="primary" onClick={ ()=>props.purseToVault(props.user.account.balance)}><EcoIcon/> Add to vault</Button>
+          
 
           
           <Table size="small">
@@ -89,7 +121,6 @@ function Purse(props){
           
           <div> ... </div>
           <div>Breakdown</div>
-          <ChildModal passToAddNewAllocation={passToAddNewAllocation} passToAddCashAllocation={passToAddCashAllocation} ref={ref}/>
           <Table size="small">
             <TableBody>
                 {props.user.purse.allocations.map(row => (
@@ -101,13 +132,15 @@ function Purse(props){
 
                     <TableCell align="right">
                       
-                      <IconButton edge="end" aria-label="lock" onClick={()=>props.setActiveAllocation(row.id, (!Boolean(row.active)))}>
-                        {(row.active)?(<LockIcon />):(<LockOpenIcon/>)}
+                      <IconButton edge="end" aria-label="lock" onClick={()=>ref.current.openReleaseAllocationAmount(row)}>
+                        {(Number(row.amount>0))?(<LockIcon />):(<LockOpenIcon/>)}
                       </IconButton>
                       <IconButton edge="end" aria-label="add" onClick={ ()=>ref.current.openEditAllocationAmount(row)}>
                         <AddCircleIcon />
                       </IconButton>
-                      <IconButton edge="end" aria-label="delete" onClick={()=>props.deleteAllocation(row.id)}>
+                      <IconButton edge="end" aria-label="delete" onClick={
+                        ()=>refYesNo.current.openDialog("Are you sure you want to delete "+ row.description
+                        +" Pocket? Pocket value will be transferred to wallet balance", row)}>
                         <DeleteIcon />
                       </IconButton>
                     </TableCell>
@@ -121,14 +154,13 @@ function Purse(props){
           {/* <PurseAddAllocationModal /> */}
           <Button
             type="button"
-            fullWidth
+            // fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
-            // onClick={props.addNewAllocation}
             onClick={ ()=>ref.current.openAddNewAllocation()}
           >
-            Add
+            Add Pocket
           </Button>
 
           
@@ -142,6 +174,8 @@ function Purse(props){
 
 
 function mapStateToProps(state){
+  // console.log(state.countvisit)
+  // console.log(state.action_status)
   return state
 }
 
@@ -155,8 +189,7 @@ function mapDispatchToProps(dispatch){
             payload: {
               id: 0,
               description: iDescription,
-              amount: iAmount,
-              active: true
+              amount: iAmount
             }
           };
           dispatch(action);
@@ -168,7 +201,6 @@ function mapDispatchToProps(dispatch){
             id: payload.id,
             description: payload.description,
             amount: payload.amount,
-            active: payload.active,
             additionAmmount: iAmount
           }
         };
@@ -183,18 +215,27 @@ function mapDispatchToProps(dispatch){
         };
         dispatch(action);
       },
-      setActiveAllocation:(iPurseAllocationId, isActive)=>{
+      releaseAllocationAmount: (payload, releaseAmount)=>{
         const action = {
-          type: USER_PURSE_ALLOCATION_SET_ACTIVE,
+          type: USER_PURSE_ALLOCATION_RELEASE_CASH,
           payload: {
-            id: iPurseAllocationId,
-            setActiveTo: isActive
+            id: payload.id,
+            description: payload.description,
+            amount: payload.amount,
+            releaseAmount: releaseAmount
+          }
+        };
+        dispatch(action);
+      },
+      purseToVault: (iAmount)=>{
+        const action = {
+          type: USER_SAVINGSACCOUNT_TO_VAULT,
+          payload: {
+            amount: iAmount
           }
         };
         dispatch(action);
       }
-
-      
   }
 }
 

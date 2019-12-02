@@ -1,9 +1,7 @@
 import React from 'react';
 import SignIn from './views/body/SignIn'
 import Home from './views/body/Home'
-
 import Store  from './js/store.js'
-
 import { Provider } from 'react-redux'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { URL_USER_HOME } from "./js/constants/url-list";
@@ -14,28 +12,15 @@ function Main(props) {
     <div>  
       <Provider store = {Store}>
         <BrowserRouter>
-            <Switch>
-              <Route exact path='/'  component = {SignIn}/>
-              <Route path={URL_USER_HOME}  component = {Home}/>        
-            </Switch>
-          </BrowserRouter>
-      //</Provider>
+          <Switch>
+            <Route exact path='/'  component = {SignIn}/>
+            <Route path={URL_USER_HOME}  component = {Home}/>        
+          </Switch>
+        </BrowserRouter>
+      </Provider>
     </div>  
   );
 }
 
 
 export default (Main)
-
-
-// {
-  /* <Provider store = {Store}>
-  <BrowserRouter>
-      <Switch>
-        <Route exact path='/'  render={()=><SignIn />}/>
-        <Route path='/user'  render={()=><Home />}/>        
-        <Route path='/user/purse2'  render={()=><Purse2/>}/>        
-      </Switch>
-  </BrowserRouter>
-</Provider> */
-// }

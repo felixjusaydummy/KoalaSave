@@ -6,9 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import {connect} from 'react-redux';
 import NumberFormat from 'react-number-format';
-import {getUserPurseBalance} from '../../controller/AccountManager';
 import { useStyles } from "../../css/dashboard";
-import { URL_USER_HOME, URL_USER_PURSE, URL_USER_VAULT, URL_USER_RECOMMEDATION } from "../../js/constants/url-list";
 import { VIEW_REDIRECT_PURSE, VIEW_REDIRECT_VAULT } from '../../js/constants/action-type';
 
 

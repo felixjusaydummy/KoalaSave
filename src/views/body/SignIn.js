@@ -52,12 +52,11 @@ function SignIn(props){
           />
 
           <Button
-            variant="outlined"
             type="button"
-            fullWidth
             variant="contained"
+            fullWidth
             color="primary"
-            className={classes.button}
+            className={classes.submit}
             onClick={props.onLogiIn}
           >
             Sign In

@@ -14,16 +14,20 @@ import {
 
 
 
-function PurseAllocationModal(props, ref) {
+export default function VaultAllocationModal(props, ref) {
 
   //TRUE for adding new allocation
   //FALSE for editing allocation value
   const [addAllocation, setAddAllocation] = React.useState(TASK_POCKET_ADD_NEW);
   const [currentAllocation, setCurrentAllocation] = React.useState(null);
   const [open, setOpen] = React.useState(false);
+  const [isError, setError] = React.useState(false);
+
   const [iDescriptionHolder, setDescription] = React.useState("");
   const [iAmount, setAmount] = React.useState();
-  const [isError, setError] = React.useState(false);
+  const [iTargetAmount, setTargetAmount] = React.useState("");
+  const [iExpiration, setExpiration] = React.useState("");
+  
   
   useImperativeHandle(ref, ()=> ({
     openAddNewAllocation(){
@@ -43,6 +47,8 @@ function PurseAllocationModal(props, ref) {
       setAddAllocation(TASK_POCKET_RELEASE_AMOUNT);
       setCurrentAllocation(payload);
       setDescription(payload.description);
+      setTargetAmount(payload.targetAmount);
+      setExpiration(payload.expiration);
       setAmount(payload.amount);
       setOpen(true);
       setError(false);
@@ -58,7 +64,14 @@ function PurseAllocationModal(props, ref) {
 
     if(Number(iAmount)>=0 && iDescriptionHolder){
       if(addAllocation === TASK_POCKET_ADD_NEW){
-        props.passToAddNewAllocation(iDescriptionHolder, iAmount);
+          let payload = {
+              id: 0,
+              description: iDescriptionHolder,
+              amount: iAmount,
+              targetAmount: iTargetAmount,
+              expiration: iExpiration
+          }
+        props.passToAddNewAllocation(payload);
         setOpen(false);
       }else if(addAllocation === TASK_POCKET_ADD_AMOUNT){
         if(Number(iAmount)>0){
@@ -84,20 +97,22 @@ function PurseAllocationModal(props, ref) {
     }
   };
 
+
+
   const getTitle = ()=>{
     if(addAllocation === TASK_POCKET_ADD_NEW){
-      return"Add Wallet Pocket";
+      return"Add Vault Pocket";
     }else if(addAllocation === TASK_POCKET_ADD_AMOUNT){
       return"Add Cash";
     }else{
-      return "Release Pocket to Wallet"
+      return "Release Pocket to Vault"
     }
   }
 
   const getMessageDescription = ()=>{
     if(!isError){
       if(addAllocation){
-        return "Please enter your pocket allocation here";
+        return "Please enter your vault allocation here";
       }else{
         return "Add Additional Amount";
       }
@@ -148,7 +163,6 @@ function PurseAllocationModal(props, ref) {
             value = {currentAllocation.description}
             />
           )}
-          
           <TextField
             margin="dense"
             id="amount"
@@ -159,6 +173,29 @@ function PurseAllocationModal(props, ref) {
             defaultValue = {iAmount}
             onChange={(evt)=>{setAmount(evt.target.value);}}
             />
+
+            <TextField
+            margin="dense"
+            id="targetAmount"
+            name="targetAmount"
+            label="Target Amount"
+            type="Number"
+            fullWidth
+            defaultValue = {iTargetAmount}
+            onChange={(evt)=>{setTargetAmount(evt.target.value);}}
+            />
+
+            <TextField
+            margin="dense"
+            id="expiration"
+            name="expiration"
+            label="Expiration"
+            type="text"
+            fullWidth
+            defaultValue = {iExpiration}
+            onChange={(evt)=>{setExpiration(evt.target.value);}}
+            />
+
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
@@ -170,8 +207,3 @@ function PurseAllocationModal(props, ref) {
     </div>
   );
 }
-
-
-
-
-export default PurseAllocationModal
