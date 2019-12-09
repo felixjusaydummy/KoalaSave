@@ -12,7 +12,7 @@ export function transferSavingsAccountToVault(state, payload){
         if(Number(payload.amount)>0){
             let successTransfer = AccountManager.transferSavingAccountToVault(res.user.account, payload.amount)
             if(successTransfer){
-                res.user.vault.vaultBalance = res.user.vault.vaultBalance + payload.amount; 
+                res.user.vault.vaultBalance = Number(res.user.vault.vaultBalance) + Number(payload.amount); 
 
                 res.action_status.purse = {
                     status: STATUS.STATUS_SUCCESS,
@@ -54,7 +54,7 @@ export function transferVaultToSavingsAccount(state, payload){
         if(Number(payload.amount)>0){
             let successTransfer = AccountManager.transferVaultToSavingsAccount(res.user.account, payload.amount)
             if(successTransfer){
-                res.user.vault.vaultBalance = res.user.vault.vaultBalance - payload.amount; 
+                res.user.vault.vaultBalance = Number(res.user.vault.vaultBalance) - Number(payload.amount); 
 
                 res.action_status.purse = {
                     status: STATUS.STATUS_SUCCESS,
@@ -107,7 +107,7 @@ export function addVaultAllocation(state, payload){
 
             payload.requestRelease = false;
             res.user.vault.allocations.push(payload);
-            updateVaultPocketAmount(res.user.purse);
+            updateVaultPocketAmount(res.user.vault);
 
             res.action_status.purse = {
                 status: STATUS.STATUS_SUCCESS,
@@ -135,6 +135,61 @@ export function addVaultAllocation(state, payload){
     }
 }
 
+
+export function addCashVaultAllocation(state, payload){
+
+    try{
+        let res =  Object.assign({}, state)
+        //TODO: Update database here
+        //  0. call bank api for transfer
+        //  1. ADD purse allocation
+        //  2. UPDATE user purse record
+
+        if(Number(res.user.vault.vaultBalance)>=Number(payload.additionAmmount)){
+            res.user.vault.vaultBalance = Number(res.user.vault.vaultBalance) - Number(payload.additionAmmount); 
+
+            let pocket = null;
+            const list = res.user.vault.allocations;
+            for(let i = list.length-1; i>=0; i-- ){
+                if(list[i].id === payload.pocket.id){
+                    //TODO: Update database here
+                    //  1. UPDATE user purse record
+                    pocket = list[i];
+                    break;
+                }
+            }
+
+            pocket.amount = Number(pocket.amount) + Number(payload.additionAmmount);
+            pocket.targetAmount = payload.pocket.targetAmount;
+            pocket.expiration = payload.pocket.expiration;
+            pocket.requestRelease = false;
+
+            updateVaultPocketAmount(res.user.vault);
+            res.action_status.purse = {
+                status: STATUS.STATUS_SUCCESS,
+                message: "Purse Pocket Successfully Added",
+            }
+        }else{
+            res.action_status.purse = {
+                status: STATUS.STATUS_ERROR,
+                message: "Insufficient Balanace"
+            }
+        }
+        
+        
+
+        return res;
+
+    }catch(err){
+        let res =  Object.assign({}, state)
+        res.action_status.purse = {
+            status: STATUS.STATUS_ERROR,
+            message: "Failed to Add Vault Pocket Allocation"
+        }
+
+        return res;
+    }
+}
 
 
 //PRIVATE FUNCTION

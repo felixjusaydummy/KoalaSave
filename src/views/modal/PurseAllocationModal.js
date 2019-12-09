@@ -65,7 +65,6 @@ function PurseAllocationModal(props, ref) {
           props.passToAddCashAllocation(currentAllocation, iAmount);
           setOpen(false);
         }else{
-          setError("...")
           setError("Amount must not be less than or equal to Zero");
         }
       }else{

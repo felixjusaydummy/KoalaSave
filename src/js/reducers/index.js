@@ -51,7 +51,7 @@ const initialState = {
                     id: 1,
                     description: "Savings",
                     targetAmount: 1000000,
-                    expiration: "Jan-01-2025",
+                    expiration: "2012-04-23T00:00:00.000Z",
                     requestRelease: false,
                     amount: 500
                 }
@@ -107,9 +107,12 @@ function rootReducer(state = initialState, action){
         let res = VaultManager.addVaultAllocation(state, action.payload);
         res.action_status.purse.transaction = ACTIONTYPE.USER_VAULT_ALLOCATION_ADD;
         state = res;
-
+    }else if(action.type === ACTIONTYPE.USER_VAULT_ALLOCATION_ADD_CASH ){
+        let res = VaultManager.addCashVaultAllocation(state, action.payload);
+        res.action_status.purse.transaction = ACTIONTYPE.USER_VAULT_ALLOCATION_ADD;
+        state = res;
     }
-
+    
 
     //SAVINGS ACCOUNT
     else if(action.type === ACTIONTYPE.USER_SAVINGSACCOUNT_TO_VAULT ){
@@ -122,12 +125,25 @@ function rootReducer(state = initialState, action){
         state = res;
     }
 
-    else{
-        console.log("Redux Undefined: " + action.type + " : " + action.payload);
+    else if(action.type === ACTIONTYPE.MESSAGE_RESET_DEFAULT){
+        state = Object.assign(
+            {},
+            state, 
+            {
+                action_status: {
+                    purse: {
+                        status: "",
+                        transaction: "",
+                        message: ""
+                    }
+                }
+            })    
     }
 
+    
 
-    state = Object.assign({}, state, {countvisit: state.countvisit+1})
+
+    state = Object.assign({}, state, {countvisit: state.countvisit+1})    
     return state;
 }
 

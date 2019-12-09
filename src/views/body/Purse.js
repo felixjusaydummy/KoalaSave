@@ -22,7 +22,8 @@ import {
   USER_PURSE_ALLOCATION_ADD_CASH,
   USER_PURSE_ALLOCATION_DELETE,
   USER_PURSE_ALLOCATION_RELEASE_CASH,
-  USER_SAVINGSACCOUNT_TO_VAULT
+  USER_SAVINGSACCOUNT_TO_VAULT,
+  MESSAGE_RESET_DEFAULT
 
 } from "../../js/constants/action-type";
 
@@ -32,6 +33,7 @@ import NumberFormat from 'react-number-format';
 import PurseAllocationModal from '../modal/PurseAllocationModal';
 import YesNoModal from '../modal/YesNoModal';
 import InfoModal from '../modal/InfoModal';
+import TransferSavingsModal from  '../modal/TransferSavingsModal';
 
 
 
@@ -41,9 +43,7 @@ function Purse(props){
 
   const classes = useStyles();
 
-
-  const ref = useRef();
-  const ChildModal = forwardRef(PurseAllocationModal);
+  // *** FUNCTIONS *** //
   const passToAddNewAllocation = (iDescription, iAmount)=>{
     props.addNewAllocation(iDescription, iAmount);
   };
@@ -56,15 +56,26 @@ function Purse(props){
   const passAgreeSelection = (payload)=>{
     props.deleteAllocation(payload.id)
   };
+  const closeInfoModal = ()=>{
+    props.resetMessageStatus();
+  }
+  const transferSavings = (iAmount)=>{
+    props.purseToVault(iAmount);
+  }
 
 
+  // *** MODALS **** //
+  const ref = useRef();
+  const ChildModal = forwardRef(PurseAllocationModal);
+  
   const refYesNo = useRef();
   const ChildModal2 = forwardRef(YesNoModal);
 
-  // const ChildModal3 = forwardRef(InfoModal);
+  const refTransferSavings = useRef();
+  const ChildModal3 = forwardRef(TransferSavingsModal);
 
   return (
-    <Container component="main" maxWidth="s">
+    <Container component="main" maxWidth="md">
       <CssBaseline />
       <ChildModal 
             passToAddNewAllocation={passToAddNewAllocation} 
@@ -76,8 +87,15 @@ function Purse(props){
         passAgreeSelection={passAgreeSelection}
         ref={refYesNo}/>
 
+      <ChildModal3
+        transferSavings={transferSavings}
+        ref ={refTransferSavings}/>
+
       {(props.action_status.purse.status === STATUS_TYPE.STATUS_ERROR )? 
-        <InfoModal status={"Error"} message={props.action_status.purse.message} />: ""}  
+        <InfoModal 
+          status={"Error"} 
+          message={props.action_status.purse.message} 
+          closeInfoModal={closeInfoModal} />: ""}  
 
       <div className={classes.paper}>
           <Avatar className={classes.avatar}>
@@ -98,8 +116,9 @@ function Purse(props){
             {props.user.account.bankName + " - " + props.user.account.accountNo} 
           </Typography>
           
-          <Button variant="contained" color="primary" onClick={ ()=>props.purseToVault(props.user.account.balance)}><EcoIcon/> Add to vault</Button>
-          
+          <Button variant="contained" color="primary" 
+            onClick={()=>refTransferSavings.current.transferSavingsToVault(props.user.account.balance)}
+          ><EcoIcon/> Add to vault</Button>
 
           
           <Table size="small">
@@ -233,6 +252,12 @@ function mapDispatchToProps(dispatch){
           payload: {
             amount: iAmount
           }
+        };
+        dispatch(action);
+      },
+      resetMessageStatus: ()=>{
+        const action = {
+          type: MESSAGE_RESET_DEFAULT
         };
         dispatch(action);
       }

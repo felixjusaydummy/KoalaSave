@@ -11,6 +11,7 @@ export default function AlertDialogxx(props) {
   const [open, setOpen] = React.useState(true);
 
   const handleClose = () => {
+    props.closeInfoModal();
     setOpen(false);
   };
 

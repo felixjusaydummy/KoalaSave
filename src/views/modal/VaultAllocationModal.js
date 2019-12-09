@@ -6,10 +6,12 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+
 import { 
   TASK_POCKET_ADD_NEW,
-  TASK_POCKET_ADD_AMOUNT,
-  TASK_POCKET_RELEASE_AMOUNT
+  TASK_POCKET_ADD_AMOUNT
 } from "../../js/constants/action-type";
 
 
@@ -26,13 +28,17 @@ export default function VaultAllocationModal(props, ref) {
   const [iDescriptionHolder, setDescription] = React.useState("");
   const [iAmount, setAmount] = React.useState();
   const [iTargetAmount, setTargetAmount] = React.useState("");
-  const [iExpiration, setExpiration] = React.useState("");
+  const [iExpiration, setExpiration] = React.useState(new Date());
   
   
   useImperativeHandle(ref, ()=> ({
     openAddNewAllocation(){
       setAddAllocation(TASK_POCKET_ADD_NEW);
       setCurrentAllocation(null);
+      setDescription("");
+      setAmount();
+      setTargetAmount();
+      setExpiration(new Date());
       setOpen(true);
       setError(false);
     },
@@ -40,16 +46,9 @@ export default function VaultAllocationModal(props, ref) {
       setAddAllocation(TASK_POCKET_ADD_AMOUNT);
       setCurrentAllocation(payload);
       setDescription(payload.description);
-      setOpen(true);
-      setError(false);
-    },
-    openReleaseAllocationAmount(payload){
-      setAddAllocation(TASK_POCKET_RELEASE_AMOUNT);
-      setCurrentAllocation(payload);
-      setDescription(payload.description);
+      setAmount();
       setTargetAmount(payload.targetAmount);
-      setExpiration(payload.expiration);
-      setAmount(payload.amount);
+      setExpiration(new Date(payload.expiration));
       setOpen(true);
       setError(false);
     }
@@ -75,21 +74,12 @@ export default function VaultAllocationModal(props, ref) {
         setOpen(false);
       }else if(addAllocation === TASK_POCKET_ADD_AMOUNT){
         if(Number(iAmount)>0){
+          currentAllocation.targetAmount = iTargetAmount;
+          currentAllocation.expiration = iExpiration;
           props.passToAddCashAllocation(currentAllocation, iAmount);
           setOpen(false);
         }else{
-          setError("...")
           setError("Amount must not be less than or equal to Zero");
-        }
-      }else{
-        if( Number(iAmount) >0 && Number(iAmount)<=Number(currentAllocation.amount)){
-          props.passToReleaseAllocationAmount(currentAllocation, iAmount);
-          setOpen(false);
-        }else if(Number(iAmount) === 0){
-          setError("Amount must not be equal to Zero");
-        }
-        else{
-          setError("Max value exceed from Pocket Amount");    
         }
       }
     }else{
@@ -185,16 +175,12 @@ export default function VaultAllocationModal(props, ref) {
             onChange={(evt)=>{setTargetAmount(evt.target.value);}}
             />
 
-            <TextField
-            margin="dense"
-            id="expiration"
-            name="expiration"
-            label="Expiration"
-            type="text"
+            <DialogContentText>Expiration</DialogContentText>
+            <DatePicker 
+            inline
             fullWidth
-            defaultValue = {iExpiration}
-            onChange={(evt)=>{setExpiration(evt.target.value);}}
-            />
+            selected={iExpiration} 
+            onChange={date => setExpiration(date)} />
 
         </DialogContent>
         <DialogActions>
