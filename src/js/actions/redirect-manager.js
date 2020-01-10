@@ -11,3 +11,9 @@ export function redirectToPurse(){
 export function redirectToVault(){
     window.location = URLLIST.URL_USER_VAULT;
 }
+
+
+export function redirectToLogin(){
+    window.location = URLLIST.URL_USER_LOGIN;
+}
+

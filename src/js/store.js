@@ -1,7 +1,5 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware  } from 'redux';
+import * as rex  from  './reducers/index';
 
-import rootReducer from  './reducers/index';
-
-
-const Store = createStore(rootReducer);
+const Store = createStore(rex.rootReducer, applyMiddleware(rex.middleware));
 export default Store;
