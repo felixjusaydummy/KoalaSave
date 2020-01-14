@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import clsx from 'clsx';
+
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+
+
+
+
+
+//ICONS
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
@@ -13,6 +23,8 @@ import Grid from '@material-ui/core/Grid';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import MenuOpenSharpIcon from '@material-ui/icons/MenuOpenSharp';
 
 import { connect } from 'react-redux'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
@@ -20,12 +32,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Copyright from "../foot/Copyright";
 import { useStyles } from "../../css/home";
 
-import { 
-  URL_USER_HOME, 
-  URL_USER_PURSE, 
-  URL_USER_VAULT, 
-  URL_USER_RECOMMEDATION 
-} from "../../js/constants/url-list"
+import * as URL_LIST from "../../js/constants/url-list"
 
 import * as ACTIONTYPE from "../../js/constants/action-type"
 
@@ -33,7 +40,8 @@ import mainListItems from '../drawer/listItems'
 import Dashboard from './Dashboard'
 import Purse from './Purse'
 import Vault from './Vault'
-import Recommendation from './Recommendation'
+import Inbox from './Inbox'
+import Setting from './Setting'
 
 
 
@@ -92,15 +100,19 @@ function Home(props) {
                 LOADING...
               </div>
             </Grid>
-            <Copyright />
           </Container>
         </main>
-
-        
-        
       </BrowserRouter>
     </div>
   )
+
+  const getTitleHeadName = ()=>{
+    if(props.user && props.user.name){
+      return ("Hi "+ props.user.name)
+    }else{
+      return props.app_name
+    }
+  }
 
   const page  =  (
     <div className={classes.root}>
@@ -110,6 +122,7 @@ function Home(props) {
 
         <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
           <Toolbar className={classes.toolbar}>
+
             <IconButton
               edge="start"
               color="inherit"
@@ -119,16 +132,25 @@ function Home(props) {
             >
               <MenuIcon />
             </IconButton>
+
+            <IconButton 
+              onClick={handleDrawerClose}
+              className={clsx(classes.menuButton, !open && classes.menuButtonHidden)}
+              >
+              <MenuOpenSharpIcon />
+            </IconButton>
+
+
             
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
               {/* Dashboard */}
             </Typography>
 
-            <IconButton color="inherit">
+            {/* <IconButton color="inherit"> */}
               {/* <Badge badgeContent={4} color="secondary"> */}
-                <NotificationsIcon />
+                {/* <NotificationsIcon /> */}
               {/* </Badge> */}
-            </IconButton>
+            {/* </IconButton> */}
           </Toolbar>
         </AppBar>
 
@@ -141,17 +163,27 @@ function Home(props) {
           }}
           open={open}
         >
-          <div className={classes.toolbarIcon}>
           
-            <IconButton onClick={handleDrawerClose}>
-                {props.app_name}
-              <ChevronLeftIcon />
-            </IconButton>
-          </div>
+          
+            
+            <List>
+              <ListItem >
+                <ListItemIcon>
+                  <AccountCircleIcon/>
+                </ListItemIcon>
+                <ListItemText >
+                  {getTitleHeadName()+"!"}
+                </ListItemText>
+              </ListItem>  
+            </List>
+          
+            
+          
           <Divider />
             <List>{mainListItems}</List>
           <Divider />
         </Drawer>
+
 
 
 
@@ -160,10 +192,11 @@ function Home(props) {
         <Container maxWidth="lg" className={classes.container}>
             <Grid container >
             <Switch>
-                <Route exact path={URL_USER_HOME}  component = {Dashboard} />
-                <Route path={URL_USER_PURSE}  component = {Purse}  />
-                <Route path={URL_USER_VAULT}  component={Vault}  />
-                <Route path={URL_USER_RECOMMEDATION}  component={Recommendation} />
+                <Route exact path={URL_LIST.URL_USER_HOME}  component = {Dashboard} />
+                <Route path={URL_LIST.URL_USER_PURSE}  component = {Purse}  />
+                <Route path={URL_LIST.URL_USER_VAULT}  component={Vault}  />
+                <Route path={URL_LIST.URL_USER_RECOMMEDATION}  component={Inbox} />
+                <Route path={URL_LIST.URL_USER_SETTING}  component={Setting} />
               </Switch>
             </Grid>
             <Copyright />

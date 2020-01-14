@@ -116,6 +116,13 @@ function rootReducer(state = getInitialState(), action){
                 }
             })    
     }
+
+    //INBOX
+    else if (action.type === ACTIONTYPE.INBOX_READ_MESSAGE){
+        state = Object.assign({}, state, {current_inbox: action.payload}) 
+    }else if(action.type === ACTIONTYPE.INBOX_CLOSE_MESSAGE){
+        state = Object.assign({}, state, {current_inbox: null}) 
+    }
        
 
 

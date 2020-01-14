@@ -9,6 +9,13 @@ export const useStyles = makeStyles(theme => ({
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
   },
+  toolbarIconHead: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar,
+  },
   toolbarIcon: {
     display: 'flex',
     alignItems: 'center',

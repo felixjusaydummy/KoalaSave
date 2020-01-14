@@ -2,8 +2,6 @@ import axios from "axios";
 import * as APIBACKEND from "./../constants/api-backend"
 import * as STATUSTYPE from "./../constants/status-type"
 
-// export async function login(state, param){
-
 async function checkCredentials(param){
     let url = APIBACKEND.SIGNIN;
     let body =  { 

@@ -1,3 +1,74 @@
+const inboxTemplate = [
+    {
+        status : "Notification", //Notification or Rewards
+        date_send: "2012-04-23T00:00:00.000Z",
+        title : "Sale Alert! - Julie’s Jewels",
+        message : "John, don’t miss out on this 80% off all regular priced accessories promo. \n\nThe deal ends tonight at 8pm, so come in before someone nabs that bracelet you’ve been eyeing.",
+        open : false
+    },
+    {
+        status : "Rewards", //Notification or Rewards
+        date_send: "2012-05-23T00:00:00.000Z",
+        title : "Rewards",
+        message : "You have earned 2 Reward point/s. Your points balance as of today is 2. Visit home site to know the list of items you can redeem",
+        open : false
+    },
+    {
+        status : "Notification", //Notification or Rewards
+        date_send: "2012-06-23T00:00:00.000Z",
+        title : "Looking for a deal? - Cheeky Prints",
+        message : "Perfect, get 20% off all printing services, and free shipping on any web order. The sale ends tomorrow at 2pm: bit.ly.get-the-goods",
+        open : false
+    }
+]
+
+
+const walletTemplate = [
+    {
+        name: "Budget Friendly",
+        allocations: [
+            {
+                description: "Savings",
+                percentage: 10,
+            }
+        ]
+    },
+    {
+        name: "Saving funds",
+        allocations: [
+            {
+                description: "Savings",
+                percentage: 20,
+            },
+            {
+                description: "Utilities",
+                percentage: 20,
+            },
+            {
+                description: "Travel",
+                percentage: 5,
+            }
+        ]
+    },
+    {
+        name: "Long term",
+        allocations: [
+            {
+                description: "Savings",
+                percentage: 40,
+            },
+            {
+                description: "Utilities",
+                percentage: 20,
+            },
+            {
+                description: "Travel",
+                percentage: 5,
+            }
+        ]
+    }     
+]
+
 export const initialState = {
     countvisit : 0,
     app_name: "Thrifty Koala",
@@ -14,11 +85,30 @@ export const initialState = {
     login_status : "",
     login_message: "",
     initializeState: true,
-    page_loading  : false
+    page_loading  : false,
+    response_status: "",
+    wallet_template: walletTemplate,
+    inbox : inboxTemplate,
+    current_inbox : null
 }
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// no use, just for backup
 const backupinitialState = {
     countvisit : 0,
     app_name: "Thrifty Koala",

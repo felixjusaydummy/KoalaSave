@@ -34,6 +34,9 @@ import TransferSavingsModal from  '../modal/TransferSavingsModal';
 
 const { forwardRef, useRef } = React;
 
+//ID GENERATOR
+
+
 function Vault(props){
 
   const classes = useStyles();
@@ -116,10 +119,10 @@ function Vault(props){
           <Table size="small">
             <TableBody>
                 {props.user.vault.allocations.map(row => (
-                  <TableRow key={row.id}>
+                  <TableRow key={row.description}>
                       <TableCell align="left">
                         <div>{row.description}</div>
-                        <div>Traget Amount</div>
+                        <div>Target Amount</div>
                         <div>Expiration</div>
                         </TableCell>
                       <TableCell align="right">

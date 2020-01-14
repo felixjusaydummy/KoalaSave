@@ -1,22 +1,28 @@
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
+import {connect} from 'react-redux'
+
+import { useStyles } from "../../css/purse";
+import Title from '../../components/typography/title'
+
+// CORES
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import {connect} from 'react-redux'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+
+// ICONS
 import IconButton from '@material-ui/core/IconButton';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
 import LockIcon from '@material-ui/icons/Lock';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import EcoIcon from '@material-ui/icons/Eco';
-import Title from '../../components/typography/title'
-import { useStyles } from "../../css/purse";
+
 import { 
   USER_PURSE_ALLOCATION_ADD,
   USER_PURSE_ALLOCATION_ADD_CASH,
@@ -143,7 +149,7 @@ function Purse(props){
           <Table size="small">
             <TableBody>
                 {props.user.purse.allocations.map(row => (
-                  <TableRow key={row.id}>
+                  <TableRow key={row.description}>
                     <TableCell align="left">{row.description}</TableCell>
                     <TableCell align="right">
                       <NumberFormat value={row.amount} displayType={'text'} thousandSeparator={true} />
