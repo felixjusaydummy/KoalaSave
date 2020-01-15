@@ -7,6 +7,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+
+//ICONS
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
@@ -16,9 +18,11 @@ import SendIcon from '@material-ui/icons/Send';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
+import CardGiftcardIcon from '@material-ui/icons/CardGiftcard';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 
 import * as ACTIONTYPE from './../../js/constants/action-type'
-
+import * as STATUSTYPE from './../../js/constants/status-type'
 
 
 const useStyles = makeStyles(theme => ({
@@ -32,50 +36,19 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-
-
-// INBOX MESSAGE PAGE
-const buildMessagePage = (elem, props)=>{
-  
-  const page = (
-      <List>
-        <div>
-        <Typography variant="h4" gutterBottom>
-          {elem.title}
-        </Typography>
-        <Typography
-            variant="body2"
-            color="textPrimary"
-          >
-            {new Intl.DateTimeFormat('en-GB', { 
-                year: 'numeric', 
-                month: 'long', 
-                day: '2-digit' 
-              }).format(new Date(elem.date_send))}
-          </Typography>
-
-        <Typography variant="body1" gutterBottom>
-        <Typography variant="body1" gutterBottom>.</Typography>
-          {elem.message}
-          <Typography variant="body1" gutterBottom>.</Typography>
-        </Typography>
-        
-        </div>
-
-        <Button
-          type="button"
-          variant="contained"
-          color="primary"
-          size="large" 
-          onClick={()=>props.closeMessage(elem)}
-        >
-          Back
-          {/* <ListItemText >Back</ListItemText> */}
-        </Button>
-      </List>
-    )
-  return page;
+const getDateValue = (datevalue)=>{
+  const options = {
+    year: 'numeric', month: 'long', day: '2-digit',
+    hour: 'numeric', minute: 'numeric', second: 'numeric',
+    hour12: true,
+    timeZone: 'Asia/Manila' 
+  };
+  const res = new Intl.DateTimeFormat('en-GB',options).format(new Date(datevalue))
+  return res;
 }
+
+
+
 
 
 // INBOX LIST
@@ -83,6 +56,16 @@ let counter = 0;
 function getId(){
   counter = counter + 1;
   return counter;
+}
+
+function getMessageIcon(message){
+  let res = null
+  if(message.status === STATUSTYPE.INBOX_STATUS_REWARDS){
+    res = (<CardGiftcardIcon/>)
+  }else if(message.status === STATUSTYPE.INBOX_STATUS_NOTIFICATTION){
+    res = (<NotificationsIcon/>)
+  }
+  return res
 }
 
 function trimMessageText(textMessage){
@@ -94,6 +77,51 @@ function trimMessageText(textMessage){
   }
 }
 
+
+
+
+//BODY
+// INBOX MESSAGE PAGE
+const buildMessagePage = (elem, props)=>{
+  
+  const page = (
+      <List>
+        <ListItem>
+        <div>
+          <Typography variant="h4" gutterBottom>
+            {elem.title}
+          </Typography>
+          <Typography
+              variant="body2"
+              color="textPrimary"
+            >
+              {getDateValue(elem.date_send)}
+            </Typography>
+
+          <Typography  gutterBottom>
+          <Typography variant="body1" gutterBottom>.</Typography>
+            {elem.message}
+            <Typography gutterBottom>.</Typography>
+          </Typography>
+        
+          <Button
+            type="button"
+            variant="contained"
+            color="primary"
+            size="large" 
+            onClick={()=>props.closeMessage(elem)}
+          >
+            Back
+            {/* <ListItemText >Back</ListItemText> */}
+          </Button>
+        </div>
+        </ListItem>
+
+      </List>
+    )
+  return page;
+}
+// INBOX ITEMS
 function buildMessageItems(elem, props){
   const textBold = ()=>{
     if(!elem.open){
@@ -105,7 +133,7 @@ function buildMessageItems(elem, props){
   const message = (
       <ListItem button key={getId()} onClick={()=>props.readMessage(elem)}>
         <ListItemIcon>
-          <InboxIcon />
+          {getMessageIcon(elem)}
         </ListItemIcon>
         <ListItemText 
           primary={textBold()} 
@@ -117,11 +145,12 @@ function buildMessageItems(elem, props){
                 variant="body2"
                 color="textPrimary"
               >
-                {new Intl.DateTimeFormat('en-GB', { 
+                {/* {new Intl.DateTimeFormat('en-GB', { 
                     year: 'numeric', 
                     month: 'long', 
                     day: '2-digit' 
-                  }).format(new Date(elem.date_send))}
+                  }).format(new Date(elem.date_send))} */}
+                  {getDateValue(elem.date_send)}
               </Typography>
                - {trimMessageText(elem.message)}
             </React.Fragment>
@@ -137,26 +166,28 @@ function buildMessageItems(elem, props){
 
 // MAIN //
 function Inbox(props) {
-  
   const classes = useStyles();
-
-  const defaultPage = (
-    <List
-      component="nav"
-      aria-labelledby="nested-list-subheader"
-      subheader={
-        <ListSubheader component="div" id="nested-list-subheader">
-          Inbox
-        </ListSubheader>
-      }
-      className={classes.root}
-    >
-      {props.inbox.map(elem=>(
-        buildMessageItems(elem, props)
-      ))}
-      
-    </List>
-  );
+  const  defaultPage = (
+      <List
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+        subheader={
+          <ListSubheader component="div" id="nested-list-subheader">
+            Inbox
+          </ListSubheader>
+        }
+        className={classes.root}
+      >
+        {(props.user.inbox)?
+          props.user.inbox.map(elem=>(
+            buildMessageItems(elem, props)
+          ))
+        :""}
+        
+      </List>
+    );
+  
+  
 
   if(!props.current_inbox){
     return defaultPage

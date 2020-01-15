@@ -63,109 +63,147 @@ function Vault(props){
     props.vaultToPurse(iAmount);
   }
 
-  return (
-    <Container component="main" maxWidth="md">
-      <CssBaseline />
-      <ChildModal 
-            passToAddNewAllocation={passToAddNewAllocation} 
-            passToAddCashAllocation={passToAddCashAllocation} 
-            ref={ref}/>
-
-      <ChildModal3
-        transferSavings={transferSavings}
-        ref ={refTransferSavings}/>
-
-      {(props.action_status.purse.status === STATUS_TYPE.STATUS_ERROR )? 
-        <InfoModal 
-          status={"Error"} 
-          message={props.action_status.purse.message} 
-          closeInfoModal={closeInfoModal}
-          />: ""}  
-
-      <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            {/* <LockOutlinedIcon /> */}
-          </Avatar>
-
-          <Typography component="h1" variant="h5">
-            {/* {props.app_name} */}
-          </Typography>
-          
-          <Title>Vault Balance</Title>
-          
-          <Typography component="p" variant="h4">
-            <NumberFormat value={props.user.vault.vaultBalance} displayType={'text'} thousandSeparator={true} />
-          </Typography>
-          
-          {/* <Button variant="contained" color="primary" onClick={ ()=>props.purseToVault(props.user.vault.vaultBalance)}><AccountBalanceWalletIcon/>Add to Wallet</Button> */}
-          <Button variant="contained" color="primary" 
-            onClick={()=>refTransferSavings.current.transferVaultToSavingsAccount(props.user.vault.vaultBalance)}
-          ><AccountBalanceWalletIcon/>Add to Wallet</Button>          
-
-          
-          <Table size="small">
-            <TableBody>
-                <TableRow >
-                  <TableCell>Pocket Amount</TableCell>
-                  <TableCell align="right">
-                    <NumberFormat value={props.user.vault.pocketAmount} displayType={'text'} thousandSeparator={true} />
-                  </TableCell>
-                </TableRow>
-            </TableBody>
-          </Table>
-          
-          <div> ... </div>
-          <div>Breakdown</div>
-          <Table size="small">
-            <TableBody>
-                {props.user.vault.allocations.map(row => (
-                  <TableRow key={row.description}>
-                      <TableCell align="left">
-                        <div>{row.description}</div>
-                        <div>Target Amount</div>
-                        <div>Expiration</div>
-                        </TableCell>
-                      <TableCell align="right">
-                        <div><NumberFormat value={row.amount} displayType={'text'} thousandSeparator={true} /></div>
-                        <div><NumberFormat value={row.targetAmount} displayType={'text'} thousandSeparator={true} /></div>
-                        <div>
-                        {new Intl.DateTimeFormat('en-GB', { 
-                            year: 'numeric', 
-                            month: 'long', 
-                            day: '2-digit' 
-                          }).format(new Date(row.expiration))}
-
-                        </div>
-                        </TableCell>
-                      <TableCell align="right">
-                        <IconButton edge="end" aria-label="add" onClick={ ()=>ref.current.openEditAllocationAmount(row)}>
-                          <AddCircleIcon />
-                        </IconButton>
-                      </TableCell>
+  if(props.user.vault){
+    const page =(
+      <Container component="main" maxWidth="md">
+        <CssBaseline />
+        <ChildModal 
+              passToAddNewAllocation={passToAddNewAllocation} 
+              passToAddCashAllocation={passToAddCashAllocation} 
+              ref={ref}/>
+  
+        <ChildModal3
+          transferSavings={transferSavings}
+          ref ={refTransferSavings}/>
+  
+        {(props.action_status.purse.status === STATUS_TYPE.STATUS_ERROR )? 
+          <InfoModal 
+            status={"Error"} 
+            message={props.action_status.purse.message} 
+            closeInfoModal={closeInfoModal}
+            />: ""}  
+  
+        <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              {/* <LockOutlinedIcon /> */}
+            </Avatar>
+  
+            <Typography component="h1" variant="h5">
+              {/* {props.app_name} */}
+            </Typography>
+            
+            <Title>Vault Balance</Title>
+            
+            <Typography component="p" variant="h4">
+              <NumberFormat value={props.user.vault.vaultBalance} displayType={'text'} thousandSeparator={true} />
+            </Typography>
+            
+            {/* <Button variant="contained" color="primary" onClick={ ()=>props.purseToVault(props.user.vault.vaultBalance)}><AccountBalanceWalletIcon/>Add to Wallet</Button> */}
+            <Button variant="contained" color="primary" 
+              onClick={()=>refTransferSavings.current.transferVaultToSavingsAccount(props.user.vault.vaultBalance)}
+            ><AccountBalanceWalletIcon/>Add to Wallet</Button>          
+  
+            
+            <Table size="small">
+              <TableBody>
+                  <TableRow >
+                    <TableCell>Pocket Amount</TableCell>
+                    <TableCell align="right">
+                      <NumberFormat value={props.user.vault.pocketAmount} displayType={'text'} thousandSeparator={true} />
+                    </TableCell>
                   </TableRow>
-                ))}
-                
-            </TableBody>
-          </Table>
-          
-          
-          <Button
-            type="button"
-            // fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={ ()=>ref.current.openAddNewAllocation()}
-          >
-            Add Pocket
-          </Button>
-
-          
-
-      </div>
-      
-    </Container>
-  );
+              </TableBody>
+            </Table>
+            
+            <div> ... </div>
+            <div>Breakdown</div>
+            <Table size="small">
+              <TableBody>
+                  {props.user.vault.allocations.map(row => (
+                    <TableRow key={row.description}>
+                        <TableCell align="left">
+                          <div>{row.description}</div>
+                          <div>Target Amount</div>
+                          <div>Expiration</div>
+                          </TableCell>
+                        <TableCell align="right">
+                          <div><NumberFormat value={row.amount} displayType={'text'} thousandSeparator={true} /></div>
+                          <div><NumberFormat value={row.targetAmount} displayType={'text'} thousandSeparator={true} /></div>
+                          <div>
+                          {new Intl.DateTimeFormat('en-GB', { 
+                              year: 'numeric', 
+                              month: 'long', 
+                              day: '2-digit' 
+                            }).format(new Date(row.expiration))}
+  
+                          </div>
+                          </TableCell>
+                        <TableCell align="right">
+                          <IconButton edge="end" aria-label="add" onClick={ ()=>ref.current.openEditAllocationAmount(row)}>
+                            <AddCircleIcon />
+                          </IconButton>
+                        </TableCell>
+                    </TableRow>
+                  ))}
+                  
+              </TableBody>
+            </Table>
+            
+            
+            <Button
+              type="button"
+              // fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={ ()=>ref.current.openAddNewAllocation()}
+            >
+              Add Pocket
+            </Button>
+  
+            
+  
+        </div>
+        
+      </Container>
+    );
+    return page
+  }else{
+    const page =(
+      <Container component="main" maxWidth="md">
+        <CssBaseline />
+        <ChildModal 
+              passToAddNewAllocation={passToAddNewAllocation} 
+              passToAddCashAllocation={passToAddCashAllocation} 
+              ref={ref}/>
+  
+        <ChildModal3
+          transferSavings={transferSavings}
+          ref ={refTransferSavings}/>
+  
+        {(props.action_status.purse.status === STATUS_TYPE.STATUS_ERROR )? 
+          <InfoModal 
+            status={"Error"} 
+            message={props.action_status.purse.message} 
+            closeInfoModal={closeInfoModal}
+            />: ""}  
+  
+        <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              {/* <LockOutlinedIcon /> */}
+            </Avatar>
+            
+            <Title>Vault Balance</Title>
+            <Typography variant="subtitle1">
+              Go to Wallet and Add Cash to Vault
+            </Typography>
+        </div>
+        
+      </Container>
+    );
+    return page
+  }
+  
 }
 
 

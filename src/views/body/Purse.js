@@ -60,7 +60,7 @@ function Purse(props){
     props.releaseAllocationAmount(payload, iAmount);
   };
   const passAgreeSelection = (payload)=>{
-    props.deleteAllocation(payload.id)
+    props.deleteAllocation(payload.description)
   };
   const closeInfoModal = ()=>{
     props.resetMessageStatus();
@@ -80,120 +80,186 @@ function Purse(props){
   const refTransferSavings = useRef();
   const ChildModal3 = forwardRef(TransferSavingsModal);
 
-  return (
-    <Container component="main" maxWidth="md">
-      <CssBaseline />
-      <ChildModal 
-            passToAddNewAllocation={passToAddNewAllocation} 
-            passToAddCashAllocation={passToAddCashAllocation} 
-            passToReleaseAllocationAmount={passToReleaseAllocationAmount}
-            ref={ref}/>
-
-      <ChildModal2
-        passAgreeSelection={passAgreeSelection}
-        ref={refYesNo}/>
-
-      <ChildModal3
-        transferSavings={transferSavings}
-        ref ={refTransferSavings}/>
-
-      {(props.action_status.purse.status === STATUS_TYPE.STATUS_ERROR )? 
-        <InfoModal 
-          status={"Error"} 
-          message={props.action_status.purse.message} 
-          closeInfoModal={closeInfoModal} />: ""}  
-
-      <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            {/* <LockOutlinedIcon /> */}
-          </Avatar>
-
-          <Typography component="h1" variant="h5">
-            {/* {props.app_name} */}
-          </Typography>
-          
-          <Title>Wallet Balance</Title>
-          
-          <Typography component="p" variant="h4">
-            <NumberFormat value={props.user.account.balance} displayType={'text'} thousandSeparator={true} />
-          </Typography>
-
-          <Typography component="p">
-            {props.user.account.bankName + " - " + props.user.account.accountNo} 
-          </Typography>
-          
-          <Button variant="contained" color="primary" 
-            onClick={()=>refTransferSavings.current.transferSavingsToVault(props.user.account.balance)}
-          ><EcoIcon/> Add to vault</Button>
-
-          
-          <Table size="small">
-            <TableBody>
-                <TableRow >
-                  <TableCell>Pocket Amount</TableCell>
-                  <TableCell align="right">
-                    <NumberFormat value={props.user.purse.pocketAmount} displayType={'text'} thousandSeparator={true} />
-                  </TableCell>
-                </TableRow>
-                <TableRow >
-                  <TableCell>Total Balance</TableCell>
-                  <TableCell align="right">
-                    <NumberFormat value={Number(props.user.account.balance + props.user.purse.pocketAmount )} displayType={'text'} thousandSeparator={true} />
-                  </TableCell>
-                </TableRow>
-            </TableBody>
-          </Table>
-          
-          <div> ... </div>
-          <div>Breakdown</div>
-          <Table size="small">
-            <TableBody>
-                {props.user.purse.allocations.map(row => (
-                  <TableRow key={row.description}>
-                    <TableCell align="left">{row.description}</TableCell>
+  if(props.user.purse){
+    const page = (
+      <Container component="main" maxWidth="md">
+        <CssBaseline />
+        <ChildModal 
+              passToAddNewAllocation={passToAddNewAllocation} 
+              passToAddCashAllocation={passToAddCashAllocation} 
+              passToReleaseAllocationAmount={passToReleaseAllocationAmount}
+              ref={ref}/>
+  
+        <ChildModal2
+          passAgreeSelection={passAgreeSelection}
+          ref={refYesNo}/>
+  
+        <ChildModal3
+          transferSavings={transferSavings}
+          ref ={refTransferSavings}/>
+  
+        {(props.action_status.purse.status === STATUS_TYPE.STATUS_ERROR )? 
+          <InfoModal 
+            status={"Error"} 
+            message={props.action_status.purse.message} 
+            closeInfoModal={closeInfoModal} />: ""}  
+  
+        <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              {/* <LockOutlinedIcon /> */}
+            </Avatar>
+  
+            <Typography component="h1" variant="h5">
+              {/* {props.app_name} */}
+            </Typography>
+            
+            <Title>Wallet Balance</Title>
+            
+            <Typography component="p" variant="h4">
+              <NumberFormat value={props.user.account.balance} displayType={'text'} thousandSeparator={true} />
+            </Typography>
+  
+            <Typography component="p">
+              {props.user.account.bankName + " - " + props.user.account.accountNo} 
+            </Typography>
+            
+            <Button variant="contained" color="primary" 
+              onClick={()=>refTransferSavings.current.transferSavingsToVault(props.user.account.balance)}
+            ><EcoIcon/> Add to vault</Button>
+  
+            
+            <Table size="small">
+              <TableBody>
+                  <TableRow >
+                    <TableCell>Pocket Amount</TableCell>
                     <TableCell align="right">
-                      <NumberFormat value={row.amount} displayType={'text'} thousandSeparator={true} />
-                    </TableCell>
-
-                    <TableCell align="right">
-                      
-                      <IconButton edge="end" aria-label="lock" onClick={()=>ref.current.openReleaseAllocationAmount(row)}>
-                        {(Number(row.amount>0))?(<LockIcon />):(<LockOpenIcon/>)}
-                      </IconButton>
-                      <IconButton edge="end" aria-label="add" onClick={ ()=>ref.current.openEditAllocationAmount(row)}>
-                        <AddCircleIcon />
-                      </IconButton>
-                      <IconButton edge="end" aria-label="delete" onClick={
-                        ()=>refYesNo.current.openDialog("Are you sure you want to delete "+ row.description
-                        +" Pocket? Pocket value will be transferred to wallet balance", row)}>
-                        <DeleteIcon />
-                      </IconButton>
+                      <NumberFormat value={props.user.purse.pocketAmount} displayType={'text'} thousandSeparator={true} />
                     </TableCell>
                   </TableRow>
-                ))}
-                
-            </TableBody>
-          </Table>
-          
-          
-          {/* <PurseAddAllocationModal /> */}
-          <Button
-            type="button"
-            // fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={ ()=>ref.current.openAddNewAllocation()}
-          >
-            Add Pocket
-          </Button>
-
-          
-
-      </div>
-      
-    </Container>
-  );
+                  <TableRow >
+                    <TableCell>Total Balance</TableCell>
+                    <TableCell align="right">
+                      <NumberFormat value={Number(props.user.account.balance + props.user.purse.pocketAmount )} displayType={'text'} thousandSeparator={true} />
+                    </TableCell>
+                  </TableRow>
+              </TableBody>
+            </Table>
+            
+            <div> ... </div>
+            <div>Breakdown</div>
+            <Table size="small">
+              <TableBody>
+                  {props.user.purse.allocations.map(row => (
+                    <TableRow key={row.description}>
+                      <TableCell align="left">{row.description}</TableCell>
+                      <TableCell align="right">
+                        <NumberFormat value={row.amount} displayType={'text'} thousandSeparator={true} />
+                      </TableCell>
+  
+                      <TableCell align="right">
+                        
+                        <IconButton edge="end" aria-label="lock" onClick={()=>ref.current.openReleaseAllocationAmount(row)}>
+                          {(Number(row.amount>0))?(<LockIcon />):(<LockOpenIcon/>)}
+                        </IconButton>
+                        <IconButton edge="end" aria-label="add" onClick={ ()=>ref.current.openEditAllocationAmount(row)}>
+                          <AddCircleIcon />
+                        </IconButton>
+                        <IconButton edge="end" aria-label="delete" onClick={
+                          ()=>refYesNo.current.openDialog("Are you sure you want to delete "+ row.description
+                          +" Pocket? Pocket value will be transferred to wallet balance", row)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                  
+              </TableBody>
+            </Table>
+            
+            
+            {/* <PurseAddAllocationModal /> */}
+            <Button
+              type="button"
+              // fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={ ()=>ref.current.openAddNewAllocation()}
+            >
+              Add Pocket
+            </Button>
+  
+            
+  
+        </div>
+        
+      </Container>
+    );
+    return page;
+  }else{
+    const page = (
+      <Container component="main" maxWidth="md">
+        <CssBaseline />
+        <ChildModal 
+              passToAddNewAllocation={passToAddNewAllocation} 
+              passToAddCashAllocation={passToAddCashAllocation} 
+              passToReleaseAllocationAmount={passToReleaseAllocationAmount}
+              ref={ref}/>
+  
+        <ChildModal2
+          passAgreeSelection={passAgreeSelection}
+          ref={refYesNo}/>
+  
+        <ChildModal3
+          transferSavings={transferSavings}
+          ref ={refTransferSavings}/>
+  
+        {(props.action_status.purse.status === STATUS_TYPE.STATUS_ERROR )? 
+          <InfoModal 
+            status={"Error"} 
+            message={props.action_status.purse.message} 
+            closeInfoModal={closeInfoModal} />: ""}  
+  
+        <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              {/* <LockOutlinedIcon /> */}
+            </Avatar>
+  
+            <Typography component="h1" variant="h5">
+              {/* {props.app_name} */}
+            </Typography>
+            
+            <Title>Wallet Balance</Title>
+            
+            <Typography component="p" variant="h4">
+              <NumberFormat value={props.user.account.balance} displayType={'text'} thousandSeparator={true} />
+            </Typography>
+  
+            <Typography component="p">
+              {props.user.account.bankName + " - " + props.user.account.accountNo} 
+            </Typography>
+            
+            
+            <Button
+              type="button"
+              // fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={ ()=>ref.current.openAddNewAllocation()}
+            >
+              Add Pocket
+            </Button>
+  
+            
+  
+        </div>
+        
+      </Container>
+    );
+    return page;
+  }
+  
 }
 
 
@@ -212,7 +278,7 @@ function mapDispatchToProps(dispatch){
           const action = {
             type: USER_PURSE_ALLOCATION_ADD,
             payload: {
-              id: 0,
+              // id: 0,
               description: iDescription,
               amount: iAmount
             }
@@ -223,7 +289,7 @@ function mapDispatchToProps(dispatch){
         const action = {
           type: USER_PURSE_ALLOCATION_ADD_CASH,
           payload: {
-            id: payload.id,
+            // id: payload.id,
             description: payload.description,
             amount: payload.amount,
             additionAmmount: iAmount
@@ -231,11 +297,12 @@ function mapDispatchToProps(dispatch){
         };
         dispatch(action);
       },
-      deleteAllocation: (iPurseAllocationId) =>{
+      deleteAllocation: (description) =>{
         const action = {
           type: USER_PURSE_ALLOCATION_DELETE,
           payload: {
-            id: iPurseAllocationId
+            // id: iPurseAllocationId
+            description: description,
           }
         };
         dispatch(action);
@@ -244,7 +311,7 @@ function mapDispatchToProps(dispatch){
         const action = {
           type: USER_PURSE_ALLOCATION_RELEASE_CASH,
           payload: {
-            id: payload.id,
+            // id: payload.id,
             description: payload.description,
             amount: payload.amount,
             releaseAmount: releaseAmount

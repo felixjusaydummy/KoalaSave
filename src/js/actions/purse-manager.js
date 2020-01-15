@@ -6,21 +6,20 @@ export function addPurseAllocation(state, payload){
 
     try{
         let res =  Object.assign({}, state)
-        //TODO: Update database here
-        //  0. call bank api for transfer
-        //  1. ADD purse allocation
-        //  2. UPDATE user purse record
-        
+
         let successTransfer = AccountManager.transferSavingAccountToPurse(res.user.account, payload, payload.amount)
         if(successTransfer){
-            //TODO: Generate ID. increment from the last pocket id
-            let len = res.user.purse.allocations.length;
-            let id = 1
-            if(len>0){
-                id = res.user.purse.allocations[len-1].id + 1;
+            if(res.user.purse){
+                res.user.purse.allocations.push(payload);
+            }else{
+                //NEW Account
+                res.user.purse = {
+                    pocketAmount: 0,
+                    allocations: []
+                }
+                res.user.purse.allocations.push(payload);
             }
-            payload.id = id;
-            res.user.purse.allocations.push(payload);
+            
             updatePursePocketAmount(res.user.purse);
 
             res.action_status.purse = {
@@ -33,8 +32,6 @@ export function addPurseAllocation(state, payload){
                 message: "Insufficient Balanace"
             }
         }
-        
-        
 
         return res;
 
@@ -43,7 +40,7 @@ export function addPurseAllocation(state, payload){
         let res =  Object.assign({}, state)
         res.action_status.purse = {
             status: STATUS.STATUS_ERROR,
-            message: "Failed to Add Wallet Pocket Allocation"
+            message: "Failed to Add Wallet Pocket Allocation."
         }
 
         return res;
@@ -62,7 +59,7 @@ export function addCashPurseAllocation(state, payload){
         const list = res.user.purse.allocations;
         let pocket = null;
         for(let i = list.length-1; i>=0; i-- ){
-            if(list[i].id === payload.id){
+            if(list[i].description === payload.description){
                 //TODO: Update database here
                 //  1. UPDATE user purse record
                 pocket = list[i];
@@ -111,7 +108,7 @@ export function setReleasePurseAllocation(state, payload){
         const list = res.user.purse.allocations;
         let pocket = null;
         for(let i = list.length-1; i>=0; i-- ){
-            if(list[i].id === payload.id){
+            if(list[i].description === payload.description){
                 //TODO: Update database here
                 //  1. UPDATE user purse record
                 pocket = list[i];
@@ -157,7 +154,7 @@ export function deletePurseAllocation(state, payload){
         let pocket = null;
         let irem  = -1;
         for(let i = list.length-1; i>=0; i-- ){
-            if(list[i].id === payload.id){
+            if(list[i].description === payload.description){
                 //TODO: Update database here
                 //  1. DELETE purse allocation
                 //  2. UPDATE user purse record

@@ -1,0 +1,72 @@
+{
+    "vault": {
+      "allocations": [
+          {
+            "description": "Savings",
+            "releaseRequest": false,
+            "amount": 500,
+            "expiration": "2012-04-23T00:00:00.000Z",
+            "targetAmount": 1000000
+          },
+          {
+            "description": "Test",
+            "releaseRequest": false,
+            "amount": 10000,
+            "expiration": "2025-04-23T00:00:00.000Z",
+            "targetAmount": "3000000"
+          },
+          {
+            "description": "Test",
+            "releaseRequest": false,
+            "amount": 10000,
+            "expiration": "2025-04-23T00:00:00.000Z",
+            "targetAmount": "3000000"
+          }
+        ],
+      "pocketAmount": 500,
+      "vaultBalance": 5900
+    },
+    
+    "password": "john",
+    "status": "bronze",
+    "account": {
+      "balance": 9800,
+      "bankName": "BPI",
+      "accountNo": "220123456"
+    },
+    
+    "purse": {
+      "allocations": [
+        {
+          "active": true,
+          "description": "Travel",
+          "amount": 100
+        },
+        {
+          "active": true,
+          "description": "Savings",
+          "amount": 100
+        }
+      ],
+      "pocketAmount": "200"
+    },
+    "rewards": 4.99,
+    "inbox": [
+      {
+        "date_send": "2012-05-23T00:00:00.000Z",
+        "title": "Rewards",
+        "message": "You have earned 2 Reward point/s. Your points balance as of today is 2. Visit home site to know the list of items you can redeem",
+        "open": {
+        "type": "Buffer",
+        "data": [
+          125,
+          169,
+          108
+        ]
+      },
+        "status": "Rewards"
+      }
+    ],
+    "email": "jace",
+    "name": "Jace Arnold"
+  }

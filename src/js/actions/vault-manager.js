@@ -12,12 +12,25 @@ export function transferSavingsAccountToVault(state, payload){
         if(Number(payload.amount)>0){
             let successTransfer = AccountManager.transferSavingAccountToVault(res.user.account, payload.amount)
             if(successTransfer){
-                res.user.vault.vaultBalance = Number(res.user.vault.vaultBalance) + Number(payload.amount); 
-
-                res.action_status.purse = {
-                    status: STATUS.STATUS_SUCCESS,
-                    message: "Wallet Balance to Vault Successfully Transferred"
+                if(res.user.vault){
+                    res.user.vault.vaultBalance = Number(res.user.vault.vaultBalance) + Number(payload.amount); 
+                    res.action_status.purse = {
+                        status: STATUS.STATUS_SUCCESS,
+                        message: "Wallet Balance to Vault Successfully Transferred"
+                    }
+                }else{
+                    res.user.vault = {
+                        vaultBalance : 0,
+                        pocketAmount: 0,
+                        allocations: []
+                    }
+                    res.user.vault.vaultBalance = Number(res.user.vault.vaultBalance) + Number(payload.amount); 
+                    res.action_status.purse = {
+                        status: STATUS.STATUS_SUCCESS,
+                        message: "Wallet Balance to Vault Successfully Transferred"
+                    }
                 }
+                
             }else{
                 res.action_status.purse = {
                     status: STATUS.STATUS_ERROR,
@@ -97,13 +110,7 @@ export function addVaultAllocation(state, payload){
         
         if(res.user.vault.vaultBalance>=payload.amount){
             res.user.vault.vaultBalance = Number(res.user.vault.vaultBalance) - Number(payload.amount); 
-            //TODO: Generate ID
-            let len = res.user.vault.allocations.length;
-            let id = 1
-            if(len>0){
-                id = res.user.vault.allocations[len-1].id + 1;
-            }
-            payload.id = id;
+            
 
             payload.requestRelease = false;
             res.user.vault.allocations.push(payload);
@@ -151,9 +158,7 @@ export function addCashVaultAllocation(state, payload){
             let pocket = null;
             const list = res.user.vault.allocations;
             for(let i = list.length-1; i>=0; i-- ){
-                if(list[i].id === payload.pocket.id){
-                    //TODO: Update database here
-                    //  1. UPDATE user purse record
+                if(list[i].description === payload.pocket.description){
                     pocket = list[i];
                     break;
                 }

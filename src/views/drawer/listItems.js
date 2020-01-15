@@ -61,6 +61,15 @@ const mainListItems =
         </ListItem>
       </Link>
 
+      <Link to={URL_LIST.URL_USER_RECOMMEDATION}>
+        <ListItem button>
+          <ListItemIcon>
+            <MessageIcon />
+          </ListItemIcon>
+          <ListItemText primary="Inbox" />
+        </ListItem>
+      </Link>
+
       <Link to={URL_LIST.URL_USER_PURSE}>
         <ListItem button>
           <ListItemIcon>
@@ -76,15 +85,6 @@ const mainListItems =
             <EcoIcon />
           </ListItemIcon>
           <ListItemText primary="Vault" />
-        </ListItem>
-      </Link>
-
-      <Link to={URL_LIST.URL_USER_RECOMMEDATION}>
-        <ListItem button>
-          <ListItemIcon>
-            <MessageIcon />
-          </ListItemIcon>
-          <ListItemText primary="Inbox" />
         </ListItem>
       </Link>
 

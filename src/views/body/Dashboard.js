@@ -13,6 +13,8 @@ import { VIEW_REDIRECT_PURSE, VIEW_REDIRECT_VAULT } from '../../js/constants/act
 function Dashboard(props){
   const classes = useStyles();
 
+  console.log(JSON.stringify(props.user))
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -20,9 +22,19 @@ function Dashboard(props){
         <Avatar className={classes.avatar}>
           {/* <LockOutlinedIcon /> */}
         </Avatar>
-        <Typography component="p" variant="h4">
+          
+          <Typography component="p" variant="h4">
             Hi {props.user.name}!
           </Typography>
+
+          {(props.user.status === "new")?
+          (<Typography component="p" variant="h6">
+            New Account
+          </Typography>)
+          :(<Typography component="p" variant="h6">
+            {props.user.status} | {props.user.rewards}
+          </Typography>)}
+          
 
           <Button
             type="button"

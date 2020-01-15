@@ -10,6 +10,7 @@ import * as VaultManager from "../actions/vault-manager"
 import * as RedirectManager from  "../actions/redirect-manager"
 import * as LoginManager from "../actions/login-manager"
 import * as AccountManager from "../actions/account-manager"
+import * as RewardManager from "../actions/rewards-manager"
 
 const initialState = INITSTATE.initialState;
 const  middleware = MIDDLEWARE.middleware;
@@ -59,6 +60,15 @@ function rootReducer(state = getInitialState(), action){
     //PURSE
     else if(action.type === ACTIONTYPE.USER_PURSE_ALLOCATION_ADD ){
         let res = PurseManager.addPurseAllocation(state, action.payload);
+        if(res.action_status.purse.status === STATUSTYPE.STATUS_SUCCESS){
+            //create reward message
+            // const pointsEarned = 1
+            // const resp = RewardManager.addReward(res.user, pointsEarned);
+            // if(resp.status === STATUSTYPE.STATUS_SUCCESS){
+            //     res.user.inbox.push(resp.message);
+            // }
+            RewardManager.checkIfPriviledgeForRewards(res.user)
+        }
         res.action_status.purse.transaction = ACTIONTYPE.USER_PURSE_ALLOCATION_ADD;
         state = res;
 

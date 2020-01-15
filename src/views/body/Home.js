@@ -134,6 +134,9 @@ function Home(props) {
             </IconButton>
 
             <IconButton 
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
               onClick={handleDrawerClose}
               className={clsx(classes.menuButton, !open && classes.menuButtonHidden)}
               >
