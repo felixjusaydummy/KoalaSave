@@ -130,6 +130,18 @@ function rootReducer(state = getInitialState(), action){
     //INBOX
     else if (action.type === ACTIONTYPE.INBOX_READ_MESSAGE){
         state = Object.assign({}, state, {current_inbox: action.payload}) 
+
+        //set message to unread. id will be the date_send
+        if(action.payload){
+            const len = state.user.inbox.length;
+            for(let i = 0; i<len; i++){
+                if(state.user.inbox[i].date_send === action.payload.date_send){
+                    state.user.inbox[i].open = true
+                }
+            }
+        }
+        
+
     }else if(action.type === ACTIONTYPE.INBOX_CLOSE_MESSAGE){
         state = Object.assign({}, state, {current_inbox: null}) 
     }

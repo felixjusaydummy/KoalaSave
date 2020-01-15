@@ -13,8 +13,6 @@ import { VIEW_REDIRECT_PURSE, VIEW_REDIRECT_VAULT } from '../../js/constants/act
 function Dashboard(props){
   const classes = useStyles();
 
-  console.log(JSON.stringify(props.user))
-
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

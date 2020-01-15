@@ -85,12 +85,13 @@ function trimMessageText(textMessage){
 const buildMessagePage = (elem, props)=>{
   
   const page = (
-      <List>
-        <ListItem>
+      // <List>
+      //   <ListItem key={1}>
         <div>
           <Typography variant="h4" gutterBottom>
             {elem.title}
           </Typography>
+          
           <Typography
               variant="body2"
               color="textPrimary"
@@ -98,11 +99,11 @@ const buildMessagePage = (elem, props)=>{
               {getDateValue(elem.date_send)}
             </Typography>
 
-          <Typography  gutterBottom>
           <Typography variant="body1" gutterBottom>.</Typography>
-            {elem.message}
-            <Typography gutterBottom>.</Typography>
-          </Typography>
+          
+          {elem.message}
+          
+          <Typography gutterBottom>.</Typography>
         
           <Button
             type="button"
@@ -115,9 +116,9 @@ const buildMessagePage = (elem, props)=>{
             {/* <ListItemText >Back</ListItemText> */}
           </Button>
         </div>
-        </ListItem>
+      //   </ListItem>
 
-      </List>
+      // </List>
     )
   return page;
 }
@@ -186,8 +187,6 @@ function Inbox(props) {
         
       </List>
     );
-  
-  
 
   if(!props.current_inbox){
     return defaultPage

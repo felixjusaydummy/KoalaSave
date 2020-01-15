@@ -36,7 +36,7 @@ import * as URL_LIST from "../../js/constants/url-list"
 
 import * as ACTIONTYPE from "../../js/constants/action-type"
 
-import mainListItems from '../drawer/listItems'
+import * as mainListItems from '../drawer/listItems'
 import Dashboard from './Dashboard'
 import Purse from './Purse'
 import Vault from './Vault'
@@ -183,7 +183,9 @@ function Home(props) {
             
           
           <Divider />
-            <List>{mainListItems}</List>
+          
+            <List>{mainListItems.mainfunction(props)}</List>
+            {/* <List>{mainListItems}</List> */}
           <Divider />
         </Drawer>
 

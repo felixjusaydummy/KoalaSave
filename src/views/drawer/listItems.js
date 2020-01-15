@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux'
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -16,7 +17,7 @@ import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import EcoIcon from '@material-ui/icons/Eco';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import HomeIcon from '@material-ui/icons/Home';
-
+import Badge from '@material-ui/core/Badge';
 import Collapse from '@material-ui/core/Collapse';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
@@ -29,79 +30,187 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 
-// const useStyles = makeStyles(theme => ({
-//   root: {
-//     width: '100%',
-//     maxWidth: 360,
-//     backgroundColor: theme.palette.background.paper,
-//   },
-//   nested: {
-//     paddingLeft: theme.spacing(4),
-//   },
-// }));
-
-// const classes = useStyles();
-
-// const [open, setOpen] = React.useState(true);
-
-// const handleClick = () => {
-//   setOpen(!open);
-// };
 
 
-const mainListItems =
-  (
-    <div>
-      <Link to={URL_LIST.URL_USER_HOME}>
-        <ListItem button>
-          <ListItemIcon>
-            <HomeIcon />
-          </ListItemIcon>
-          <ListItemText primary="Home"  />
-        </ListItem>
-      </Link>
 
-      <Link to={URL_LIST.URL_USER_RECOMMEDATION}>
-        <ListItem button>
-          <ListItemIcon>
-            <MessageIcon />
-          </ListItemIcon>
-          <ListItemText primary="Inbox" />
-        </ListItem>
-      </Link>
+function getMessageIcon(inbox){
+  let comp = (<MessageIcon />)
+  if(inbox && inbox.length>0){
+    let count = 0
+    const len = inbox.length;
+    for( let i = 0; i<len; i++){
+      if(!inbox[i].open){
+        count += 1
+      }
+    }
 
-      <Link to={URL_LIST.URL_USER_PURSE}>
-        <ListItem button>
-          <ListItemIcon>
-            <AccountBalanceWalletIcon />
-          </ListItemIcon>
-          <ListItemText primary="Wallet" />
-        </ListItem>
-      </Link>
-      
-      <Link to={URL_LIST.URL_USER_VAULT}>
-        <ListItem button>
-          <ListItemIcon>
-            <EcoIcon />
-          </ListItemIcon>
-          <ListItemText primary="Vault" />
-        </ListItem>
-      </Link>
+    comp = (<Badge badgeContent={count} color="secondary">
+        <MessageIcon />
+    </Badge>)
+  }
+  return comp
+}
 
-      <Link to={URL_LIST.URL_USER_SETTING}>
-        <ListItem button>
-          <ListItemIcon>
-            <SettingsIcon />
-          </ListItemIcon>
-          <ListItemText primary="Setting" />
-        </ListItem>
-      </Link>
-    </div>
-  );
+//error
+export const mainfunction = (props)=>{
+  let inbox = [];
+  if(props.user && props.user.inbox){
+    inbox = props.user.inbox
+  }
+  
+  const mainListItems = 
+      (
+        <div>
+          <Link to={URL_LIST.URL_USER_HOME}>
+            <ListItem button>
+              <ListItemIcon>
+                <HomeIcon />
+              </ListItemIcon>
+              <ListItemText primary="Home"  />
+            </ListItem>
+          </Link>
+    
+    
+          <Link to={URL_LIST.URL_USER_RECOMMEDATION}>
+            <ListItem button>
+                <ListItemIcon>
+                  {getMessageIcon(inbox)}
+                </ListItemIcon>
+              <ListItemText primary="Inbox" />
+            </ListItem>
+          </Link>
+    
+          <Link to={URL_LIST.URL_USER_PURSE}>
+            <ListItem button>
+              <ListItemIcon>
+                <AccountBalanceWalletIcon />
+              </ListItemIcon>
+              <ListItemText primary="Wallet" />
+            </ListItem>
+          </Link>
+          
+          <Link to={URL_LIST.URL_USER_VAULT}>
+            <ListItem button>
+              <ListItemIcon>
+                <EcoIcon />
+              </ListItemIcon>
+              <ListItemText primary="Vault" />
+            </ListItem>
+          </Link>
+    
+          <Link to={URL_LIST.URL_USER_SETTING}>
+            <ListItem button>
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Setting" />
+            </ListItem>
+          </Link>
+        </div>
+      );
+  return mainListItems
+} 
+   
 
-  export default mainListItems
+
+//default
+// const mainListItems = 
+//     (
+//       <div>
+//         <Link to={URL_LIST.URL_USER_HOME}>
+//           <ListItem button>
+//             <ListItemIcon>
+//               <HomeIcon />
+//             </ListItemIcon>
+//             <ListItemText primary="Home"  />
+//           </ListItem>
+//         </Link>
+  
+  
+//         <Link to={URL_LIST.URL_USER_RECOMMEDATION}>
+//           <ListItem button>
+//           <ListItemIcon>
+//               <Badge badgeContent={4} color="secondary">
+                
+//                 {/* <NotificationsIcon /> */}
+                
+//                   <MessageIcon />
+                
+//               </Badge>
+//               </ListItemIcon>
+//             <ListItemText primary="Inbox" />
+//           </ListItem>
+//         </Link>
+  
+//         <Link to={URL_LIST.URL_USER_PURSE}>
+//           <ListItem button>
+//             <ListItemIcon>
+//               <AccountBalanceWalletIcon />
+//             </ListItemIcon>
+//             <ListItemText primary="Wallet" />
+//           </ListItem>
+//         </Link>
+        
+//         <Link to={URL_LIST.URL_USER_VAULT}>
+//           <ListItem button>
+//             <ListItemIcon>
+//               <EcoIcon />
+//             </ListItemIcon>
+//             <ListItemText primary="Vault" />
+//           </ListItem>
+//         </Link>
+  
+//         <Link to={URL_LIST.URL_USER_SETTING}>
+//           <ListItem button>
+//             <ListItemIcon>
+//               <SettingsIcon />
+//             </ListItemIcon>
+//             <ListItemText primary="Setting" />
+//           </ListItem>
+//         </Link>
+//       </div>
+//     );
+  
+//     export default mainListItems
+    
+  
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// damage ...
+
+
+  // export default mainListItems
 
 // const useStyles = makeStyles(theme => ({
 //   root: {
