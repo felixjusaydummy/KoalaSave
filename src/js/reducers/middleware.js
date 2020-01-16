@@ -8,6 +8,7 @@ import * as AccountManager from "../actions/account-manager"
 import * as INITSTATE from "./init-state"
 import * as SIGNIN from "./middlewares/signin-middleware"
 import * as USERACCOUNT from "./middlewares/user-account-middleware"
+import * as PURSEMIDDLEWARE from "./middlewares/purse-middleware"
 
 export const  middleware = ({dispatch}) => next => action => {
     // console.log("enter middleware");
@@ -19,9 +20,10 @@ export const  middleware = ({dispatch}) => next => action => {
         USERACCOUNT.GetUserAccount(action, dispatch)
 
     }
-    // else if(action.type === USER_PURSE_ALLOCATION_ADD) {
-        
-    // }
+    else if(action.type === ACTIONTYPE.USER_PURSE_ALLOCATION_ADD) {
+        // console.log("middleware: when to add allocation to item")
+        PURSEMIDDLEWARE.addAllocation(action, dispatch)
+    }
 
     next(action);
  }

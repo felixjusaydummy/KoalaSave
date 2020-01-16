@@ -9,6 +9,11 @@ import NumberFormat from 'react-number-format';
 import { useStyles } from "../../css/dashboard";
 import { VIEW_REDIRECT_PURSE, VIEW_REDIRECT_VAULT } from '../../js/constants/action-type';
 
+function getTipPage(){
+  const page = null;
+  return page;
+}
+
 
 function Dashboard(props){
   const classes = useStyles();

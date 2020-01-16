@@ -1,3 +1,8 @@
+
+//alert
+//recommendation
+//notification
+
 const inboxTemplate = [
     {
         status : "Notification", //Notification or Rewards
@@ -75,6 +80,7 @@ export const initialState = {
     useractive : false,
     authorization: "",
     action_status: {
+        loading: false,
         purse: {
             status: "",
             transaction: "",
@@ -89,7 +95,9 @@ export const initialState = {
     response_status: "",
     wallet_template: walletTemplate,
     inbox : inboxTemplate,
-    current_inbox : null
+    current_inbox : null,
+    status_user : "new",
+    rewards : 9.87
 }
 
 

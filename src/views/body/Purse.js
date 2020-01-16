@@ -51,7 +51,7 @@ function Purse(props){
 
   // *** FUNCTIONS *** //
   const passToAddNewAllocation = (iDescription, iAmount)=>{
-    props.addNewAllocation(iDescription, iAmount);
+    props.addNewAllocation(iDescription, iAmount, props);
   };
   const passToAddCashAllocation = (payload, iAmount)=>{
     props.addCashAllocation(payload, iAmount);
@@ -274,14 +274,15 @@ function mapDispatchToProps(dispatch){
   // TODO: CHECK IF VALUE IS GREATER THAN ZERO
   return {
     
-      addNewAllocation: (iDescription, iAmount)=>{
+      addNewAllocation: (iDescription, iAmount, props)=>{
           const action = {
             type: USER_PURSE_ALLOCATION_ADD,
             payload: {
-              // id: 0,
               description: iDescription,
               amount: iAmount
-            }
+            },
+            authorization: props.authorization,
+            user: props.user
           };
           dispatch(action);
       },

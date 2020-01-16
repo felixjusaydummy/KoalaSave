@@ -1,8 +1,48 @@
-import * as STATUS from "../constants/status-type"
+
 import * as AccountManager from './account-manager'
+
+import axios from "axios";
+import * as APIBACKEND from "./../constants/api-backend"
+import * as STATUSTYPE from "./../constants/status-type"
+
+export async function callPurseAllocationAPI(allocation, authorizationToken){
+    // console.log("purse manager: call add allocatio api")
+    let url = APIBACKEND.PURSE_ALLOCATION_ADD;
+    let body =  allocation
+
+    const params = {
+        method: 'post',
+        responseType: 'json',
+        headers: {'Authorization': authorizationToken},
+        url: url,
+        data: body
+    }
+    console.log("pursemanager - callPurseAllocationAPI: "+ JSON.stringify(params))
+
+    return axios(params)
+    .then(response=>{
+        console.log("success: "+ response)
+        return response;
+    }).catch(error=>{
+        console.log("error: "+ error)
+        return error;
+    })
+
+}
+
+export async function addPurseAllocationToDB(allocation, authorizationToken){
+    let res = null;
+    const response = await callPurseAllocationAPI(allocation, authorizationToken);
+    return response;
+}
+
+
+
+
 
 
 export function addPurseAllocation(state, payload){
+    console.log("purse manager: call addPurseAllocation")
 
     try{
         let res =  Object.assign({}, state)
@@ -23,12 +63,12 @@ export function addPurseAllocation(state, payload){
             updatePursePocketAmount(res.user.purse);
 
             res.action_status.purse = {
-                status: STATUS.STATUS_SUCCESS,
+                status: STATUSTYPE.STATUS_SUCCESS,
                 message: "Purse Pocket Successfully Added",
             }
         }else{
             res.action_status.purse = {
-                status: STATUS.STATUS_ERROR,
+                status: STATUSTYPE.STATUS_ERROR,
                 message: "Insufficient Balanace"
             }
         }
@@ -39,7 +79,7 @@ export function addPurseAllocation(state, payload){
         console.log(err);
         let res =  Object.assign({}, state)
         res.action_status.purse = {
-            status: STATUS.STATUS_ERROR,
+            status: STATUSTYPE.STATUS_ERROR,
             message: "Failed to Add Wallet Pocket Allocation."
         }
 
@@ -73,12 +113,12 @@ export function addCashPurseAllocation(state, payload){
             updatePursePocketAmount(res.user.purse);
             
             res.action_status.purse = {
-                status: STATUS.STATUS_SUCCESS,
+                status: STATUSTYPE.STATUS_SUCCESS,
                 message: "Purse Pocket Amount Successfully Added"
             }
         }else{
             res.action_status.purse = {
-                status: STATUS.STATUS_ERROR,
+                status: STATUSTYPE.STATUS_ERROR,
                 message: "Pocket Value exceed from the Wallet Balance limit"
             }
         }
@@ -89,7 +129,7 @@ export function addCashPurseAllocation(state, payload){
     }catch(err){
         let res =  Object.assign({}, state)
         res.action_status.purse = {
-            status: STATUS.STATUS_ERROR,
+            status: STATUSTYPE.STATUS_ERROR,
             message: "Failed to Add Cash"
         }
         return res;
@@ -123,12 +163,12 @@ export function setReleasePurseAllocation(state, payload){
             }
 
             res.action_status.purse = {
-                status: STATUS.STATUS_SUCCESS,
+                status: STATUSTYPE.STATUS_SUCCESS,
                 message: "Purse Pocket Amount Successfully Released"
             }
         }else{
             res.action_status.purse = {
-                status: STATUS.STATUS_ERROR,
+                status: STATUSTYPE.STATUS_ERROR,
                 message: "Error: Pocket Amount is invalid"
             }
         }
@@ -138,7 +178,7 @@ export function setReleasePurseAllocation(state, payload){
     }catch(err){
         let res =  Object.assign({}, state)
         res.action_status.purse = {
-            status: STATUS.STATUS_ERROR,
+            status: STATUSTYPE.STATUS_ERROR,
             message: "Failed to Release Pocket Allocation"
         }
         return res;
@@ -170,12 +210,12 @@ export function deletePurseAllocation(state, payload){
             updatePursePocketAmount(res.user.purse);
 
             res.action_status.purse = {
-                status: STATUS.STATUS_SUCCESS,
+                status: STATUSTYPE.STATUS_SUCCESS,
                 message: "Purse Pocket Successfully Deleted"
             }
         }else{
             res.action_status.purse = {
-                status: STATUS.STATUS_ERROR,
+                status: STATUSTYPE.STATUS_ERROR,
                 message: "Error: Transferring Pursee to Savings Account"
             }
         }
@@ -185,7 +225,7 @@ export function deletePurseAllocation(state, payload){
     }catch(err){
         let res =  Object.assign({}, state)
         res.action_status.purse = {
-            status: STATUS.STATUS_ERROR,
+            status: STATUSTYPE.STATUS_ERROR,
             message: "Failed to Delete Allocation"
         }
         return res;

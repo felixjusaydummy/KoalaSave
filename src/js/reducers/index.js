@@ -58,19 +58,23 @@ function rootReducer(state = getInitialState(), action){
     
     
     //PURSE
-    else if(action.type === ACTIONTYPE.USER_PURSE_ALLOCATION_ADD ){
-        let res = PurseManager.addPurseAllocation(state, action.payload);
-        if(res.action_status.purse.status === STATUSTYPE.STATUS_SUCCESS){
-            //create reward message
-            // const pointsEarned = 1
-            // const resp = RewardManager.addReward(res.user, pointsEarned);
-            // if(resp.status === STATUSTYPE.STATUS_SUCCESS){
-            //     res.user.inbox.push(resp.message);
-            // }
-            RewardManager.checkIfPriviledgeForRewards(res.user)
+    else if(action.type === ACTIONTYPE.USER_PURSE_ALLOCATION_ADD_RESOLVED ){
+
+        if(action.status === STATUSTYPE.QUERY_RESOLVED){
+            console.log(action.status + " : " +action.data.Attributes);
+            let res =  Object.assign({}, state)
+            res.user = action.data;
+            state = res;
+            
+        }else{
+            console.log(action.status + " : " +action.message);
         }
-        res.action_status.purse.transaction = ACTIONTYPE.USER_PURSE_ALLOCATION_ADD;
-        state = res;
+        // let res = PurseManager.addPurseAllocation(state, action.payload);
+        // if(res.action_status.purse.status === STATUSTYPE.STATUS_SUCCESS){
+        //     RewardManager.checkIfPriviledgeForRewards(res.user)
+        // }
+        // res.action_status.purse.transaction = ACTIONTYPE.USER_PURSE_ALLOCATION_ADD;
+        // state = res;
 
     }else if(action.type === ACTIONTYPE.USER_PURSE_ALLOCATION_ADD_CASH ){
         let res = PurseManager.addCashPurseAllocation(state, action.payload);
