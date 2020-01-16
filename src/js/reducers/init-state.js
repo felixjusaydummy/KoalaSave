@@ -35,6 +35,10 @@ const walletTemplate = [
             {
                 description: "Savings",
                 percentage: 10,
+                frequency: "Monthly", // Monthly, Semi-monthly
+                details: {
+                    content: "Description of the Budget Friendly "
+                }
             }
         ]
     },
@@ -79,6 +83,8 @@ export const initialState = {
     app_name: "Thrifty Koala",
     useractive : false,
     authorization: "",
+
+    //error statement
     action_status: {
         loading: false,
         purse: {

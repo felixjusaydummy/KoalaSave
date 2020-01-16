@@ -42,7 +42,7 @@ export async function addPurseAllocationToDB(allocation, authorizationToken){
 
 
 export function addPurseAllocation(state, payload){
-    console.log("purse manager: call addPurseAllocation")
+    // console.log("purse manager: call addPurseAllocation")
 
     try{
         let res =  Object.assign({}, state)
@@ -76,7 +76,7 @@ export function addPurseAllocation(state, payload){
         return res;
 
     }catch(err){
-        console.log(err);
+        // console.log(err);
         let res =  Object.assign({}, state)
         res.action_status.purse = {
             status: STATUSTYPE.STATUS_ERROR,

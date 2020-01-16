@@ -59,16 +59,13 @@ function rootReducer(state = getInitialState(), action){
     
     //PURSE
     else if(action.type === ACTIONTYPE.USER_PURSE_ALLOCATION_ADD_RESOLVED ){
-
+        let res =  Object.assign({}, state)
         if(action.status === STATUSTYPE.QUERY_RESOLVED){
-            console.log(action.status + " : " +action.data.Attributes);
-            let res =  Object.assign({}, state)
-            res.user = action.data;
-            state = res;
-            
-        }else{
-            console.log(action.status + " : " +action.message);
+            res.user = action.data;        
         }
+        res.action_status = action.action_status;
+        state = res;
+
         // let res = PurseManager.addPurseAllocation(state, action.payload);
         // if(res.action_status.purse.status === STATUSTYPE.STATUS_SUCCESS){
         //     RewardManager.checkIfPriviledgeForRewards(res.user)

@@ -8,6 +8,12 @@ import {connect} from 'react-redux';
 import NumberFormat from 'react-number-format';
 import { useStyles } from "../../css/dashboard";
 import { VIEW_REDIRECT_PURSE, VIEW_REDIRECT_VAULT } from '../../js/constants/action-type';
+import Grid from '@material-ui/core/Grid';
+
+import * as TIPS from './Tips'
+
+import EcoIcon from '@material-ui/icons/Eco';
+import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 
 function getTipPage(){
   const page = null;
@@ -18,10 +24,8 @@ function getTipPage(){
 function Dashboard(props){
   const classes = useStyles();
 
-  return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
+  const maincontrols = (
+    <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           {/* <LockOutlinedIcon /> */}
         </Avatar>
@@ -31,11 +35,11 @@ function Dashboard(props){
           </Typography>
 
           {(props.user.status === "new")?
-          (<Typography component="p" variant="h6">
+          (<Typography component="p" variant="subtitle1">
             New Account
           </Typography>)
-          :(<Typography component="p" variant="h6">
-            {props.user.status} | {props.user.rewards}
+          :(<Typography component="p" variant="subtitle1">
+            Status: {props.user.status} | Thrifty Points: {props.user.rewards}
           </Typography>)}
           
 
@@ -48,9 +52,9 @@ function Dashboard(props){
             size="large" 
             onClick={props.onPurse}
           >
-            <Typography component="p" variant="h6">
-              Wallet | <NumberFormat value={props.user.account.balance} displayType={'text'} thousandSeparator={true} />
-            </Typography>
+            
+            <AccountBalanceWalletIcon/>
+            <Typography component="p" variant="h6">Wallet | <NumberFormat value={props.user.account.balance} displayType={'text'} thousandSeparator={true} /></Typography>
           </Button>
 
           <Button
@@ -62,14 +66,42 @@ function Dashboard(props){
             size="large" 
             onClick={props.onVault}
           >
+            <EcoIcon/>
             <Typography component="p" variant="h6">
               Vault
             </Typography>
           </Button>
       </div>
       
+  )
+
+  const mainpage = (
+    
+    <Container component="main" maxWidth="lg">
+      <CssBaseline />
+      <Container  maxWidth="xs">
+        {maincontrols}
+      </Container>
+      {/* {TIPS.main(props)} */}
     </Container>
+    
+
+    // <Container >
+    //   <Row>
+    //     <Col>1 of 3</Col>
+    //     <Col xs={6}>{maincontrols}</Col>
+    //     <Col>3 of 3</Col>
+    //   </Row>
+    //   <Row>
+    //     {/* <Col>{TIPS.main(props)}</Col> */}
+    //   </Row>
+      
+    // </Container>
+
+    
   );
+
+  return mainpage
 }
 
 
