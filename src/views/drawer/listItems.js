@@ -31,8 +31,6 @@ import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 
 
-
-
 function getMessageIcon(inbox){
   let comp = (<MessageIcon />)
   if(inbox && inbox.length>0){
@@ -43,7 +41,6 @@ function getMessageIcon(inbox){
         count += 1
       }
     }
-
     comp = (<Badge badgeContent={count} color="secondary">
         <MessageIcon />
     </Badge>)
@@ -69,7 +66,15 @@ export const mainfunction = (props)=>{
               <ListItemText primary="Home"  />
             </ListItem>
           </Link>
-    
+
+          <Link to={URL_LIST.URL_USER_RECOMMEDATION}>
+            <ListItem button>
+                <ListItemIcon>
+                  <AccountCircleIcon/>
+                </ListItemIcon>
+              <ListItemText primary="Account" />
+            </ListItem>
+          </Link>
     
           <Link to={URL_LIST.URL_USER_RECOMMEDATION}>
             <ListItem button>

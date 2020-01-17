@@ -25,6 +25,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import MenuOpenSharpIcon from '@material-ui/icons/MenuOpenSharp';
+import StarIcon from '@material-ui/icons/Star';
 
 import { connect } from 'react-redux'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
@@ -42,11 +43,6 @@ import Purse from './Purse'
 import Vault from './Vault'
 import Inbox from './Inbox'
 import Setting from './Setting'
-
-
-
-
-
 
 
 
@@ -79,15 +75,15 @@ function Home(props) {
               <MenuIcon />
             </IconButton>
             
-            <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-              {/* Dashboard */}
-            </Typography>
+            {/* <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+              Dashboard
+            </Typography> */}
 
-            <IconButton color="inherit">
-              {/* <Badge badgeContent={4} color="secondary"> */}
+            {/* <IconButton color="inherit">
+              <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
-              {/* </Badge> */}
-            </IconButton>
+              </Badge>
+            </IconButton> */}
           </Toolbar>
         </AppBar>
 
@@ -145,9 +141,9 @@ function Home(props) {
 
 
             
-            <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-              {/* Dashboard */}
-            </Typography>
+            {/* <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+              Dashboard
+            </Typography> */}
 
             {/* <IconButton color="inherit"> */}
               {/* <Badge badgeContent={4} color="secondary"> */}
@@ -172,7 +168,7 @@ function Home(props) {
             <List>
               <ListItem >
                 <ListItemIcon>
-                  <AccountCircleIcon/>
+                  <StarIcon/>
                 </ListItemIcon>
                 <ListItemText >
                   {getTitleHeadName()+"!"}

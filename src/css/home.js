@@ -1,6 +1,14 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export const drawerWidth = 240;
+var bgColors = { 
+    "Default": "#81b71a",
+    "Blue": "#00B1E1",
+    "Cyan": "#37BC9B",
+    "Green": "#8CC152",
+    "Red": "#E9573F",
+    "Yellow": "#F6BB42",
+};
 
 export const useStyles = makeStyles(theme => ({
   root: {
@@ -8,6 +16,7 @@ export const useStyles = makeStyles(theme => ({
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
+    backgroundColor: bgColors.Green
   },
   toolbarIconHead: {
     display: 'flex',
@@ -40,6 +49,7 @@ export const useStyles = makeStyles(theme => ({
   },
   menuButton: {
     marginRight: 36,
+    backgroundColor: bgColors.Green
   },
   menuButtonHidden: {
     display: 'none',

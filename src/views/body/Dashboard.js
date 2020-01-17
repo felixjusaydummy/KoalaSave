@@ -8,23 +8,77 @@ import {connect} from 'react-redux';
 import NumberFormat from 'react-number-format';
 import { useStyles } from "../../css/dashboard";
 import { VIEW_REDIRECT_PURSE, VIEW_REDIRECT_VAULT } from '../../js/constants/action-type';
-import Grid from '@material-ui/core/Grid';
 
 import * as TIPS from './Tips'
 
 import EcoIcon from '@material-ui/icons/Eco';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 
-function getTipPage(){
-  const page = null;
-  return page;
-}
+
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 
 
-function Dashboard(props){
-  const classes = useStyles();
+//logs
+import LOGO_MERCHANT1 from './../../js/pictures/merchant1.png'
+import LOGO_MERCHANT2 from './../../js/pictures/merchant2.png'
+import LOGO_MERCHANT3 from './../../js/pictures/merchant3.png'
+import LOGO_MERCHANT4 from './../../js/pictures/merchant4.png'
+import LOGO_TIP1 from './../../js/pictures/tip1.png'
+import LOGO_TIP2 from './../../js/pictures/tip2.png'
+import LOGO_TIP3 from './../../js/pictures/tip3.png'
 
-  const maincontrols = (
+// const useStyles = makeStyles(theme => ({
+//   '@global': {
+//     body: {
+//       backgroundColor: theme.palette.common.white,
+//     },
+//   },
+
+//   paper: {
+//     // marginTop: theme.spacing(2),
+//     display: 'flex',
+//     flexDirection: 'column',
+//     alignItems: 'center',
+//   },
+  
+//   papertips: {
+//     marginTop: theme.spacing(2),
+//     display: 'flex',
+//     flexDirection: 'column',
+//     alignItems: 'left',
+//   },
+
+//   avatar: {
+//     margin: theme.spacing(1),
+//     backgroundColor: theme.palette.secondary.main,
+//   },
+//   form: {
+//     width: '100%', // Fix IE 11 issue.
+//     marginTop: theme.spacing(0),
+//   },
+//   submit: {
+//     margin: theme.spacing(3, 0, 2),
+//     backgroundColor: bgColors.Green
+//   },
+
+//   img: {
+//     width: '100%',
+//     height: '100%',
+//     alignItems: 'top',
+//   },
+
+//   imgtips: {
+//     width: '100%',
+//     height: 100
+//   }
+// }));
+
+
+
+function buildMainControlPanel(props, classes){
+  const mainpanel = (
     <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           {/* <LockOutlinedIcon /> */}
@@ -74,33 +128,125 @@ function Dashboard(props){
       </div>
       
   )
+  return mainpanel  
+}
+
+function builcTipsPanel(props, classes){
+  const mainpanel = (
+    <div className={classes.papertips}>
+          
+          <Typography component="p" variant="h6">
+            Tips and Recommendations
+          </Typography>
+          <Grid container spacing={3}>
+          <Grid item xs={3}>
+              <Button className={classes.img}>
+                <div>
+                  <Typography component="p" variant="body2">
+                    How to start creating your budget plan?
+                  </Typography>
+                </div>
+              </Button>
+              
+            </Grid>
+            <Grid item xs={3}>
+              <Button className={classes.img}> 
+                <div>
+                  <img src={LOGO_TIP1} alt="Logo" className={classes.imgtips}/>;
+                  <Typography component="p" variant="body2">
+                    Healthcare costs are extremely expensive. Make sure to stay protected w/ Travel Insurance
+                  </Typography>
+                </div>
+              </Button>
+            </Grid>
+            <Grid item xs={3}>
+              <Button className={classes.img}>
+                <div>
+                  <img src={LOGO_TIP2} alt="Logo" className={classes.imgtips}/>;
+                  <Typography component="p" variant="body2">
+                    Tips and strategies on how to save money
+                  </Typography>
+                </div>
+              </Button>
+            </Grid>
+            <Grid item xs={3}>
+              <Button className={classes.img}>
+                <div>
+                  <img src={LOGO_TIP3} alt="Logo" className={classes.imgtips}/>;
+                  <Typography component="p" variant="body2">
+                    Investing can be the first important step to achieving your best possible financial future
+                  </Typography>
+                </div>
+              </Button>
+            </Grid>
+          </Grid>
+      </div>
+  )
+  return mainpanel 
+}
+
+function buildAffiliateMerchants(props, classes){
+  const mainpanel = (
+    <div className={classes.papertips}>
+          
+          <Typography component="p" variant="h6">
+            Affiliate Merchants
+          </Typography>
+          <Grid container spacing={3}>
+            <Grid item xs={3}>
+              <Button>
+                <img src={LOGO_MERCHANT1} alt="Logo" className={classes.img}/>;
+              </Button>
+            </Grid>
+            <Grid item xs={3}>
+              <Button>
+                <img src={LOGO_MERCHANT2} alt="Logo" className={classes.img}/>;
+              </Button>
+            </Grid>
+            <Grid item xs={3}>
+              <Button>
+                <img src={LOGO_MERCHANT3} alt="Logo" className={classes.img}/>;
+              </Button>
+            </Grid>
+            <Grid item xs={3}>
+              <Button>
+                <img src={LOGO_MERCHANT4} alt="Logo" className={classes.img}/>;
+              </Button>
+            </Grid>
+          </Grid>
+          
+      </div>
+  )
+  return mainpanel 
+}
+
+
+function Dashboard(props){
+  const classes = useStyles();
+
+  const mainControlsPanel = buildMainControlPanel(props, classes);
+  const tipsPanel = builcTipsPanel(props, classes);
+  const merchantsPanel = buildAffiliateMerchants(props, classes);
 
   const mainpage = (
-    
+
+  
     <Container component="main" maxWidth="lg">
       <CssBaseline />
       <Container  maxWidth="xs">
-        {maincontrols}
+        {mainControlsPanel}
       </Container>
-      {/* {TIPS.main(props)} */}
+      <Container  maxWidth="lg">
+        {tipsPanel}
+      </Container>
+      <Container  maxWidth="lg">
+        {merchantsPanel}
+      </Container>
     </Container>
     
 
-    // <Container >
-    //   <Row>
-    //     <Col>1 of 3</Col>
-    //     <Col xs={6}>{maincontrols}</Col>
-    //     <Col>3 of 3</Col>
-    //   </Row>
-    //   <Row>
-    //     {/* <Col>{TIPS.main(props)}</Col> */}
-    //   </Row>
-      
-    // </Container>
-
-    
-  );
-
+    );
+  
   return mainpage
 }
 
