@@ -9,11 +9,12 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import {connect} from 'react-redux'
 
-import useStyles from "../../css/signin"
+import { useStyles } from "../../css/dashboard.js"
+// import  useStyles  from "../../css/dashboard.js"
 import { VIEW_REDIRECT_HOME } from "../../js/constants/action-type";
-
-
 import Copyright from "../foot/Copyright";
+// import LOGO_TIP3 from './../../js/pictures/tip3.png'
+import KOALALOGO from './../../js/pictures/koala.png'
 
 function SignIn(props){
   
@@ -32,7 +33,7 @@ function SignIn(props){
       required
       fullWidth
       id="email"
-      label="Username"
+      label="Email"
       name="email"
       autoComplete="email"
       autoFocus
@@ -110,8 +111,9 @@ function SignIn(props){
   const page = (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
+      <div className={classes.paper_signin}>
+        <Avatar className={classes.avatar} src={KOALALOGO}>
+        {/* <Avatar className={classes.avatar}> */}
           {/* <LockOutlinedIcon /> */}
         </Avatar>
         <Typography component="h1" variant="h5">

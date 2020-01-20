@@ -43,6 +43,7 @@ import Purse from './Purse'
 import Vault from './Vault'
 import Inbox from './Inbox'
 import Setting from './Setting'
+import Account from './Account'
 
 
 
@@ -75,15 +76,6 @@ function Home(props) {
               <MenuIcon />
             </IconButton>
             
-            {/* <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-              Dashboard
-            </Typography> */}
-
-            {/* <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton> */}
           </Toolbar>
         </AppBar>
 
@@ -94,6 +86,42 @@ function Home(props) {
             <Grid container >
               <div>
                 LOADING...
+              </div>
+            </Grid>
+          </Container>
+        </main>
+      </BrowserRouter>
+    </div>
+  )
+
+  const brokenLink = (
+    <div className={classes.root}>
+      
+      <BrowserRouter>
+        <CssBaseline />
+
+        <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+          <Toolbar className={classes.toolbar}>
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+            >
+              <MenuIcon />
+            </IconButton>
+            
+          </Toolbar>
+        </AppBar>
+
+
+        <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        <Container maxWidth="lg" className={classes.container}>
+            <Grid container >
+              <div>
+                Broken Link. Try again reloading the page
               </div>
             </Grid>
           </Container>
@@ -198,6 +226,7 @@ function Home(props) {
                 <Route path={URL_LIST.URL_USER_VAULT}  component={Vault}  />
                 <Route path={URL_LIST.URL_USER_RECOMMEDATION}  component={Inbox} />
                 <Route path={URL_LIST.URL_USER_SETTING}  component={Setting} />
+                <Route path={URL_LIST.URL_USER_ACCOUNT}  component={Account} />
               </Switch>
             </Grid>
             <Copyright />
@@ -217,7 +246,13 @@ function Home(props) {
     return loadingpage
   }else{
     // console.log("home: initialize done")
-    return page;
+    if(props.user){
+      return page;
+    }else{
+      return brokenLink;
+    }
+      
+    
   }
   
 }

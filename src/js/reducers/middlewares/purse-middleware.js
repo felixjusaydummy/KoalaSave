@@ -1,79 +1,258 @@
 import * as ACTIONTYPE from "../../constants/action-type";
 import * as STATUSTYPE from "../../constants/status-type";
-import * as PurseManager from "../../actions/purse-manager"
-import * as RewardManager from "../../actions/rewards-manager"
+import * as PurseManager from "../../actions-api/purse-manager"
+import * as AccountManager from  "../../actions-api/account-manager"
 
 export const addAllocation = (action, dispatch)=>{
-
     new Promise((resolve, reject)=>{
         try{
-            // let result = PurseManager.addPurseAllocationToDB(action.payload, action.authorization);
-            // resolve(result);
-
-            //remove this after
-            let tempState = {
-                user: action.user,
-                action_status: {
-                    purse: {
-                        status: "",
-                        transaction: "",
-                        message: ""
-                    }
-                },
-            }
-
-            let res = PurseManager.addPurseAllocation(tempState, action.payload);
-            if(res.action_status.purse.status === STATUSTYPE.STATUS_SUCCESS){
-                RewardManager.checkIfPriviledgeForRewards(res.user)
-            }
-            
-
-            let tempres = {
-                data: {
-                    status : STATUSTYPE.RESPOND_SUCCESS,
-                    data : res.user,
-                    action_status: res.action_status
-                }
-            }
-            resolve(tempres)
+            //add thriftpoints
+            const thriftpoints = 1
+            let result = PurseManager.addPurseAllocationToDB(action.payload, action.authorization, thriftpoints);
+            resolve(result)
         }catch(err){
             reject(err);
         }
     }).then(response=>{
+        // console.log("checking: "+ response.data.status + " : "+ STATUSTYPE.RESPOND_SUCCESS )
+        
         if(response.data.status === STATUSTYPE.RESPOND_SUCCESS){
+            let action_status = {
+                purse: {
+                    status: STATUSTYPE.STATUS_SUCCESS,
+                    transaction: ACTIONTYPE.USER_PURSE_ALLOCATION_ADD_RESOLVED,
+                    message: "Wallet Allocation Successfully Added",
+                }
+            }
             action = {
                 type : ACTIONTYPE.USER_PURSE_ALLOCATION_ADD_RESOLVED,
                 status : STATUSTYPE.STATUS_SUCCESS,
                 data : response.data.data,
-                action_status: response.data.action_status
+                action_status: action_status
             }
-            console.log("pursemiddleware succss: "+ JSON.stringify(action))
+            // console.log("pursemiddleware succss: ")
+            // console.log("pursemiddleware succss: "+ JSON.stringify(response.data.data.user, null, 2))
             dispatch(action);
         }else{
+            let action_status = {
+                purse: {
+                    status: STATUSTYPE.STATUS_ERROR,
+                    transaction: ACTIONTYPE.USER_PURSE_ALLOCATION_ADD_RESOLVED,
+                    message: "Failed to Add Wallet Allocation.",
+                }
+            }
             action = {
                 type : ACTIONTYPE.USER_PURSE_ALLOCATION_ADD_RESOLVED,
                 status : STATUSTYPE.STATUS_ERROR,
-                action_status: response.data.action_status
+                action_status: action_status
             }
-            console.log("pursemiddleware error: "+ JSON.stringify(action))
+            // console.log("pursemiddleware error: "+ JSON.stringify(response, null, 2))
             dispatch(action);
         }
     })
     .catch(error=>{
         // console.log("Error Purse Middlware: "+error)
+        let action_status = {
+            purse: {
+                status: STATUSTYPE.STATUS_ERROR,
+                transaction: ACTIONTYPE.USER_PURSE_ALLOCATION_ADD_RESOLVED,
+                message: "Failed to Add Wallet Allocation.",
+            }
+        }
         action = {
             type : ACTIONTYPE.USER_PURSE_ALLOCATION_ADD_RESOLVED,
             status : STATUSTYPE.QUERY_ERROR,
-            message : "Failed to add Wallet Allocation",
-            action_status: {
-                loading: false,
+            action_status: action_status
+        }
+        // console.log("pursemiddleware catch error: "+ JSON.stringify(error))
+        dispatch(action);
+    })
+}
+
+
+
+export const addCashToAllocation = (action, dispatch)=>{
+
+    new Promise((resolve, reject)=>{
+        try{
+            let result = PurseManager.addCashToPurseAllocation(action.payload, action.authorization);
+            resolve(result);
+        }catch(err){
+            reject(err);
+        }
+    }).then(response=>{
+        // console.log("checking: "+ response.data.status + " : "+ STATUSTYPE.RESPOND_SUCCESS )
+        
+        if(response.data.status === STATUSTYPE.RESPOND_SUCCESS){
+            let action_status = {
                 purse: {
-                    status: STATUSTYPE.STATUS_ERROR,
-                    message: "Failed to add Wallet Allocation"
+                    status: STATUSTYPE.STATUS_SUCCESS,
+                    transaction: ACTIONTYPE.USER_PURSE_ALLOCATION_ADD_CASH_RESOLVED,
+                    message: "Successfully Add Cash to Wallet Allocation",
                 }
             }
+            action = {
+                type : ACTIONTYPE.USER_PURSE_ALLOCATION_ADD_CASH_RESOLVED,
+                status : STATUSTYPE.STATUS_SUCCESS,
+                data : response.data.data,
+                action_status: action_status
+            }
+            // console.log("pursemiddleware succss: ")
+            // console.log("pursemiddleware succss: "+ JSON.stringify(response.data.data.user, null, 2))
+            dispatch(action);
+        }else{
+            let action_status = {
+                purse: {
+                    status: STATUSTYPE.STATUS_ERROR,
+                    transaction: ACTIONTYPE.USER_PURSE_ALLOCATION_ADD_CASH_RESOLVED,
+                    message: "Failed to Add Cash to Wallet Allocation",
+                }
+            }
+            action = {
+                type : ACTIONTYPE.USER_PURSE_ALLOCATION_ADD_CASH_RESOLVED,
+                status : STATUSTYPE.STATUS_ERROR,
+                action_status: action_status
+            }
+            // console.log("pursemiddleware error: "+ JSON.stringify(response, null, 2))
+            dispatch(action);
         }
-        console.log("pursemiddleware catch error: "+ JSON.stringify(error))
+    })
+    .catch(error=>{
+        console.log("Error Purse Middlware: "+error)
+        let action_status = {
+            purse: {
+                status: STATUSTYPE.STATUS_ERROR,
+                transaction: ACTIONTYPE.USER_PURSE_ALLOCATION_ADD_CASH_RESOLVED,
+                message: "Failed to Add Cash to Wallet Allocation.",
+            }
+        }
+        action = {
+            type : ACTIONTYPE.USER_PURSE_ALLOCATION_ADD_CASH_RESOLVED,
+            status : STATUSTYPE.QUERY_ERROR,
+            action_status: action_status
+        }
+        // console.log("pursemiddleware catch error: "+ JSON.stringify(error))
+        dispatch(action);
+    })
+}
+
+
+export const deleteAllocation = (action, dispatch)=>{
+
+    new Promise((resolve, reject)=>{
+        try{
+            // console.log("delete purse middlware: "+ JSON.stringify(action, null, 2))
+            let result = PurseManager.deletePurseAllocation(action.payload, action.authorization);
+            resolve(result);
+        }catch(err){
+            reject(err);
+        }
+    }).then(response=>{
+        if(response.data.status === STATUSTYPE.RESPOND_SUCCESS){
+            let action_status = {
+                purse: {
+                    status: STATUSTYPE.STATUS_SUCCESS,
+                    transaction: ACTIONTYPE.USER_PURSE_ALLOCATION_DELETE_RESOLVED,
+                    message: "Successfully Deleting Wallet Allocation",
+                }
+            }
+            action = {
+                type : ACTIONTYPE.USER_PURSE_ALLOCATION_DELETE_RESOLVED,
+                status : STATUSTYPE.STATUS_SUCCESS,
+                data : response.data.data,
+                action_status: action_status
+            }
+            // console.log("delete purse action: "+ JSON.stringify(action, null, 2))
+            // console.log("delete purse action: "+ JSON.stringify(response, null, 2))
+            dispatch(action);
+        }else{
+            let action_status = {
+                purse: {
+                    status: STATUSTYPE.STATUS_ERROR,
+                    transaction: ACTIONTYPE.USER_PURSE_ALLOCATION_DELETE_RESOLVED,
+                    message: "Failed to Delete Wallet Allocation",
+                }
+            }
+            action = {
+                type : ACTIONTYPE.USER_PURSE_ALLOCATION_DELETE_RESOLVED,
+                status : STATUSTYPE.STATUS_ERROR,
+                action_status: action_status
+            }
+            dispatch(action);
+        }
+    })
+    .catch(error=>{
+        let action_status = {
+            purse: {
+                status: STATUSTYPE.STATUS_ERROR,
+                transaction: ACTIONTYPE.USER_PURSE_ALLOCATION_DELETE_RESOLVED,
+                message: "Failed to Delete Wallet Allocation.",
+            }
+        }
+        action = {
+            type : ACTIONTYPE.USER_PURSE_ALLOCATION_DELETE_RESOLVED,
+            status : STATUSTYPE.QUERY_ERROR,
+            action_status: action_status
+        }
+        dispatch(action);
+    })
+}
+
+
+export const releaseAllocationCash = (action, dispatch)=>{
+
+    new Promise((resolve, reject)=>{
+        try{
+            let result = PurseManager.releaseAllocationCash(action.payload, action.authorization);
+            resolve(result);
+        }catch(err){
+            reject(err);
+        }
+    }).then(response=>{
+        if(response.data.status === STATUSTYPE.RESPOND_SUCCESS){
+            let action_status = {
+                purse: {
+                    status: STATUSTYPE.STATUS_SUCCESS,
+                    transaction: ACTIONTYPE.USER_PURSE_ALLOCATION_RELEASE_CASH_RESOLVED,
+                    message: "Successfully release Wallet Allocation Cash",
+                }
+            }
+            action = {
+                type : ACTIONTYPE.USER_PURSE_ALLOCATION_RELEASE_CASH_RESOLVED,
+                status : STATUSTYPE.STATUS_SUCCESS,
+                data : response.data.data,
+                action_status: action_status
+            }
+            dispatch(action);
+        }else{
+            let action_status = {
+                purse: {
+                    status: STATUSTYPE.STATUS_ERROR,
+                    transaction: ACTIONTYPE.USER_PURSE_ALLOCATION_RELEASE_CASH_RESOLVED,
+                    message: "Failed to  release Wallet Allocation Cash",
+                }
+            }
+            action = {
+                type : ACTIONTYPE.USER_PURSE_ALLOCATION_RELEASE_CASH_RESOLVED,
+                status : STATUSTYPE.STATUS_ERROR,
+                action_status: action_status
+            }
+            dispatch(action);
+        }
+    })
+    .catch(error=>{
+        let action_status = {
+            purse: {
+                status: STATUSTYPE.STATUS_ERROR,
+                transaction: ACTIONTYPE.USER_PURSE_ALLOCATION_RELEASE_CASH_RESOLVED,
+                message: "Failed to release Wallet Allocation Cash",
+            }
+        }
+        action = {
+            type : ACTIONTYPE.USER_PURSE_ALLOCATION_RELEASE_CASH_RESOLVED,
+            status : STATUSTYPE.QUERY_ERROR,
+            action_status: action_status
+        }
         dispatch(action);
     })
 }

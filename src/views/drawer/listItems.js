@@ -1,34 +1,32 @@
 import React from 'react';
-import {connect} from 'react-redux'
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
-
 import { Link } from 'react-router-dom'
-
 import * as URL_LIST from "../../js/constants/url-list";
 
 // ICONS
 import SettingsIcon from '@material-ui/icons/Settings';
 import MessageIcon from '@material-ui/icons/Message';
-import DashboardIcon from '@material-ui/icons/Dashboard';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import EcoIcon from '@material-ui/icons/Eco';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import HomeIcon from '@material-ui/icons/Home';
 import Badge from '@material-ui/core/Badge';
-import Collapse from '@material-ui/core/Collapse';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
-
-import ListSubheader from '@material-ui/core/ListSubheader';
-import List from '@material-ui/core/List';
-import { makeStyles } from '@material-ui/core/styles';
+// import DashboardIcon from '@material-ui/icons/Dashboard';
+// import Collapse from '@material-ui/core/Collapse';
+// import InboxIcon from '@material-ui/icons/MoveToInbox';
+// import DraftsIcon from '@material-ui/icons/Drafts';
+// import SendIcon from '@material-ui/icons/Send';
+// import ExpandLess from '@material-ui/icons/ExpandLess';
+// import ExpandMore from '@material-ui/icons/ExpandMore';
+// import StarBorder from '@material-ui/icons/StarBorder';
+// import ListSubheader from '@material-ui/core/ListSubheader';
+// import List from '@material-ui/core/List';
+// import { makeStyles } from '@material-ui/core/styles';
+import * as AUTHENTICATION from './../../js/actions/authentication-manager'
+import * as RedirectManager from './../../js/actions/redirect-manager'
 
 
 function getMessageIcon(inbox){
@@ -46,6 +44,12 @@ function getMessageIcon(inbox){
     </Badge>)
   }
   return comp
+}
+
+function triggerLogout(){
+  console.log("logout")
+  AUTHENTICATION.removeAuthorization()
+  RedirectManager.redirectToLogin()
 }
 
 //error
@@ -66,15 +70,15 @@ export const mainfunction = (props)=>{
               <ListItemText primary="Home"  />
             </ListItem>
           </Link>
-
-          <Link to={URL_LIST.URL_USER_RECOMMEDATION}>
+{/* 
+          <Link to={URL_LIST.URL_USER_ACCOUNT}>
             <ListItem button>
                 <ListItemIcon>
                   <AccountCircleIcon/>
                 </ListItemIcon>
               <ListItemText primary="Account" />
             </ListItem>
-          </Link>
+          </Link> */}
     
           <Link to={URL_LIST.URL_USER_RECOMMEDATION}>
             <ListItem button>
@@ -110,6 +114,15 @@ export const mainfunction = (props)=>{
               </ListItemIcon>
               <ListItemText primary="Setting" />
             </ListItem>
+          </Link>
+
+          <Link to={"/"}> 
+          <ListItem button onClick={()=>{triggerLogout()}}>
+            <ListItemIcon>
+              <SettingsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Logout" />
+          </ListItem>
           </Link>
         </div>
       );

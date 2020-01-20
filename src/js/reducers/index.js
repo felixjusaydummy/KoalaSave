@@ -4,13 +4,7 @@ import * as STATUSTYPE from "../constants/status-type";
 import * as INITSTATE from "./init-state"
 import * as MIDDLEWARE from "./middleware"
 import * as AUTHENTICATION from  "./../actions/authentication-manager"
-
-import * as PurseManager from "../actions/purse-manager"
-import * as VaultManager from "../actions/vault-manager"
 import * as RedirectManager from  "../actions/redirect-manager"
-import * as LoginManager from "../actions/login-manager"
-import * as AccountManager from "../actions/account-manager"
-import * as RewardManager from "../actions/rewards-manager"
 
 const initialState = INITSTATE.initialState;
 const  middleware = MIDDLEWARE.middleware;
@@ -22,7 +16,7 @@ function getInitialState(){
 }
 
 function rootReducer(state = getInitialState(), action){
-    // console.log("enter reducer")
+    console.log("enter reducer: "+ action.type)
 
     //REDIRECT
     if(action.type === ACTIONTYPE.USER_INITIALIZE_ACCOUNT_DETAILS
@@ -33,7 +27,11 @@ function rootReducer(state = getInitialState(), action){
         }
 
         if(action.type === ACTIONTYPE.USER_INITIALIZE_ACCOUNT_DETAILS_RESOLVED){
-            if(action.data.status === STATUSTYPE.RESPOND_ERROR){
+
+            if(!action.data || !action.data.status){
+                data.user = null;
+            }
+            else if(action.data.status === STATUSTYPE.RESPOND_ERROR){
                 AUTHENTICATION.removeAuthorization()
                 RedirectManager.redirectToLogin()
             }else{
@@ -60,12 +58,16 @@ function rootReducer(state = getInitialState(), action){
     //PURSE
     else if(action.type === ACTIONTYPE.USER_PURSE_ALLOCATION_ADD_RESOLVED ){
         let res =  Object.assign({}, state)
-        if(action.status === STATUSTYPE.QUERY_RESOLVED){
+        if(!action.status){
+            res.user = null;
+        }
+        else if(action.status === STATUSTYPE.STATUS_SUCCESS){
             res.user = action.data;        
         }
         res.action_status = action.action_status;
         state = res;
 
+        // console.log("index: "+ JSON.stringify(res, null, 2))
         // let res = PurseManager.addPurseAllocation(state, action.payload);
         // if(res.action_status.purse.status === STATUSTYPE.STATUS_SUCCESS){
         //     RewardManager.checkIfPriviledgeForRewards(res.user)
@@ -73,44 +75,115 @@ function rootReducer(state = getInitialState(), action){
         // res.action_status.purse.transaction = ACTIONTYPE.USER_PURSE_ALLOCATION_ADD;
         // state = res;
 
-    }else if(action.type === ACTIONTYPE.USER_PURSE_ALLOCATION_ADD_CASH ){
-        let res = PurseManager.addCashPurseAllocation(state, action.payload);
-        res.action_status.purse.transaction = ACTIONTYPE.USER_PURSE_ALLOCATION_ADD_CASH;
+    }else if(action.type === ACTIONTYPE.USER_PURSE_ALLOCATION_ADD_CASH_RESOLVED ){
+        let res =  Object.assign({}, state)
+        if(!action.status){
+            res.user = null;
+        }
+        else if(action.status === STATUSTYPE.STATUS_SUCCESS){
+            res.user = action.data;        
+        }
+        res.action_status = action.action_status;
         state = res;
 
-    }else if(action.type === ACTIONTYPE.USER_PURSE_ALLOCATION_DELETE ){
-        let res = PurseManager.deletePurseAllocation(state, action.payload);
-        res.action_status.purse.transaction = ACTIONTYPE.USER_PURSE_ALLOCATION_DELETE;
+        // let res = PurseManager.addCashPurseAllocation(state, action.payload);
+        // res.action_status.purse.transaction = ACTIONTYPE.USER_PURSE_ALLOCATION_ADD_CASH;
+        // state = res;
+
+    }else if(action.type === ACTIONTYPE.USER_PURSE_ALLOCATION_DELETE_RESOLVED ){
+        let res =  Object.assign({}, state)
+        if(!action.status){
+            res.user = null;
+        }
+        else if(action.status === STATUSTYPE.STATUS_SUCCESS){
+            res.user = action.data;        
+        }
+        res.action_status = action.action_status;
         state = res;
+
+        // let res = PurseManager.deletePurseAllocation(state, action.payload);
+        // res.action_status.purse.transaction = ACTIONTYPE.USER_PURSE_ALLOCATION_DELETE;
+        // state = res;
         
-    }else if(action.type === ACTIONTYPE.USER_PURSE_ALLOCATION_RELEASE_CASH ){
-        let res = PurseManager.setReleasePurseAllocation(state, action.payload);
-        res.action_status.purse.transaction = ACTIONTYPE.USER_PURSE_ALLOCATION_RELEASE_CASH;
+    }else if(action.type === ACTIONTYPE.USER_PURSE_ALLOCATION_RELEASE_CASH_RESOLVED ){
+        let res =  Object.assign({}, state)
+        if(!action.status){
+            res.user = null;
+        }
+        else if(action.status === STATUSTYPE.STATUS_SUCCESS){
+            res.user = action.data;        
+        }
+        res.action_status = action.action_status;
         state = res;
+        // let res = PurseManager.setReleasePurseAllocation(state, action.payload);
+        // res.action_status.purse.transaction = ACTIONTYPE.USER_PURSE_ALLOCATION_RELEASE_CASH;
+        // state = res;
     }
 
 
+
+
+
+
     //VAULT
-    else if(action.type === ACTIONTYPE.USER_VAULT_ALLOCATION_ADD ){
-        let res = VaultManager.addVaultAllocation(state, action.payload);
-        res.action_status.purse.transaction = ACTIONTYPE.USER_VAULT_ALLOCATION_ADD;
+    else if(action.type === ACTIONTYPE.USER_VAULT_ALLOCATION_ADD_RESOLVED ){
+        let res =  Object.assign({}, state)
+        if(!action.status){
+            res.user = null;
+        }
+        else if(action.status === STATUSTYPE.STATUS_SUCCESS){
+            res.user = action.data;        
+        }
+        res.action_status = action.action_status;
         state = res;
-    }else if(action.type === ACTIONTYPE.USER_VAULT_ALLOCATION_ADD_CASH ){
-        let res = VaultManager.addCashVaultAllocation(state, action.payload);
-        res.action_status.purse.transaction = ACTIONTYPE.USER_VAULT_ALLOCATION_ADD;
+
+        // let res = VaultManager.addVaultAllocation(state, action.payload);
+        // res.action_status.purse.transaction = ACTIONTYPE.USER_VAULT_ALLOCATION_ADD;
+        // state = res;
+    }else if(action.type === ACTIONTYPE.USER_VAULT_ALLOCATION_ADD_CASH_RESOLVED ){
+        let res =  Object.assign({}, state)
+        if(!action.status){
+            res.user = null;
+        }
+        else if(action.status === STATUSTYPE.STATUS_SUCCESS){
+            res.user = action.data;        
+        }
+        res.action_status = action.action_status;
         state = res;
+        // let res = VaultManager.addCashVaultAllocation(state, action.payload);
+        // res.action_status.purse.transaction = ACTIONTYPE.USER_VAULT_ALLOCATION_ADD;
+        // state = res;
     }
     
 
     //SAVINGS ACCOUNT
-    else if(action.type === ACTIONTYPE.USER_SAVINGSACCOUNT_TO_VAULT ){
-        let res = VaultManager.transferSavingsAccountToVault(state, action.payload);
-        res.action_status.purse.transaction = ACTIONTYPE.USER_SAVINGSACCOUNT_TO_VAULT;
+    else if(action.type === ACTIONTYPE.USER_SAVINGSACCOUNT_TO_VAULT_RESOLVED ){
+        let res =  Object.assign({}, state)
+        if(!action.status){
+            res.user = null;
+        }
+        else if(action.status === STATUSTYPE.STATUS_SUCCESS){
+            res.user = action.data;        
+        }
+        res.action_status = action.action_status;
         state = res;
-    }else if(action.type === ACTIONTYPE.USER_SAVINGSACCOUNT_FROM_VAULT ){
-        let res = VaultManager.transferVaultToSavingsAccount(state, action.payload);
-        res.action_status.purse.transaction = ACTIONTYPE.USER_SAVINGSACCOUNT_FROM_VAULT;
+        // let res = VaultManager.transferSavingsAccountToVault(state, action.payload);
+        // res.action_status.purse.transaction = ACTIONTYPE.USER_SAVINGSACCOUNT_TO_VAULT;
+        // state = res;
+
+    }else if(action.type === ACTIONTYPE.USER_SAVINGSACCOUNT_FROM_VAULT_RESOLVED ){
+        let res =  Object.assign({}, state)
+        if(!action.status){
+            res.user = null;
+        }
+        else if(action.status === STATUSTYPE.STATUS_SUCCESS){
+            res.user = action.data;        
+        }
+        res.action_status = action.action_status;
         state = res;
+        // let res = VaultManager.transferVaultToSavingsAccount(state, action.payload);
+        // res.action_status.purse.transaction = ACTIONTYPE.USER_SAVINGSACCOUNT_FROM_VAULT;
+        // state = res;
     }
 
     else if(action.type === ACTIONTYPE.MESSAGE_RESET_DEFAULT){

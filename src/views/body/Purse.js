@@ -54,14 +54,16 @@ function Purse(props){
     props.addNewAllocation(iDescription, iAmount, props);
   };
   const passToAddCashAllocation = (payload, iAmount)=>{
-    props.addCashAllocation(payload, iAmount);
-  };
-  const passToReleaseAllocationAmount = (payload, iAmount)=>{
-    props.releaseAllocationAmount(payload, iAmount);
+    props.addCashAllocation(payload, iAmount, props);
   };
   const passAgreeSelection = (payload)=>{
-    props.deleteAllocation(payload.description)
+    props.deleteAllocation(payload.description, props)
   };
+  const passToReleaseAllocationAmount = (payload, iAmount)=>{
+    props.releaseAllocationAmount(payload, iAmount, props);
+  };
+
+
   const closeInfoModal = ()=>{
     props.resetMessageStatus();
   }
@@ -279,44 +281,51 @@ function mapDispatchToProps(dispatch){
             type: USER_PURSE_ALLOCATION_ADD,
             payload: {
               description: iDescription,
-              amount: iAmount
+              amount: iAmount,
+              active: true
             },
             authorization: props.authorization,
             user: props.user
           };
           dispatch(action);
       },
-      addCashAllocation: (payload, iAmount)=>{
+      addCashAllocation: (payload, iAmount, props)=>{
         const action = {
           type: USER_PURSE_ALLOCATION_ADD_CASH,
           payload: {
             // id: payload.id,
             description: payload.description,
             amount: payload.amount,
-            additionAmmount: iAmount
-          }
+            additionAmmount: iAmount,
+            active: payload.active
+          },
+          authorization: props.authorization,
+          user: props.user
         };
         dispatch(action);
       },
-      deleteAllocation: (description) =>{
+      deleteAllocation: (description, props) =>{
         const action = {
           type: USER_PURSE_ALLOCATION_DELETE,
           payload: {
             // id: iPurseAllocationId
             description: description,
-          }
+          },
+          authorization: props.authorization
         };
         dispatch(action);
       },
-      releaseAllocationAmount: (payload, releaseAmount)=>{
+      releaseAllocationAmount: (payload, releaseAmount, props)=>{
         const action = {
           type: USER_PURSE_ALLOCATION_RELEASE_CASH,
           payload: {
             // id: payload.id,
             description: payload.description,
             amount: payload.amount,
-            releaseAmount: releaseAmount
-          }
+            releaseAmount: releaseAmount,
+            active: payload.active
+          },
+          authorization: props.authorization,
         };
         dispatch(action);
       },

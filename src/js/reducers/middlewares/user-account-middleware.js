@@ -1,12 +1,6 @@
 import * as ACTIONTYPE from "../../constants/action-type";
 import * as STATUSTYPE from "../../constants/status-type";
-import * as PurseManager from "../../actions/purse-manager"
-import * as VaultManager from "../../actions/vault-manager"
-import * as RedirectManager from  "../../actions/redirect-manager"
-import * as LoginManager from "../../actions/login-manager"
-import * as AccountManager from "../../actions/account-manager"
-import * as INITSTATE from "./../init-state"
-import * as SIGNIN from "./../middlewares/signin-middleware"
+import * as AccountManager from "../../actions-api/account-manager"
 
 export const GetUserAccount = (action, dispatch)=>{
     action.initializeState = true
@@ -22,12 +16,16 @@ export const GetUserAccount = (action, dispatch)=>{
 
     }).then(response=>{
         let value = null;
+        
         if(response.data.status === STATUSTYPE.RESPOND_SUCCESS){
             value = response.data.data
         }else{
             value = response.data;
         }
         
+        // console.log(response.data.status + " : " + STATUSTYPE.RESPOND_SUCCESS)
+        // console.log(JSON.stringify(value, null, 2))
+
         action = {
             type : ACTIONTYPE.USER_INITIALIZE_ACCOUNT_DETAILS_RESOLVED,
             initializeState: false,

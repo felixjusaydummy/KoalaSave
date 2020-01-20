@@ -5,36 +5,36 @@ import axios from "axios";
 import * as APIBACKEND from "./../constants/api-backend"
 import * as STATUSTYPE from "./../constants/status-type"
 
-export async function callPurseAllocationAPI(allocation, authorizationToken){
-    // console.log("purse manager: call add allocatio api")
-    let url = APIBACKEND.PURSE_ALLOCATION_ADD;
-    let body =  allocation
+// export async function callPurseAllocationAPI(allocation, authorizationToken){
+//     // console.log("purse manager: call add allocatio api")
+//     let url = APIBACKEND.PURSE_ALLOCATION_ADD;
+//     let body =  allocation
 
-    const params = {
-        method: 'post',
-        responseType: 'json',
-        headers: {'Authorization': authorizationToken},
-        url: url,
-        data: body
-    }
-    console.log("pursemanager - callPurseAllocationAPI: "+ JSON.stringify(params))
+//     const params = {
+//         method: 'post',
+//         responseType: 'json',
+//         headers: {'Authorization': authorizationToken},
+//         url: url,
+//         data: body
+//     }
+//     console.log("pursemanager - callPurseAllocationAPI: "+ JSON.stringify(params))
 
-    return axios(params)
-    .then(response=>{
-        console.log("success: "+ response)
-        return response;
-    }).catch(error=>{
-        console.log("error: "+ error)
-        return error;
-    })
+//     return axios(params)
+//     .then(response=>{
+//         console.log("success: "+ response)
+//         return response;
+//     }).catch(error=>{
+//         console.log("error: "+ error)
+//         return error;
+//     })
 
-}
+// }
 
-export async function addPurseAllocationToDB(allocation, authorizationToken){
-    let res = null;
-    const response = await callPurseAllocationAPI(allocation, authorizationToken);
-    return response;
-}
+// export async function addPurseAllocationToDB(allocation, authorizationToken){
+//     let res = null;
+//     const response = await callPurseAllocationAPI(allocation, authorizationToken);
+//     return response;
+// }
 
 
 

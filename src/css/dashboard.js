@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+import KOALALOGO from './../js/pictures/koala.png'
 
 var bgColors = { 
   "Default": "#81b71a",
@@ -8,6 +9,7 @@ var bgColors = {
   "DarkGreen": "#5c8037",
   "Red": "#E9573F",
   "Yellow": "#F6BB42",
+  "White": "#FFFFFF",
 };
 
 export const useStyles = makeStyles(theme => ({
@@ -18,7 +20,14 @@ export const useStyles = makeStyles(theme => ({
   },
 
   paper: {
-    // marginTop: theme.spacing(2),
+    marginTop: theme.spacing(2),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+
+  paper_signin: {
+    marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -33,12 +42,18 @@ export const useStyles = makeStyles(theme => ({
 
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    // backgroundColor: theme.palette.secondary.main,
+    backgroundColor: bgColors.Green,
+    flex: 1,
+    width: '150px',
+    height: '150px',
+    // backgroundImage: url('')
   },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(0),
   },
+
   submit: {
     margin: theme.spacing(3, 0, 2),
     backgroundColor: bgColors.Green
@@ -62,29 +77,3 @@ export const useStyles = makeStyles(theme => ({
     height: 100
   }
 }));
-
-// export const useStyles = makeStyles(theme => ({
-//     '@global': {
-//       body: {
-//         backgroundColor: theme.palette.common.white,
-//       },
-//     },
-  
-//     paper: {
-//       marginTop: theme.spacing(8),
-//       display: 'flex',
-//       flexDirection: 'column',
-//       alignItems: 'center',
-//     },
-//     avatar: {
-//       margin: theme.spacing(1),
-//       backgroundColor: theme.palette.secondary.main,
-//     },
-//     form: {
-//       width: '100%', // Fix IE 11 issue.
-//       marginTop: theme.spacing(1),
-//     },
-//     submit: {
-//       margin: theme.spacing(3, 0, 2),
-//     },
-//   }));

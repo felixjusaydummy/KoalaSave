@@ -1,12 +1,6 @@
 import * as ACTIONTYPE from "../../constants/action-type";
 import * as STATUSTYPE from "../../constants/status-type";
-import * as PurseManager from "../../actions/purse-manager"
-import * as VaultManager from "../../actions/vault-manager"
-import * as RedirectManager from  "../../actions/redirect-manager"
-import * as LoginManager from "../../actions/login-manager"
-import * as AccountManager from "../../actions/account-manager"
-import * as INITSTATE from "./../init-state"
-import * as SIGNIN from "./../middlewares/signin-middleware"
+import * as LoginManager from "../../actions-api/login-manager"
 
 export const SignIn = (action, dispatch)=>{
     action.login_status = STATUSTYPE.QUERY_LOADING;
@@ -18,6 +12,7 @@ export const SignIn = (action, dispatch)=>{
             reject(err);
         }
     }).then(response=>{
+        console.log(response.data.result+ " : " + STATUSTYPE.RESPOND_SUCCESS)
         if(response.data.result === STATUSTYPE.RESPOND_SUCCESS){
             action = {
                 type : ACTIONTYPE.VIEW_REDIRECT_HOME_RESOLVED,
@@ -26,6 +21,7 @@ export const SignIn = (action, dispatch)=>{
                 authorization : response.data.data.name
             }
         }else{
+            console.log(JSON.stringify(response, null, 2));
             action = {
                 type : ACTIONTYPE.VIEW_REDIRECT_HOME_RESOLVED,
                 login_status : STATUSTYPE.QUERY_ERROR,
@@ -35,6 +31,7 @@ export const SignIn = (action, dispatch)=>{
         dispatch(action);
     })
     .catch(error=>{
+        // console.log(JSON.stringify(error));
         action = {
             type : ACTIONTYPE.VIEW_REDIRECT_HOME_RESOLVED,
             login_status : STATUSTYPE.QUERY_ERROR,

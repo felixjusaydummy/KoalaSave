@@ -9,6 +9,7 @@ async function checkCredentials(param){
         password: param.password
     }
 
+    // console.log("signin: " + url)
     return axios({
         method: 'post',
         responseType: 'json',
@@ -16,8 +17,10 @@ async function checkCredentials(param){
         data: body
     })
     .then(response=>{
+        // console.log("signin res: " + JSON.stringify(response))
         return response;
     }).catch(error=>{
+        // console.log("signin err: " + JSON.stringify(error))
         return error;
     })
 

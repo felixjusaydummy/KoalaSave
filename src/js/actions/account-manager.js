@@ -48,25 +48,25 @@ export function transferVaultToSavingsAccount(account, amount){
 
 
 //-------- CONNECT TO AWS GATEWAY ---------------//
-async function callAccountDetails(authorizationToken){
-    let url = APIBACKEND.GETACCOUNTDETAILS;
+// async function callAccountDetails(authorizationToken){
+//     let url = APIBACKEND.GETACCOUNTDETAILS;
     
-    return axios({
-        method: 'get',
-        headers: {'authorization': authorizationToken},
-        responseType: 'json',
-        url: url
-    })
-    .then(response=>{
-        return response;
-    }).catch(error=>{
-        return error;
-    })
+//     return axios({
+//         method: 'get',
+//         headers: {'authorization': authorizationToken},
+//         responseType: 'json',
+//         url: url
+//     })
+//     .then(response=>{
+//         return response;
+//     }).catch(error=>{
+//         return error;
+//     })
 
-}
-export async function getAccountDetails(authorizationToken){
-    let res = null;
-    const response = await callAccountDetails(authorizationToken);
-    return response;
-}
+// }
+// export async function getAccountDetails(authorizationToken){
+//     let res = null;
+//     const response = await callAccountDetails(authorizationToken);
+//     return response;
+// }
 

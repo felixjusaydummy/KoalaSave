@@ -9,14 +9,8 @@ import NumberFormat from 'react-number-format';
 import { useStyles } from "../../css/dashboard";
 import { VIEW_REDIRECT_PURSE, VIEW_REDIRECT_VAULT } from '../../js/constants/action-type';
 
-import * as TIPS from './Tips'
-
 import EcoIcon from '@material-ui/icons/Eco';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
-
-
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 
 
@@ -29,51 +23,6 @@ import LOGO_TIP1 from './../../js/pictures/tip1.png'
 import LOGO_TIP2 from './../../js/pictures/tip2.png'
 import LOGO_TIP3 from './../../js/pictures/tip3.png'
 
-// const useStyles = makeStyles(theme => ({
-//   '@global': {
-//     body: {
-//       backgroundColor: theme.palette.common.white,
-//     },
-//   },
-
-//   paper: {
-//     // marginTop: theme.spacing(2),
-//     display: 'flex',
-//     flexDirection: 'column',
-//     alignItems: 'center',
-//   },
-  
-//   papertips: {
-//     marginTop: theme.spacing(2),
-//     display: 'flex',
-//     flexDirection: 'column',
-//     alignItems: 'left',
-//   },
-
-//   avatar: {
-//     margin: theme.spacing(1),
-//     backgroundColor: theme.palette.secondary.main,
-//   },
-//   form: {
-//     width: '100%', // Fix IE 11 issue.
-//     marginTop: theme.spacing(0),
-//   },
-//   submit: {
-//     margin: theme.spacing(3, 0, 2),
-//     backgroundColor: bgColors.Green
-//   },
-
-//   img: {
-//     width: '100%',
-//     height: '100%',
-//     alignItems: 'top',
-//   },
-
-//   imgtips: {
-//     width: '100%',
-//     height: 100
-//   }
-// }));
 
 
 

@@ -99,11 +99,9 @@ export const initialState = {
     initializeState: true,
     page_loading  : false,
     response_status: "",
+    
     wallet_template: walletTemplate,
-    inbox : inboxTemplate,
-    current_inbox : null,
-    status_user : "new",
-    rewards : 9.87
+    current_inbox : null
 }
 
 
@@ -136,7 +134,22 @@ const backupinitialState = {
         account: {
             accountNo: "22012345",
             bankName: "BPI",
-            balance: 339800.0
+            balance: 339800.0,
+            acounts: [
+                {
+                    accountNo: "22012345",
+                    bankName: "BPI",
+                    balance: 339800.0,
+                    main : true
+                },
+                {
+                    accountNo: "22012347",
+                    bankName: "BP0",
+                    balance: 100000,
+                    main : false
+                }
+                
+            ]
         },
 
         purse: {

@@ -39,16 +39,18 @@ const { forwardRef, useRef } = React;
 
 function Vault(props){
 
+  // console.log(JSON.stringify(props.user, null, 2))
+
   const classes = useStyles();
 
 
   const ref = useRef();
   const ChildModal = forwardRef(VaultAllocationModal);
   const passToAddNewAllocation = (payload)=>{
-    props.addNewAllocation(payload);
+    props.addNewAllocation(payload, props);
   };
   const passToAddCashAllocation = (payload, iAmount)=>{
-    props.addCashAllocation(payload, iAmount);
+    props.addCashAllocation(payload, iAmount, props);
   };
 
   const refYesNo = useRef();
@@ -216,20 +218,22 @@ function mapDispatchToProps(dispatch){
   // TODO: CHECK IF VALUE IS GREATER THAN ZERO
   return {
     
-      addNewAllocation: (iPayload)=>{
+      addNewAllocation: (iPayload, props)=>{
           const action = {
             type: USER_VAULT_ALLOCATION_ADD,
-            payload: iPayload
+            payload: iPayload,
+            authorization: props.authorization,
           };
           dispatch(action);
       },
-      addCashAllocation: (payload, iAmount)=>{
+      addCashAllocation: (payload, iAmount, props)=>{
         const action = {
           type: USER_VAULT_ALLOCATION_ADD_CASH,
           payload: {
             pocket:payload,
             additionAmmount: iAmount
-          }
+          },
+          authorization: props.authorization,
         };
         dispatch(action);
       },
