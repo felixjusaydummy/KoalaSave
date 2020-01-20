@@ -7,8 +7,8 @@ export const addAllocation = (action, dispatch)=>{
     new Promise((resolve, reject)=>{
         try{
             //add thriftpoints
-            const thriftpoints = 1
-            let result = PurseManager.addPurseAllocationToDB(action.payload, action.authorization, thriftpoints);
+            
+            let result = PurseManager.addPurseAllocation(action.payload, action.authorization);
             resolve(result)
         }catch(err){
             reject(err);

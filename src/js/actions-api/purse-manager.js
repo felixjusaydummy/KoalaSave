@@ -2,10 +2,11 @@ import axios from "axios";
 import * as APIBACKEND from "./../constants/api-backend"
 import * as USERACCOUNT from "./account-manager"
 
-async function callAddPurseAllocation(allocation, authorizationToken, thriftpoints){
+async function callAddPurseAllocation(allocation, authorizationToken){
     // console.log("purse manager: call add allocatio api")
     let url = APIBACKEND.PURSE_ALLOCATION_ADD;
     let body =  allocation
+    const thriftpoints = 1
 
     const params = {
         method: 'post',
@@ -29,7 +30,7 @@ async function callAddPurseAllocation(allocation, authorizationToken, thriftpoin
     })
 
 }
-export async function addPurseAllocationToDB(allocation, authorizationToken){
+export async function addPurseAllocation(allocation, authorizationToken){
     let res = null;
     const response = await callAddPurseAllocation(allocation, authorizationToken);
     return USERACCOUNT.getAccountDetails(authorizationToken);

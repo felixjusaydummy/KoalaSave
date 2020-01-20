@@ -14,6 +14,7 @@ import EcoIcon from '@material-ui/icons/Eco';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import HomeIcon from '@material-ui/icons/Home';
 import Badge from '@material-ui/core/Badge';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 // import DashboardIcon from '@material-ui/icons/Dashboard';
 // import Collapse from '@material-ui/core/Collapse';
 // import InboxIcon from '@material-ui/icons/MoveToInbox';
@@ -119,7 +120,7 @@ export const mainfunction = (props)=>{
           <Link to={"/"}> 
           <ListItem button onClick={()=>{triggerLogout()}}>
             <ListItemIcon>
-              <SettingsIcon />
+              <ExitToAppIcon />
             </ListItemIcon>
             <ListItemText primary="Logout" />
           </ListItem>
