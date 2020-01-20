@@ -251,8 +251,6 @@ function Home(props) {
     }else{
       return brokenLink;
     }
-      
-    
   }
   
 }

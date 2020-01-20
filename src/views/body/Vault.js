@@ -62,7 +62,7 @@ function Vault(props){
   const refTransferSavings = useRef();
   const ChildModal3 = forwardRef(TransferSavingsModal);
   const transferSavings = (iAmount)=>{
-    props.vaultToPurse(iAmount);
+    props.vaultToPurse(iAmount, props);
   }
 
   if(props.user.vault){
@@ -237,13 +237,14 @@ function mapDispatchToProps(dispatch){
         };
         dispatch(action);
       },
-      vaultToPurse: (iAmount)=>{
+      vaultToPurse: (iAmount, props)=>{
         const action = {
           type: USER_SAVINGSACCOUNT_FROM_VAULT,
           payload: {
             // amount: 1
             amount: iAmount
-          }
+          },
+          authorization: props.authorization,
         };
         dispatch(action);
       },

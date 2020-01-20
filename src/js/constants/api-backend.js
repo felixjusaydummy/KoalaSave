@@ -20,6 +20,7 @@ export const PURSE_ALLOCATION_RELEASE           = DOMAIN + "/account/purse/relea
 export const VAULT_ALLOCATION_ADD               = DOMAIN + "/account/vault/add-vault"
 // export const VAULT_ALLOCATION_ADD_CASH          = DOMAIN + "/account-vault-allocation-add-cash"
 export const VAULT_ALLOCATION_ADD_CASH          = DOMAIN + "/account/vault/update-vault"
-
-export const TRANSFER_SAVINGSACCOUNT_TO_VAULT               = DOMAIN + "/transfer-savingsaccount-to-vault"
-export const TRANSFER_SAVINGSACCOUNT_FROM_VAULT             = DOMAIN + "/transfer-vault-to-savingsaccount"
+// export const TRANSFER_SAVINGSACCOUNT_TO_VAULT               = DOMAIN + "/transfer-savingsaccount-to-vault"
+export const TRANSFER_SAVINGSACCOUNT_TO_VAULT               = DOMAIN + "/account/transfer/savings-to-vault"
+// export const TRANSFER_SAVINGSACCOUNT_FROM_VAULT             = DOMAIN + "/account/transfer-vault-to-savingsaccount"
+export const TRANSFER_SAVINGSACCOUNT_FROM_VAULT             = DOMAIN + "/account/transfer/vault-to-savings"

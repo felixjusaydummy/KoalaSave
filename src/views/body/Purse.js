@@ -68,7 +68,7 @@ function Purse(props){
     props.resetMessageStatus();
   }
   const transferSavings = (iAmount)=>{
-    props.purseToVault(iAmount);
+    props.purseToVault(iAmount, props);
   }
 
 
@@ -329,12 +329,13 @@ function mapDispatchToProps(dispatch){
         };
         dispatch(action);
       },
-      purseToVault: (iAmount)=>{
+      purseToVault: (iAmount, props)=>{
         const action = {
           type: USER_SAVINGSACCOUNT_TO_VAULT,
           payload: {
             amount: iAmount
-          }
+          },
+          authorization: props.authorization,
         };
         dispatch(action);
       },

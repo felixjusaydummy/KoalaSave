@@ -18,7 +18,7 @@ async function callAddPurseAllocation(allocation, authorizationToken){
         url: url,
         data: body
     }
-    // console.log("pursemanager - callPurseAllocationAPI: "+ JSON.stringify(params))
+    console.log("pursemanager - callPurseAllocationAPI: "+ JSON.stringify(params))
 
     return axios(params)
     .then(response=>{

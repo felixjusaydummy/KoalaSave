@@ -22,9 +22,10 @@ export const transferSavingAccountToVault = (action, dispatch)=>{
             action = {
                 type : ACTIONTYPE.USER_SAVINGSACCOUNT_TO_VAULT_RESOLVED,
                 status : STATUSTYPE.STATUS_SUCCESS,
-                data : response.data.data.user,
+                data : response.data.data,
                 action_status: action_status
             }
+            // console.log("bankaccount-middleware: "+ JSON.stringify(action, null, 2))
             dispatch(action);
         }else{
             let action_status = {
@@ -71,6 +72,7 @@ export const transferVaultToSavingsAccount = (action, dispatch)=>{
             reject(err);
         }
     }).then(response=>{
+        console.log("bankaccount-middleware-result: "+ JSON.stringify(response, null, 2))
         if(response.data.status === STATUSTYPE.RESPOND_SUCCESS){
             let action_status = {
                 purse: {
@@ -82,9 +84,10 @@ export const transferVaultToSavingsAccount = (action, dispatch)=>{
             action = {
                 type : ACTIONTYPE.USER_SAVINGSACCOUNT_TO_VAULT_RESOLVED,
                 status : STATUSTYPE.STATUS_SUCCESS,
-                data : response.data.data.user,
+                data : response.data.data,
                 action_status: action_status
             }
+            console.log("bankaccount-middleware-success: "+ JSON.stringify(action, null, 2))
             dispatch(action);
         }else{
             let action_status = {
@@ -99,6 +102,7 @@ export const transferVaultToSavingsAccount = (action, dispatch)=>{
                 status : STATUSTYPE.STATUS_ERROR,
                 action_status: action_status
             }
+            console.log("bankaccount-middleware-error: "+ JSON.stringify(action, null, 2))
             dispatch(action);
         }
     })
@@ -115,6 +119,7 @@ export const transferVaultToSavingsAccount = (action, dispatch)=>{
             status : STATUSTYPE.QUERY_ERROR,
             action_status: action_status
         }
+        console.log("bankaccount-middleware-catch-error: "+ JSON.stringify(action, null, 2))
         dispatch(action);
     })
 }
