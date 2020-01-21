@@ -219,6 +219,19 @@ function rootReducer(state = getInitialState(), action){
     }else if(action.type === ACTIONTYPE.INBOX_CLOSE_MESSAGE){
         state = Object.assign({}, state, {current_inbox: null}) 
     }
+
+    
+
+    //BANK ACCOUNT - READ AND CLOSE
+    else if (action.type === ACTIONTYPE.BANKACCOUNT_READ_ACCOUTDETAILS){
+        state = Object.assign({}, state, {current_accountdetails: action.payload}) 
+        // console.log("read accounts: "+ JSON.stringify(state, null, 2))
+    }else if(action.type === ACTIONTYPE.BANKACCOUNT_CLOSE_ACCOUTDETAILS){
+        state = Object.assign({}, state, {current_accountdetails: null}) 
+    }
+
+
+    
        
 
 

@@ -57,7 +57,7 @@ function buildMainControlPanel(props, classes){
           >
             
             <AccountBalanceWalletIcon/>
-            <Typography component="p" variant="h6">Wallet | <NumberFormat value={props.user.account.balance} displayType={'text'} thousandSeparator={true} /></Typography>
+            <Typography component="p" variant="h6">Wallet | Php <NumberFormat value={props.user.account.balance} displayType={'text'} thousandSeparator={true} /></Typography>
           </Button>
 
           <Button

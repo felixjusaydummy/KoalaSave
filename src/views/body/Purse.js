@@ -234,7 +234,7 @@ function Purse(props){
             <Title>Wallet Balance</Title>
             
             <Typography component="p" variant="h4">
-              <NumberFormat value={props.user.account.balance} displayType={'text'} thousandSeparator={true} />
+              Php <NumberFormat value={props.user.account.balance} displayType={'text'} thousandSeparator={true} />
             </Typography>
   
             <Typography component="p">

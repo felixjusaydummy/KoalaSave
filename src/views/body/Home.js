@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import clsx from 'clsx';
+// import Store from './../../js/store'
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -44,6 +45,7 @@ import Vault from './Vault'
 import Inbox from './Inbox'
 import Setting from './Setting'
 import Account from './Account'
+import UserAccount from  './UserAccounts'
 
 
 
@@ -227,6 +229,7 @@ function Home(props) {
                 <Route path={URL_LIST.URL_USER_RECOMMEDATION}  component={Inbox} />
                 <Route path={URL_LIST.URL_USER_SETTING}  component={Setting} />
                 <Route path={URL_LIST.URL_USER_ACCOUNT}  component={Account} />
+                {/* <Route path={URL_LIST.URL_USER_ACCOUNT}  component={UserAccount} /> */}
               </Switch>
             </Grid>
             <Copyright />

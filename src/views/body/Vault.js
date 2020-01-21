@@ -97,7 +97,7 @@ function Vault(props){
             <Title>Vault Balance</Title>
             
             <Typography component="p" variant="h4">
-              <NumberFormat value={props.user.vault.vaultBalance} displayType={'text'} thousandSeparator={true} />
+              Php <NumberFormat value={props.user.vault.vaultBalance} displayType={'text'} thousandSeparator={true} />
             </Typography>
             
             {/* <Button variant="contained" color="primary" onClick={ ()=>props.purseToVault(props.user.vault.vaultBalance)}><AccountBalanceWalletIcon/>Add to Wallet</Button> */}
@@ -111,7 +111,7 @@ function Vault(props){
                   <TableRow >
                     <TableCell>Pocket Amount</TableCell>
                     <TableCell align="right">
-                      <NumberFormat value={props.user.vault.pocketAmount} displayType={'text'} thousandSeparator={true} />
+                      Php <NumberFormat value={props.user.vault.pocketAmount} displayType={'text'} thousandSeparator={true} />
                     </TableCell>
                   </TableRow>
               </TableBody>
@@ -129,8 +129,8 @@ function Vault(props){
                           <div>Expiration</div>
                           </TableCell>
                         <TableCell align="right">
-                          <div><NumberFormat value={row.amount} displayType={'text'} thousandSeparator={true} /></div>
-                          <div><NumberFormat value={row.targetAmount} displayType={'text'} thousandSeparator={true} /></div>
+                          <div>Php <NumberFormat value={row.amount} displayType={'text'} thousandSeparator={true} /></div>
+                          <div>Php <NumberFormat value={row.targetAmount} displayType={'text'} thousandSeparator={true} /></div>
                           <div>
                           {new Intl.DateTimeFormat('en-GB', { 
                               year: 'numeric', 

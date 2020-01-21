@@ -28,10 +28,6 @@ const SecretRoute = ({ component: Component, ...rest }) => (
   )} />
 );
 
-
-
-
-
 function Main(props) {
   return (
     <div>  

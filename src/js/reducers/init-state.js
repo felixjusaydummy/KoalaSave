@@ -101,7 +101,8 @@ export const initialState = {
     response_status: "",
     
     wallet_template: walletTemplate,
-    current_inbox : null
+    current_inbox : null,
+    current_accountdetails : null
 }
 
 
@@ -140,7 +141,22 @@ const backupinitialState = {
                     accountNo: "22012345",
                     bankName: "BPI",
                     balance: 339800.0,
-                    main : true
+                    main : true,
+                    "_comment": "temporaring kabit lang boss, test lang sa desperadong dev",
+                    "TransactionHistory": [
+                    {
+                        "amount": 1000,
+                        "crdr": "dr",
+                        "date": "2020-01-16T18:00:00.000Z",
+                        "description": "ATM Withdrawal"
+                    },
+                    {
+                        "amount": 10000,
+                        "crdr": "cr",
+                        "date": "2020-01-17T13:00:00.000Z",
+                        "description": "Credit Memo"
+                    }
+                    ]
                 },
                 {
                     accountNo: "22012347",

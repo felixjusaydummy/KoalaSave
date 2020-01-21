@@ -71,7 +71,7 @@ export const mainfunction = (props)=>{
               <ListItemText primary="Home"  />
             </ListItem>
           </Link>
-{/* 
+
           <Link to={URL_LIST.URL_USER_ACCOUNT}>
             <ListItem button>
                 <ListItemIcon>
@@ -79,7 +79,7 @@ export const mainfunction = (props)=>{
                 </ListItemIcon>
               <ListItemText primary="Account" />
             </ListItem>
-          </Link> */}
+          </Link>
     
           <Link to={URL_LIST.URL_USER_RECOMMEDATION}>
             <ListItem button>
