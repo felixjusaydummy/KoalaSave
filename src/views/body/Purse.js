@@ -135,13 +135,13 @@ function Purse(props){
                   <TableRow >
                     <TableCell>Pocket Amount</TableCell>
                     <TableCell align="right">
-                      <NumberFormat value={props.user.purse.pocketAmount} displayType={'text'} thousandSeparator={true} />
+                      Php <NumberFormat value={props.user.purse.pocketAmount} displayType={'text'} thousandSeparator={true} />
                     </TableCell>
                   </TableRow>
                   <TableRow >
                     <TableCell>Total Balance</TableCell>
                     <TableCell align="right">
-                      <NumberFormat value={Number(props.user.account.balance + props.user.purse.pocketAmount )} displayType={'text'} thousandSeparator={true} />
+                      Php <NumberFormat value={Number(props.user.account.balance + props.user.purse.pocketAmount )} displayType={'text'} thousandSeparator={true} />
                     </TableCell>
                   </TableRow>
               </TableBody>
@@ -155,7 +155,7 @@ function Purse(props){
                     <TableRow key={row.description}>
                       <TableCell align="left">{row.description}</TableCell>
                       <TableCell align="right">
-                        <NumberFormat value={row.amount} displayType={'text'} thousandSeparator={true} />
+                        Php <NumberFormat value={row.amount} displayType={'text'} thousandSeparator={true} />
                       </TableCell>
   
                       <TableCell align="right">

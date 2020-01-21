@@ -22,3 +22,7 @@ export const REWARD_STATUS_DIAMOND    = "Diamond"
 
 export const INBOX_STATUS_REWARDS           = "Rewards"
 export const INBOX_STATUS_NOTIFICATTION     = "Notification"
+
+
+export const ACCOUNTTYPE_DEPOSIT           = "deposit"
+export const ACCOUNTTYPE_CREDIT            = "credit"

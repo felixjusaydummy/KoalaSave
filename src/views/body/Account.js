@@ -55,7 +55,22 @@ const getDateValue = (datevalue)=>{
   return res;
 }
 
+const categByDepositAndCreditAccounts = (accountlist)=>{
+  const len = accountlist.length;
+  let deposit = [], credit = [];
+  for(let i = 0; i<len; i++){
+    if(accountlist[i].type === STATUSTYPE.ACCOUNTTYPE_CREDIT){
+      credit.push(accountlist[i])
+    }else{
+      deposit.push(accountlist[i])
+    }
+  }
 
+  return {
+    deposit: deposit,
+    credit: credit
+  }
+}
 
 
 
@@ -66,28 +81,31 @@ function getId(){
   return counter;
 }
 
-let counter2 = 0;
+let counter2 = 1;
 function getId2(){
-  counter = counter2 + 1;
+  counter2 = counter2 + 1;
   return counter2;
 }
 
 
-const buildTransactionDetails = (elemdetails)=>{
-  console.log("elem per iteim: "+ JSON.stringify(elemdetails, null, 2))
+const buildTransactionDetails = (e)=>{
   const page = (
-    <TableRow >
+    <TableRow  key={getId2()} >
+      <TableCell align="left">
+        <Typography component="p" variant="body1">
+          {getDateValue(e.date)}
+        </Typography>
+      </TableCell>
       <TableCell>
-        <Typography component="p" variant="body1">Description</Typography>
+        <Typography component="p" variant="body1">{e.description}</Typography>
       </TableCell>
       <TableCell align="right">
-        <Typography component="p" variant="body1">Type</Typography>
+        <Typography component="p" variant="body1">{e.crdr}</Typography>
       </TableCell>
       <TableCell align="right">
-        <Typography component="p" variant="body1">Date</Typography>
-      </TableCell>
-      <TableCell align="right">
-        <Typography component="p" variant="body1">Amount</Typography>
+        <Typography component="p" variant="body1">
+          PHP <NumberFormat value={e.amount} displayType={'text'} thousandSeparator={true} />
+        </Typography>
       </TableCell>
     </TableRow>
   )
@@ -95,10 +113,39 @@ const buildTransactionDetails = (elemdetails)=>{
 }
 
 
+
+const buildTable= (list)=>{
+  const table = (
+    <TableBody>
+      {/* {Row Header} */}
+      <TableRow key={0}>
+        <TableCell align="left">
+          <Typography component="p" variant="body1">Date</Typography>
+        </TableCell>
+        <TableCell>
+          <Typography component="p" variant="body1">Description</Typography>
+        </TableCell>
+        <TableCell align="right">
+          <Typography component="p" variant="body1">Type</Typography>
+        </TableCell>
+        <TableCell align="right">
+          <Typography component="p" variant="body1">Amount</Typography>
+        </TableCell>
+      </TableRow>
+
+      {/* {Row Details} */}
+      {list.map(elem=>(
+        buildTransactionDetails(elem)
+      ))}
+    </TableBody>
+  )
+  return table
+}
+
+
 //BODY
 // INBOX MESSAGE PAGE
-const buildMessagePage = (elem, props)=>{
-  // console.log("elem detais: "+ JSON.stringify(elem, null, 2))
+const buildHeaderPage = (elem, props)=>{
   const page = (
     <div>
     <Table size="small">
@@ -117,33 +164,20 @@ const buildMessagePage = (elem, props)=>{
       </TableBody>
     </Table>
     <Typography gutterBottom>.</Typography>
-    <Table>
-      <TableBody>
-          {/* {Row Header} */}
-        <TableRow >
-          <TableCell>
-            <Typography component="p" variant="body1">Description</Typography>
-          </TableCell>
-          <TableCell align="right">
-            <Typography component="p" variant="body1">Type</Typography>
-          </TableCell>
-          <TableCell align="right">
-            <Typography component="p" variant="body1">Date</Typography>
-          </TableCell>
-          <TableCell align="right">
-            <Typography component="p" variant="body1">Amount</Typography>
-          </TableCell>
-        </TableRow>
 
+    <Table>
         {/* {Row Details} */}
-        {(elem.TransactionHistory)?
-          elem.TransactionHistory.map(elem=>{
-            buildTransactionDetails(elem)
-          })
-        :""
+        {(elem.TransactionHistory && elem.TransactionHistory.length)?
+            buildTable(elem.TransactionHistory)
+          :
+          <TableBody>
+            <TableRow  key={0}>
+              <TableCell align="center">No Data</TableCell>
+            </TableRow>
+          </TableBody>
         }
 
-      </TableBody>
+      
     </Table>
 
     <Typography gutterBottom>.</Typography>
@@ -160,26 +194,25 @@ const buildMessagePage = (elem, props)=>{
   )
   return page;
 }
-// INBOX ITEMS
-function buildMessageItems(elem, props){
-
+// List ITEMS
+function buildListAccountItems(elem, props){
   // console.log("Acconts Elem: "+ JSON.stringify(elem, null, 2))
   const message = (
       // <ListItem button key={getId()} onClick={()=>props.readMessage(elem)}>
       <ListItem button key={getId()} onClick={()=>props.readMessage(elem)}>
         <Grid container spacing={3}>
           <Grid item xs={4}>
-            <Typography component="p" variant="body2">
+            <Typography component="p" variant="h5">
                 {elem.bankName}
             </Typography>
           </Grid>
           <Grid item xs={4}>
-            <Typography component="p" variant="body2">
+            <Typography component="p" variant="h5">
                 {elem.accountNo}
             </Typography>
           </Grid>
-          <Grid item xs={4}>
-            <Typography component="p" variant="body2">
+          <Grid item xs={4} align="right">
+            <Typography component="p" variant="h5">
               Php <NumberFormat value={elem.balance} displayType={'text'} thousandSeparator={true} />
             </Typography>
           </Grid>
@@ -196,25 +229,24 @@ function buildMessageItems(elem, props){
 function Account(props) {
   const classes = useStyles();
   if(!props.current_accountdetails){
-    const  defaultPage = (
+    //show list of accounts
+
+    const cateAccounts = categByDepositAndCreditAccounts(props.user.account.accounts);
+
+    const  defaultPageDeposit = (
       <List
         component="nav"
         aria-labelledby="nested-list-subheader"
         subheader={
           <ListSubheader component="div" id="nested-list-subheader">
-            Accounts and Insights
+            Deposit Accounts
           </ListSubheader>
         }
         className={classes.root}
       >
-        {(props.user.account.accounts)?
-          props.user.account.accounts.map(elem=>(
-            buildMessageItems(elem, props)
-          ))
-        :""}
         <ListItem>
             <React.Fragment>
-            <Container spacing={3}>
+            {/* <Container spacing={3}> */}
               <Button
                 type="button"
                 // fullWidth
@@ -222,8 +254,34 @@ function Account(props) {
                 color="primary"
                 className={classes.submit}
               >
-                Enroll Debit Account
+                Enroll Deposit Account
               </Button>
+              {/* </Container> */}
+            </React.Fragment>
+        </ListItem>
+
+        {(cateAccounts.deposit)?
+          cateAccounts.deposit.map(elem=>(
+            buildListAccountItems(elem, props)
+          ))
+        :""}
+      </List>
+    );
+
+    const  defaultPageCredit = (
+      <List
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+        subheader={
+          <ListSubheader component="div" id="nested-list-subheader">
+            Credit Accounts
+          </ListSubheader>
+        }
+        className={classes.root}
+      >
+        <ListItem>
+            <React.Fragment>
+            {/* <Container spacing={3}> */}
               <Button
                 type="button"
                 // fullWidth
@@ -233,20 +291,39 @@ function Account(props) {
               >
                 Enroll Credit Account
               </Button>
-              </Container>
+              {/* </Container> */}
             </React.Fragment>
         </ListItem>
+
+        {(cateAccounts.credit)?
+          cateAccounts.credit.map(elem=>(
+            buildListAccountItems(elem, props)
+          ))
+        :""}
       </List>
     );
-    return defaultPage
+
+    const consoList = (
+      <List className={classes.root}>
+        <ListItem key={0}>
+          {defaultPageDeposit}
+        </ListItem>
+        <ListItem key={1}>
+          {defaultPageCredit}
+        </ListItem>
+      </List>
+    )
+
+    return consoList
   }else{
+    //show account details
     const  defaultPage = (
       <List
         component="nav"
         aria-labelledby="nested-list-subheader"
         className={classes.root}
       >
-        {buildMessagePage(props.current_accountdetails, props)}
+        {buildHeaderPage(props.current_accountdetails, props)}
       </List>
     );
     return defaultPage
