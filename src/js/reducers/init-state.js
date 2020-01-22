@@ -217,5 +217,6 @@ const backupinitialState = {
 
     login_status : "",
     login_message: "",
-    initializeState: false
+    initializeState: false,
+    tips : []
 }
