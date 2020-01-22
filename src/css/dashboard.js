@@ -74,6 +74,10 @@ export const useStyles = makeStyles(theme => ({
 
   imgtips: {
     width: '100%',
-    height: 100
+    height: 100,
+    backgroundColor: bgColors.Green,
+    "&:hover": {
+      background: bgColors.DarkGreen
+    },
   }
 }));

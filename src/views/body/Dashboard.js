@@ -12,7 +12,7 @@ import { VIEW_REDIRECT_PURSE, VIEW_REDIRECT_VAULT } from '../../js/constants/act
 import EcoIcon from '@material-ui/icons/Eco';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import Grid from '@material-ui/core/Grid';
-
+import TipsModal from './../modal/TipsModal'
 
 //logs
 import LOGO_MERCHANT1 from './../../js/pictures/merchant1.png'
@@ -23,7 +23,7 @@ import LOGO_TIP1 from './../../js/pictures/tip1.png'
 import LOGO_TIP2 from './../../js/pictures/tip2.png'
 import LOGO_TIP3 from './../../js/pictures/tip3.png'
 
-
+const { forwardRef, useRef } = React;
 
 
 function buildMainControlPanel(props, classes){
@@ -80,101 +80,180 @@ function buildMainControlPanel(props, classes){
   return mainpanel  
 }
 
+
 function builcTipsPanel(props, classes){
-  const mainpanel = (
-    <div className={classes.papertips}>
-          
-          <Typography component="p" variant="h6">
-            Tips and Recommendations
-          </Typography>
-          <Grid container spacing={3}>
-          <Grid item xs={3}>
-              <Button className={classes.img}>
-                <div>
-                  <Typography component="p" variant="body2">
-                    How to start creating your budget plan?
-                  </Typography>
-                </div>
-              </Button>
-              
-            </Grid>
+  if(props.user.tips && props.user.tips.length>0){
+    const mainpanel = (
+      <div className={classes.papertips}>
+            
+            <Typography component="p" variant="h6">
+              Tips and Recommendations
+            </Typography>
+            <Grid container spacing={3}>
             <Grid item xs={3}>
-              <Button className={classes.img}> 
-                <div>
-                  <img src={LOGO_TIP1} alt="Logo" className={classes.imgtips}/>;
-                  <Typography component="p" variant="body2">
-                    Healthcare costs are extremely expensive. Make sure to stay protected w/ Travel Insurance
-                  </Typography>
-                </div>
-              </Button>
+                <Button className={classes.img}>
+                  <div>
+                    <Typography component="p" variant="body2">
+                      How to start creating your budget plan?
+                    </Typography>
+                  </div>
+                </Button>
+                
+              </Grid>
+              <Grid item xs={3}>
+                <Button className={classes.img}> 
+                  <div>
+                    <img src={LOGO_TIP1} alt="Logo" className={classes.imgtips}/>;
+                    <Typography component="p" variant="body2">
+                      Healthcare costs are extremely expensive. Make sure to stay protected w/ Travel Insurance
+                    </Typography>
+                  </div>
+                </Button>
+              </Grid>
+              <Grid item xs={3}>
+                <Button className={classes.img}>
+                  <div>
+                    <img src={LOGO_TIP2} alt="Logo" className={classes.imgtips}/>;
+                    <Typography component="p" variant="body2">
+                      Tips and strategies on how to save money
+                    </Typography>
+                  </div>
+                </Button>
+              </Grid>
+              <Grid item xs={3}>
+                <Button className={classes.img}>
+                  <div>
+                    <img src={LOGO_TIP3} alt="Logo" className={classes.imgtips}/>;
+                    <Typography component="p" variant="body2">
+                      Investing can be the first important step to achieving your best possible financial future
+                    </Typography>
+                  </div>
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item xs={3}>
-              <Button className={classes.img}>
-                <div>
-                  <img src={LOGO_TIP2} alt="Logo" className={classes.imgtips}/>;
-                  <Typography component="p" variant="body2">
-                    Tips and strategies on how to save money
-                  </Typography>
-                </div>
-              </Button>
+        </div>
+    )
+    return mainpanel
+  }else{
+    return (<div></div>)
+  }
+}
+
+
+
+// INBOX LIST
+let counter = 0;
+function getId(){
+  counter = counter + 1;
+  return counter;
+}
+function trimMessageText(textMessage){
+  const limit = 50;
+  if(textMessage.length>limit){
+    return (textMessage.substring(0, limit)+"...")
+  }else{
+    return textMessage
+  }
+}
+
+
+function builcTipsPanel2(props, classes, ref, ChildModal){
+  if(props.user.tips && props.user.tips.length>0){
+
+    let len = props.user.tips.length - 1;
+    let maxToShow = 4;
+    let counter = 0;
+
+    let buttonsToShow = []
+    for( let c = 0; c<maxToShow && len>=0 ; c++, len--){
+      const tipItem = props.user.tips[len];
+      // console.log("Item: " + JSON.stringify(tipItem, null, 2))
+
+      if(tipItem.details){
+        const buttonx = (
+          <Button 
+            key={c} 
+            className={classes.imgtips}
+            onClick={()=>ref.current.openDialog(tipItem)}
+            >
+            <Typography component="p" variant="body2">
+              {trimMessageText(tipItem.details)}
+            </Typography>
+          </Button> 
+        )
+        buttonsToShow.push(buttonx)
+      }
+    }
+
+    const mainpanel = (
+      <div className={classes.papertips}>
+            
+            <Typography component="p" variant="h6">
+              Tips and Recommendations
+            </Typography>
+            <Grid container spacing={3}>
+              {buttonsToShow.map(elem=>(
+                <Grid item xs={3} key={getId()}>
+                  {elem}
+                </Grid>
+              ))}
             </Grid>
-            <Grid item xs={3}>
-              <Button className={classes.img}>
-                <div>
-                  <img src={LOGO_TIP3} alt="Logo" className={classes.imgtips}/>;
-                  <Typography component="p" variant="body2">
-                    Investing can be the first important step to achieving your best possible financial future
-                  </Typography>
-                </div>
-              </Button>
-            </Grid>
-          </Grid>
-      </div>
-  )
-  return mainpanel 
+        </div>
+    )
+    return mainpanel
+  }else{
+    return (<div></div>)
+  }
 }
 
 function buildAffiliateMerchants(props, classes){
-  const mainpanel = (
-    <div className={classes.papertips}>
-          
-          <Typography component="p" variant="h6">
-            Affiliate Merchants
-          </Typography>
-          <Grid container spacing={3}>
-            <Grid item xs={3}>
-              <Button>
-                <img src={LOGO_MERCHANT1} alt="Logo" className={classes.img}/>;
-              </Button>
+  if(props.user.tips && props.user.tips.length>0){
+    const mainpanel = (
+      <div className={classes.papertips}>
+            
+            <Typography component="p" variant="h6">
+              Affiliate Merchants
+            </Typography>
+            <Grid container spacing={3}>
+              <Grid item xs={3}>
+                <Button>
+                  <img src={LOGO_MERCHANT1} alt="Logo" className={classes.img}/>;
+                </Button>
+              </Grid>
+              <Grid item xs={3}>
+                <Button>
+                  <img src={LOGO_MERCHANT2} alt="Logo" className={classes.img}/>;
+                </Button>
+              </Grid>
+              <Grid item xs={3}>
+                <Button>
+                  <img src={LOGO_MERCHANT3} alt="Logo" className={classes.img}/>;
+                </Button>
+              </Grid>
+              <Grid item xs={3}>
+                <Button>
+                  <img src={LOGO_MERCHANT4} alt="Logo" className={classes.img}/>;
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item xs={3}>
-              <Button>
-                <img src={LOGO_MERCHANT2} alt="Logo" className={classes.img}/>;
-              </Button>
-            </Grid>
-            <Grid item xs={3}>
-              <Button>
-                <img src={LOGO_MERCHANT3} alt="Logo" className={classes.img}/>;
-              </Button>
-            </Grid>
-            <Grid item xs={3}>
-              <Button>
-                <img src={LOGO_MERCHANT4} alt="Logo" className={classes.img}/>;
-              </Button>
-            </Grid>
-          </Grid>
-          
-      </div>
-  )
-  return mainpanel 
+            
+        </div>
+    )
+    return mainpanel 
+  }else{
+    return (<div></div>)
+  }
 }
 
 
 function Dashboard(props){
   const classes = useStyles();
 
+  const ref = useRef();
+  const ChildModal = forwardRef(TipsModal);
+
   const mainControlsPanel = buildMainControlPanel(props, classes);
-  const tipsPanel = builcTipsPanel(props, classes);
+  const tipsPanel = builcTipsPanel2(props, classes, ref, ChildModal);
   const merchantsPanel = buildAffiliateMerchants(props, classes);
 
   const mainpage = (
@@ -182,6 +261,8 @@ function Dashboard(props){
   
     <Container component="main" maxWidth="lg">
       <CssBaseline />
+      <ChildModal ref={ref}/>
+
       <Container  maxWidth="xs">
         {mainControlsPanel}
       </Container>

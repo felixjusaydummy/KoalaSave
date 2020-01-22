@@ -64,11 +64,11 @@ export default function VaultAllocationModal(props, ref) {
     if(Number(iAmount)>=0 && iDescriptionHolder){
       if(addAllocation === TASK_POCKET_ADD_NEW){
           let payload = {
-              id: 0,
               description: iDescriptionHolder,
               amount: iAmount,
               targetAmount: iTargetAmount,
-              expiration: iExpiration
+              expiration: iExpiration,
+              releaseRequest: false,
           }
         props.passToAddNewAllocation(payload);
         setOpen(false);

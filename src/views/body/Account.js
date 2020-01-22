@@ -187,6 +187,7 @@ const buildHeaderPage = (elem, props)=>{
       color="primary"
       size="large" 
       onClick={()=>props.closeMessage(elem)}
+      spacing={3}
     >
       Back
     </Button>
