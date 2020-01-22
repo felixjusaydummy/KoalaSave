@@ -184,8 +184,18 @@ function rootReducer(state = getInitialState(), action){
         // let res = VaultManager.transferVaultToSavingsAccount(state, action.payload);
         // res.action_status.purse.transaction = ACTIONTYPE.USER_SAVINGSACCOUNT_FROM_VAULT;
         // state = res;
+    }else if(action.type === ACTIONTYPE.BANKACCOUNT_ACCOUNT_ENROLLACCOUNT_RESOLVED ){
+        let res =  Object.assign({}, state)
+        if(!action.status){
+            res.user = null;
+        }
+        else if(action.status === STATUSTYPE.STATUS_SUCCESS){
+            res.user = action.data;        
+        }
+        res.action_status = action.action_status;
+        state = res;
     }
-
+    
     else if(action.type === ACTIONTYPE.MESSAGE_RESET_DEFAULT){
         state = Object.assign(
             {},

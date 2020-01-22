@@ -31,7 +31,10 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import * as ACTIONTYPE from './../../js/constants/action-type'
 import * as STATUSTYPE from './../../js/constants/status-type'
 import { Container } from '@material-ui/core';
+import EnrollAccountModal from './../modal/EnrollAccountModal'
+import InfoModal from './../modal/InfoModal'
 
+const { forwardRef, useRef } = React;
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -229,6 +232,16 @@ function buildListAccountItems(elem, props){
 // MAIN //
 function Account(props) {
   const classes = useStyles();
+  const ref = useRef();
+  const ChildModal = forwardRef(EnrollAccountModal);
+  const passEnrollAccount = (payload)=>{
+    props.enrollAccount(payload, props);
+  }
+
+  const closeInfoModal = ()=>{
+    props.resetMessageStatus();
+  }
+
   if(!props.current_accountdetails){
     //show list of accounts
 
@@ -254,6 +267,7 @@ function Account(props) {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
+                onClick={()=>ref.current.openEnrollAccount(STATUSTYPE.ACCOUNTTYPE_DEPOSIT)}
               >
                 Enroll Deposit Account
               </Button>
@@ -289,6 +303,7 @@ function Account(props) {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
+                onClick={()=>ref.current.openEnrollAccount(STATUSTYPE.ACCOUNTTYPE_CREDIT)}
               >
                 Enroll Credit Account
               </Button>
@@ -305,14 +320,27 @@ function Account(props) {
     );
 
     const consoList = (
-      <List className={classes.root}>
-        <ListItem key={0}>
-          {defaultPageDeposit}
-        </ListItem>
-        <ListItem key={1}>
-          {defaultPageCredit}
-        </ListItem>
-      </List>
+      <Container component="main" maxWidth="lg">
+        <ChildModal 
+          passEnrollAccount={passEnrollAccount}
+          ref={ref}/>
+
+        {(props.action_status.purse.status === STATUSTYPE.STATUS_ERROR )? 
+          <InfoModal 
+            status={"Error"} 
+            message={props.action_status.purse.message} 
+            closeInfoModal={closeInfoModal} />: ""}  
+          
+        <List className={classes.root}>
+          
+          <ListItem key={0}>
+            {defaultPageDeposit}
+          </ListItem>
+          <ListItem key={1}>
+            {defaultPageCredit}
+          </ListItem>
+        </List>
+      </Container>
     )
 
     return consoList
@@ -351,7 +379,21 @@ function mapDispatchToProps(dispatch){
           payload: null
         };
         dispatch(action);
-    }
+      },
+      enrollAccount: (payload, props)=>{
+        const action = {
+          type: ACTIONTYPE.BANKACCOUNT_ACCOUNT_ENROLLACCOUNT,
+          payload: payload,
+          authorization: props.authorization,
+        };
+        dispatch(action);
+      },
+      resetMessageStatus: ()=>{
+        const action = {
+          type: ACTIONTYPE.MESSAGE_RESET_DEFAULT
+        };
+        dispatch(action);
+      }
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Account)

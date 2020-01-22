@@ -52,7 +52,7 @@ async function callTransferVaultToSavingsAccount(allocation, authorizationToken)
         data: body
     }
 
-    console.log("bankmanger-transfer vault to savings: "+ JSON.stringify(params, null, 2))
+    // console.log("bankmanger-transfer vault to savings: "+ JSON.stringify(params, null, 2))
     return axios(params)
     .then(response=>{
         return response;
@@ -63,9 +63,43 @@ async function callTransferVaultToSavingsAccount(allocation, authorizationToken)
 }
 export async function transferVaultToSavingsAccount(allocation, authorizationToken){
     const response = await callTransferVaultToSavingsAccount(allocation, authorizationToken);
-    return response;
+    const res = await USERACCOUNT.getAccountDetails(authorizationToken);
+    return res
+    // return response;
 }
 
+
+
+async function callEnrollAccount(allocation, authorizationToken){
+    let url = APIBACKEND.BANKACCOUNT_ACCOUNTLIST_ENROLLACCOUNT;
+    let body =  allocation
+
+    const thriftpoints = 0
+    const params = {
+        method: 'post',
+        responseType: 'json',
+        headers: {
+            'Authorization': authorizationToken
+        },
+        url: url,
+        data: body
+    }
+
+    console.log("Enroll Account: "+ JSON.stringify(params, null, 2))
+    
+    return axios(params)
+    .then(response=>{
+        return response;
+    }).catch(error=>{
+        return error;
+    })
+
+}
+export async function enrollAccount(allocation, authorizationToken){
+    const response = await callEnrollAccount(allocation, authorizationToken);
+    const res = await USERACCOUNT.getAccountDetails(authorizationToken);
+    return res
+}
 
 
 

@@ -1,6 +1,7 @@
 import * as ACTIONTYPE from "../../constants/action-type";
 import * as STATUSTYPE from "../../constants/status-type";
 import * as BankAccountManager from "../../actions-api/bankaccount-manager"
+import * as AccountManager from "../../actions-api/account-manager"
 
 export const transferSavingAccountToVault = (action, dispatch)=>{
     new Promise((resolve, reject)=>{
@@ -72,7 +73,7 @@ export const transferVaultToSavingsAccount = (action, dispatch)=>{
             reject(err);
         }
     }).then(response=>{
-        console.log("bankaccount-middleware-result: "+ JSON.stringify(response, null, 2))
+        // console.log("bankaccount-middleware-result: "+ JSON.stringify(response, null, 2))
         if(response.data.status === STATUSTYPE.RESPOND_SUCCESS){
             let action_status = {
                 purse: {
@@ -87,7 +88,7 @@ export const transferVaultToSavingsAccount = (action, dispatch)=>{
                 data : response.data.data,
                 action_status: action_status
             }
-            console.log("bankaccount-middleware-success: "+ JSON.stringify(action, null, 2))
+            // console.log("bankaccount-middleware-success: "+ JSON.stringify(action, null, 2))
             dispatch(action);
         }else{
             let action_status = {
@@ -102,7 +103,7 @@ export const transferVaultToSavingsAccount = (action, dispatch)=>{
                 status : STATUSTYPE.STATUS_ERROR,
                 action_status: action_status
             }
-            console.log("bankaccount-middleware-error: "+ JSON.stringify(action, null, 2))
+            // console.log("bankaccount-middleware-error: "+ JSON.stringify(action, null, 2))
             dispatch(action);
         }
     })
@@ -119,7 +120,68 @@ export const transferVaultToSavingsAccount = (action, dispatch)=>{
             status : STATUSTYPE.QUERY_ERROR,
             action_status: action_status
         }
-        console.log("bankaccount-middleware-catch-error: "+ JSON.stringify(action, null, 2))
+        dispatch(action);
+    })
+}
+
+
+export const enrollAccount = (action, dispatch)=>{
+    new Promise((resolve, reject)=>{
+        try{
+            // const result = AccountManager.getAccountDetails(action.authorization);
+            let result = BankAccountManager.enrollAccount(action.payload, action.authorization);
+            resolve(result);
+        }catch(err){
+            reject(err);
+        }
+    }).then(response=>{
+        if(response.data.status === STATUSTYPE.RESPOND_SUCCESS){
+            let action_status = {
+                purse: {
+                    status: STATUSTYPE.STATUS_SUCCESS,
+                    transaction: ACTIONTYPE.BANKACCOUNT_ACCOUNT_ENROLLACCOUNT_RESOLVED,
+                    message: "Successfully Enroll Account",
+                }
+            }
+            action = {
+                type : ACTIONTYPE.BANKACCOUNT_ACCOUNT_ENROLLACCOUNT_RESOLVED,
+                status : STATUSTYPE.STATUS_SUCCESS,
+                data : response.data.data,
+                action_status: action_status
+            }
+            // console.log("bankaccount-middleware-success: "+ JSON.stringify(action, null, 2))
+            dispatch(action);
+        }else{
+            let action_status = {
+                purse: {
+                    status: STATUSTYPE.STATUS_ERROR,
+                    transaction: ACTIONTYPE.BANKACCOUNT_ACCOUNT_ENROLLACCOUNT_RESOLVED,
+                    message: "Failed to Enroll Account",
+                }
+            }
+            action = {
+                type : ACTIONTYPE.BANKACCOUNT_ACCOUNT_ENROLLACCOUNT_RESOLVED,
+                status : STATUSTYPE.STATUS_ERROR,
+                action_status: action_status
+            }
+            // console.log("bankaccount-middleware-error: "+ JSON.stringify(action, null, 2))
+            dispatch(action);
+        }
+    })
+    .catch(error=>{
+        let action_status = {
+            purse: {
+                status: STATUSTYPE.STATUS_ERROR,
+                transaction: ACTIONTYPE.BANKACCOUNT_ACCOUNT_ENROLLACCOUNT_RESOLVED,
+                message: "Failed to Enroll Account",
+            }
+        }
+        action = {
+            type : ACTIONTYPE.BANKACCOUNT_ACCOUNT_ENROLLACCOUNT_RESOLVED,
+            status : STATUSTYPE.QUERY_ERROR,
+            action_status: action_status
+        }
+        // console.log("bankaccount-middleware-catch-error: "+ JSON.stringify(action, null, 2))
         dispatch(action);
     })
 }

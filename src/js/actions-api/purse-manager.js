@@ -6,6 +6,7 @@ async function callAddPurseAllocation(allocation, authorizationToken){
     // console.log("purse manager: call add allocatio api")
     let url = APIBACKEND.PURSE_ALLOCATION_ADD;
     let body =  allocation
+    
     const thriftpoints = 1
 
     const params = {

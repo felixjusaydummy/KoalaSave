@@ -24,3 +24,6 @@ export const VAULT_ALLOCATION_ADD_CASH          = DOMAIN + "/account/vault/updat
 export const TRANSFER_SAVINGSACCOUNT_TO_VAULT               = DOMAIN + "/account/transfer/savings-to-vault"
 // export const TRANSFER_SAVINGSACCOUNT_FROM_VAULT             = DOMAIN + "/account/transfer-vault-to-savingsaccount"
 export const TRANSFER_SAVINGSACCOUNT_FROM_VAULT             = DOMAIN + "/account/transfer/vault-to-savings"
+
+
+export const BANKACCOUNT_ACCOUNTLIST_ENROLLACCOUNT          = DOMAIN + "/account/bank-account/add-account"

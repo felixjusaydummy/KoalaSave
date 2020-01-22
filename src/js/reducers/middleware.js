@@ -45,6 +45,10 @@ export const  middleware = ({dispatch}) => next => action => {
     else if(action.type === ACTIONTYPE.USER_SAVINGSACCOUNT_FROM_VAULT) {
         BANKACCOUNTMIDDLEWARE.transferVaultToSavingsAccount(action, dispatch)
     }
+    else if(action.type === ACTIONTYPE.BANKACCOUNT_ACCOUNT_ENROLLACCOUNT) {
+        BANKACCOUNTMIDDLEWARE.enrollAccount(action, dispatch)
+    }
+
     
     
 
