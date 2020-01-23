@@ -223,22 +223,22 @@ function buildAffiliateMerchants(props, classes){
             <Grid container spacing={3}>
               <Grid item xs={3}>
                 <Button>
-                  <img src={LOGO_MERCHANT1} alt="Logo" className={classes.img}/>;
+                  <img src={LOGO_MERCHANT1} alt="Logo" className={classes.img}/>
                 </Button>
               </Grid>
               <Grid item xs={3}>
                 <Button>
-                  <img src={LOGO_MERCHANT2} alt="Logo" className={classes.img}/>;
+                  <img src={LOGO_MERCHANT2} alt="Logo" className={classes.img}/>
                 </Button>
               </Grid>
               <Grid item xs={3}>
                 <Button>
-                  <img src={LOGO_MERCHANT3} alt="Logo" className={classes.img}/>;
+                  <img src={LOGO_MERCHANT3} alt="Logo" className={classes.img}/>
                 </Button>
               </Grid>
               <Grid item xs={3}>
                 <Button>
-                  <img src={LOGO_MERCHANT4} alt="Logo" className={classes.img}/>;
+                  <img src={LOGO_MERCHANT4} alt="Logo" className={classes.img}/>
                 </Button>
               </Grid>
             </Grid>
@@ -255,22 +255,22 @@ function buildAffiliateMerchants(props, classes){
             <Grid container spacing={3}>
               <Grid item xs={3}>
                 <Button>
-                  <img src={LOGO_MERCHANT5} alt="Logo" className={classes.img}/>;
+                  <img src={LOGO_MERCHANT5} alt="Logo" className={classes.img}/>
                 </Button>
               </Grid>
               <Grid item xs={3}>
                 <Button>
-                  <img src={LOGO_MERCHANT6} alt="Logo" className={classes.img}/>;
+                  <img src={LOGO_MERCHANT6} alt="Logo" className={classes.img}/>
                 </Button>
               </Grid>
               <Grid item xs={3}>
                 <Button>
-                  <img src={LOGO_MERCHANT7} alt="Logo" className={classes.img}/>;
+                  <img src={LOGO_MERCHANT7} alt="Logo" className={classes.img}/>
                 </Button>
               </Grid>
               <Grid item xs={3}>
                 <Button>
-                  <img src={LOGO_MERCHANT8} alt="Logo" className={classes.img}/>;
+                  <img src={LOGO_MERCHANT8} alt="Logo" className={classes.img}/>
                 </Button>
               </Grid>
             </Grid>
