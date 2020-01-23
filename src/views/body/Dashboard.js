@@ -19,6 +19,11 @@ import LOGO_MERCHANT1 from './../../js/pictures/merchant1.png'
 import LOGO_MERCHANT2 from './../../js/pictures/merchant2.png'
 import LOGO_MERCHANT3 from './../../js/pictures/merchant3.png'
 import LOGO_MERCHANT4 from './../../js/pictures/merchant4.png'
+import LOGO_MERCHANT5 from './../../js/pictures/merchant5.png'
+import LOGO_MERCHANT6 from './../../js/pictures/merchant6.png'
+import LOGO_MERCHANT7 from './../../js/pictures/merchant7.png'
+import LOGO_MERCHANT8 from './../../js/pictures/merchant8.png'
+
 import LOGO_TIP1 from './../../js/pictures/tip1.png'
 import LOGO_TIP2 from './../../js/pictures/tip2.png'
 import LOGO_TIP3 from './../../js/pictures/tip3.png'
@@ -208,6 +213,7 @@ function builcTipsPanel2(props, classes, ref, ChildModal){
 
 function buildAffiliateMerchants(props, classes){
   if(props.user.tips && props.user.tips.length>0){
+
     const mainpanel = (
       <div className={classes.papertips}>
             
@@ -239,7 +245,46 @@ function buildAffiliateMerchants(props, classes){
             
         </div>
     )
-    return mainpanel 
+
+    const mainpanelForTip2 = (
+      <div className={classes.papertips}>
+            
+            <Typography component="p" variant="h6">
+              Affiliate Merchants
+            </Typography>
+            <Grid container spacing={3}>
+              <Grid item xs={3}>
+                <Button>
+                  <img src={LOGO_MERCHANT5} alt="Logo" className={classes.img}/>;
+                </Button>
+              </Grid>
+              <Grid item xs={3}>
+                <Button>
+                  <img src={LOGO_MERCHANT6} alt="Logo" className={classes.img}/>;
+                </Button>
+              </Grid>
+              <Grid item xs={3}>
+                <Button>
+                  <img src={LOGO_MERCHANT7} alt="Logo" className={classes.img}/>;
+                </Button>
+              </Grid>
+              <Grid item xs={3}>
+                <Button>
+                  <img src={LOGO_MERCHANT8} alt="Logo" className={classes.img}/>;
+                </Button>
+              </Grid>
+            </Grid>
+            
+        </div>
+    )
+
+    let len = props.user.tips.length - 1
+    if(props.user.tips[len].category === "Travel"){
+      return mainpanel 
+    }else{
+      return mainpanelForTip2 
+    }
+    
   }else{
     return (<div></div>)
   }
