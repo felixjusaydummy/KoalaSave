@@ -28,6 +28,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 // import { makeStyles } from '@material-ui/core/styles';
 import * as AUTHENTICATION from './../../js/actions/authentication-manager'
 import * as RedirectManager from './../../js/actions/redirect-manager'
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 
 
 function getMessageIcon(inbox){
@@ -114,6 +115,15 @@ export const mainfunction = (props)=>{
                 <SettingsIcon />
               </ListItemIcon>
               <ListItemText primary="Setting" />
+            </ListItem>
+          </Link>
+
+          <Link to={URL_LIST.URL_INVITE_A_FRIEND}>
+            <ListItem button>
+              <ListItemIcon>
+                <SupervisorAccountIcon />
+              </ListItemIcon>
+              <ListItemText primary="Invite A Friend" />
             </ListItem>
           </Link>
 

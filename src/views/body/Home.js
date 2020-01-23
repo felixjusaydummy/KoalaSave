@@ -46,6 +46,7 @@ import Inbox from './Inbox'
 import Setting from './Setting'
 import Account from './Account'
 import UserAccount from  './UserAccounts'
+import InviteFriends from './InviteFriends'
 
 
 
@@ -229,6 +230,7 @@ function Home(props) {
                 <Route path={URL_LIST.URL_USER_RECOMMEDATION}  component={Inbox} />
                 <Route path={URL_LIST.URL_USER_SETTING}  component={Setting} />
                 <Route path={URL_LIST.URL_USER_ACCOUNT}  component={Account} />
+                <Route path={URL_LIST.URL_INVITE_A_FRIEND}  component={InviteFriends} />
                 {/* <Route path={URL_LIST.URL_USER_ACCOUNT}  component={UserAccount} /> */}
               </Switch>
             </Grid>

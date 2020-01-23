@@ -79,5 +79,12 @@ export const useStyles = makeStyles(theme => ({
     "&:hover": {
       background: bgColors.DarkGreen
     },
-  }
+  },
+  submit_spacing: {
+    margin: theme.spacing(0,2,0, 0),
+    backgroundColor: bgColors.Green,
+    "&:hover": {
+      background: bgColors.DarkGreen
+    },
+  },
 }));

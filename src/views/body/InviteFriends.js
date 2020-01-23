@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 
 //cores
-import { useStyles } from "../../css/purse";
+import { useStyles } from "../../css/dashboard";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
@@ -15,44 +15,50 @@ import Button from '@material-ui/core/Button';
 
 function InviteAFriend(props){
     const classes = useStyles();
-    const getTemplateComponent = (template)=>{
-        const comp = 
-        (<Container>
-            <Table size="small">
-                <TableBody>
-                    <TableRow>
-                        <TableCell align="left"><h1>{template.name}</h1></TableCell>
-                        <TableCell align="right"><Button variant="contained" color="primary"  className={classes.submit}>Apply</Button></TableCell>
-                    </TableRow>
-                </TableBody>
-            </Table>
-                
+    const title = "Refer your friends and earn rewards"
+    const message = "Get PHP 100 worth of freebies when your friend completes registration and claims their rewards on the app"
+    
+    const page = (
+        // <List>
+        //   <ListItem key={1}>
+          <div>
+            <Typography variant="h4" gutterBottom>
+              Invite A Friend
+            </Typography>
             
-            <Table size="small">
-                <TableBody>
-                    {template.allocations.map(elem=>(
-                        <TableRow key={elem.description}>
-                            <TableCell align="left">{elem.description}</TableCell>
-                            <TableCell align="right">{elem.percentage}%</TableCell>
-                        </TableRow>
-                    ))}        
-                </TableBody>
-            </Table>
-        </Container>)
-    
-        return comp;
-    }
-    
+            <Typography variant="h6" gutterBottom>
+              {title}
+            </Typography>
+            <Typography variant="body1" gutterBottom>.</Typography>
+            
+            {message}
+            
+            <Typography gutterBottom>.</Typography>
+          
+            <Button
+              type="button"
+              variant="contained"
+              color="primary"
+              size="large" 
+              className={classes.submit_spacing}
+            >
+              Share your Link
+            </Button>
 
-    const page = 
-    (<Container component="main" maxWidth="md">
-        {props.wallet_template.map(elem=>(
-            <div key={elem.name}>
-                {getTemplateComponent(elem)}
-            </div>
-        ))}
-        
-    </Container>)
+            <Button
+              type="button"
+              variant="contained"
+              color="primary"
+              size="large" 
+              className={classes.submit_spacing}
+            >
+                Cancel
+            </Button>
+          </div>
+        //   </ListItem>
+  
+        // </List>
+      )
 
     return page;
     
