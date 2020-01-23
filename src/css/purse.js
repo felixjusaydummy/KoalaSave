@@ -1,4 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
+import {Colors} from './colors.js'
+
 export const useStyles = makeStyles(theme => ({
     '@global': {
       body: {
@@ -19,8 +21,19 @@ export const useStyles = makeStyles(theme => ({
       width: '100%', // Fix IE 11 issue.
       marginTop: theme.spacing(1),
     },
+    // submit: {
+    //   margin: theme.spacing(3, 0, 2),
+    // },
     submit: {
       margin: theme.spacing(3, 0, 2),
+      backgroundColor: Colors.Green
+    },
+    submit: {
+      margin: theme.spacing(3, 0, 2),
+      backgroundColor: Colors.Green,
+      "&:hover": {
+        background: Colors.DarkGreen
+      },
     },
   }));
   

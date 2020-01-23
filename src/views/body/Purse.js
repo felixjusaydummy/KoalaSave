@@ -125,7 +125,7 @@ function Purse(props){
               {props.user.account.bankName + " - " + props.user.account.accountNo} 
             </Typography>
             
-            <Button variant="contained" color="primary" 
+            <Button variant="contained" color="primary" className={classes.submit}
               onClick={()=>refTransferSavings.current.transferSavingsToVault(props.user.account.balance)}
             ><EcoIcon/> Add to vault</Button>
   

@@ -16,18 +16,6 @@ import TableRow from '@material-ui/core/TableRow';
 
 
 //ICONS
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Collapse from '@material-ui/core/Collapse';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
-import CardGiftcardIcon from '@material-ui/icons/CardGiftcard';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-
 import * as ACTIONTYPE from './../../js/constants/action-type'
 import * as STATUSTYPE from './../../js/constants/status-type'
 import { Container } from '@material-ui/core';
@@ -36,6 +24,18 @@ import InfoModal from './../modal/InfoModal'
 
 const { forwardRef, useRef } = React;
 
+var bgColors = { 
+  "Default": "#81b71a",
+  "Blue": "#00B1E1",
+  "Cyan": "#37BC9B",
+  "Green": "#7fad4e",
+  "DarkGreen": "#5c8037",
+  "Red": "#E9573F",
+  "Yellow": "#F6BB42",
+  "White": "#FFFFFF",
+};
+
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
@@ -43,6 +43,13 @@ const useStyles = makeStyles(theme => ({
   },
   inline: {
     display: 'inline',
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+    backgroundColor: bgColors.Green,
+    "&:hover": {
+      background: bgColors.DarkGreen
+    },
   },
 }));
 
@@ -148,7 +155,7 @@ const buildTable= (list)=>{
 
 //BODY
 // INBOX MESSAGE PAGE
-const buildHeaderPage = (elem, props)=>{
+const buildHeaderPage = (elem, props, classes)=>{
   const page = (
     <div>
     <Table size="small">
@@ -188,6 +195,7 @@ const buildHeaderPage = (elem, props)=>{
       type="button"
       variant="contained"
       color="primary"
+      className={classes.submit}
       size="large" 
       onClick={()=>props.closeMessage(elem)}
       spacing={3}
@@ -352,7 +360,7 @@ function Account(props) {
         aria-labelledby="nested-list-subheader"
         className={classes.root}
       >
-        {buildHeaderPage(props.current_accountdetails, props)}
+        {buildHeaderPage(props.current_accountdetails, props, classes)}
       </List>
     );
     return defaultPage

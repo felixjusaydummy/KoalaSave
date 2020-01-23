@@ -5,7 +5,7 @@ var bgColors = {
     "Default": "#81b71a",
     "Blue": "#00B1E1",
     "Cyan": "#37BC9B",
-    "Green": "#8CC152",
+    "Green": "#7fad4e",
     "Red": "#E9573F",
     "Yellow": "#F6BB42",
 };

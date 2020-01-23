@@ -24,7 +24,16 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import * as ACTIONTYPE from './../../js/constants/action-type'
 import * as STATUSTYPE from './../../js/constants/status-type'
 
-
+var bgColors = { 
+  "Default": "#81b71a",
+  "Blue": "#00B1E1",
+  "Cyan": "#37BC9B",
+  "Green": "#7fad4e",
+  "DarkGreen": "#5c8037",
+  "Red": "#E9573F",
+  "Yellow": "#F6BB42",
+  "White": "#FFFFFF",
+};
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
@@ -32,6 +41,13 @@ const useStyles = makeStyles(theme => ({
   },
   inline: {
     display: 'inline',
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+    backgroundColor: bgColors.Green,
+    "&:hover": {
+      background: bgColors.DarkGreen
+    },
   },
 }));
 
@@ -82,7 +98,7 @@ function trimMessageText(textMessage){
 
 //BODY
 // INBOX MESSAGE PAGE
-const buildMessagePage = (elem, props)=>{
+const buildMessagePage = (elem, props,classes)=>{
   
   const page = (
       // <List>
@@ -110,6 +126,7 @@ const buildMessagePage = (elem, props)=>{
             variant="contained"
             color="primary"
             size="large" 
+            className={classes.submit}
             onClick={()=>props.closeMessage(elem)}
           >
             Back
@@ -123,7 +140,7 @@ const buildMessagePage = (elem, props)=>{
   return page;
 }
 // INBOX ITEMS
-function buildMessageItems(elem, props){
+function buildMessageItems(elem, props, classes){
   const textBold = ()=>{
     if(!elem.open){
       return (<strong>{elem.title}</strong>)
@@ -181,7 +198,7 @@ function Inbox(props) {
       >
         {(props.user.inbox)?
           props.user.inbox.map(elem=>(
-            buildMessageItems(elem, props)
+            buildMessageItems(elem, props, classes)
           ))
         :""}
         
@@ -191,7 +208,7 @@ function Inbox(props) {
   if(!props.current_inbox){
     return defaultPage
   }else{
-    return buildMessagePage(props.current_inbox, props)
+    return buildMessagePage(props.current_inbox, props, classes)
   }
   
 }

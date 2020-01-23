@@ -101,7 +101,7 @@ function Vault(props){
             </Typography>
             
             {/* <Button variant="contained" color="primary" onClick={ ()=>props.purseToVault(props.user.vault.vaultBalance)}><AccountBalanceWalletIcon/>Add to Wallet</Button> */}
-            <Button variant="contained" color="primary" 
+            <Button variant="contained" color="primary" className={classes.submit}
               onClick={()=>refTransferSavings.current.transferVaultToSavingsAccount(props.user.vault.vaultBalance)}
             ><AccountBalanceWalletIcon/>Add to Wallet</Button>          
   

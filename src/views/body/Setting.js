@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 
 //cores
+import { useStyles } from "../../css/purse";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
@@ -13,7 +14,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 
 function Setting(props){
-
+    const classes = useStyles();
     const getTemplateComponent = (template)=>{
         const comp = 
         (<Container>
@@ -21,7 +22,7 @@ function Setting(props){
                 <TableBody>
                     <TableRow>
                         <TableCell align="left"><h1>{template.name}</h1></TableCell>
-                        <TableCell align="right"><Button variant="contained" color="primary" >Apply</Button></TableCell>
+                        <TableCell align="right"><Button variant="contained" color="primary"  className={classes.submit}>Apply</Button></TableCell>
                     </TableRow>
                 </TableBody>
             </Table>
